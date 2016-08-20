@@ -23,6 +23,21 @@ public static class InputConfig
         return Input.GetKey(KeyCode.Space);
     }
 
+    public static bool ActionDown()
+    {
+        return Input.GetMouseButtonDown(0);
+    }
+
+    public static bool Action()
+    {
+        return Input.GetMouseButton(0);
+    }
+
+    public static bool ActionUp()
+    {
+        return Input.GetMouseButtonUp(0);
+    }
+
     public static Vector3 CursorPosition()
     {
         return Input.mousePosition;

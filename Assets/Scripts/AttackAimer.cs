@@ -6,8 +6,9 @@ public class AttackAimer : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowParent;
     public bool InvertAiming;
+    public float ShootForce;
 
-    private GameObject arrowInstance;
+    private Projectile arrowInstance;
 
     public void Aim()
     {
@@ -15,6 +16,7 @@ public class AttackAimer : MonoBehaviour
         {
             CheckArrow();
             RotateAimer();
+            ThrowArrow();
         }
         else
         {
@@ -26,12 +28,12 @@ public class AttackAimer : MonoBehaviour
     {
         if (!arrowInstance)
         {
-            arrowInstance = Instantiate(arrowPrefab) as GameObject;
-            arrowInstance.transform.SetParent(arrowParent);
+            arrowInstance = (Instantiate(arrowPrefab) as GameObject).GetComponent<Projectile>();
+            arrowInstance.transform.SetParent(arrowParent, false);
             arrowInstance.transform.localPosition = Vector3.zero;
         }
 
-        arrowInstance.SetActive(true);
+        arrowInstance.gameObject.SetActive(true);
     }
 
     private void RotateAimer()
@@ -42,12 +44,24 @@ public class AttackAimer : MonoBehaviour
 
     private void ResetAim()
     {
-        if (arrowInstance) arrowInstance.SetActive(false);
+        if (arrowInstance) arrowInstance.gameObject.SetActive(false);
         transform.localEulerAngles = Vector3.zero;
     }
 
     private int AimingDirection()
     {
         return InvertAiming ? 1 : -1;
+    }
+
+    private void ThrowArrow()
+    {
+        if (InputConfig.ActionDown())
+        {
+            Vector3 shootDirection = arrowParent.position - transform.position;
+            arrowInstance.Shoot(shootDirection * ShootForce);
+
+            arrowInstance.transform.SetParent(null);
+            arrowInstance = null;
+        }
     }
 }
