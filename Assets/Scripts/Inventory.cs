@@ -10,7 +10,7 @@ public class Inventory
         inventorySlots.Add(itemSlot);
     }
 
-    public void HasItems(CollectableType requestedType)
+    public bool HasItems(CollectableType requestedType)
     {
         foreach(Slot s in inventorySlots)
         {
@@ -78,7 +78,7 @@ public struct Slot
             stockItem --;
     }
 
-    public void HasItems()
+    public bool HasItems()
     {
         return stockItem > 0;
     }
