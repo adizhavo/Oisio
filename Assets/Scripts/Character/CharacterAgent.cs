@@ -3,15 +3,18 @@
 public class CharacterAgent : MonoBehaviour, Collector
 {
     public NavMeshAgent agent;
+    public Animator characterAnimator;
     public AttackAimer aimer;
     public SmokeBomb smokeLouncher;
 
+    protected CharacterAnimation animation;
     protected CollectorChecker checker;
     protected Inventory characterInventory;
 
     protected virtual void Start()
     {
         checker = new CollectorChecker(this);
+        animation = new CharacterAnimation(characterAnimator);
         InitInventory();
     }
 
@@ -74,6 +77,7 @@ public class CharacterAgent : MonoBehaviour, Collector
     {
         float runningSpeed = InputConfig.Run() ? 2f : 1f;
         agent.speed = runningSpeed;
+        animation.SetRun(runningSpeed);
     }
 
     private void MoveAgent()
