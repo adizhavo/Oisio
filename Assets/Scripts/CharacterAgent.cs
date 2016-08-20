@@ -5,7 +5,10 @@ public class CharacterAgent : MonoBehaviour, Collector
     #region Collector implementation
     public void Notify(Collectable nerbyCollectable)
     {
-        
+        if (InputConfig.Collect())
+        {
+            nerbyCollectable.Collect();
+        }
     }
     #endregion
 
@@ -54,22 +57,21 @@ public class CharacterAgent : MonoBehaviour, Collector
 public class CollectorChecker
 {
     private Collector subscribedEntity;
-    private ResourceCollectable[] resources;
-
     public float CollectorRange = 0.5f;
 
     public CollectorChecker(Collector subscribedEntity)
     {
         this.subscribedEntity = subscribedEntity;
-        resources = Resources.FindObjectsOfTypeAll<ResourceCollectable>();
     }
 
     public void FrameUpdate()
     {
-        foreach(Collectable ctb in resources)
+        ResourceCollectable[] resources = Resources.FindObjectsOfTypeAll<ResourceCollectable>();
+
+        foreach(ResourceCollectable ctb in resources)
         {
             float distance = Vector3.Distance(ctb.WorlPos, subscribedEntity.WorlPos);
-            if (distance < CollectorRange)
+            if (ctb.gameObject.activeInHierarchy && distance < CollectorRange)
             {
                 subscribedEntity.Notify(ctb);
                 return;

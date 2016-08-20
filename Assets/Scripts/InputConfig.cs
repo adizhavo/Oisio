@@ -22,6 +22,11 @@ public static class InputConfig
         return Input.GetKey(KeyCode.Space);
     }
 
+    public static bool Collect()
+    {
+        return Input.GetKey(KeyCode.E);
+    }
+
     public static bool ActionDown()
     {
         return Input.GetMouseButtonDown(0);

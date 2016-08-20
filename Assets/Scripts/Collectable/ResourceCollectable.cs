@@ -12,6 +12,13 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
     }
 
     public abstract CollectableType type { get; }
+
+    public virtual void Collect()
+    {
+        if (current.Equals(ChargableState.Charging)) return;
+
+        percentage -= Time.deltaTime/collectionTime;
+    }
     #endregion
 
     #region Chargable implementation
@@ -36,13 +43,6 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
     protected virtual void Awake()
     {
         statusBar.Init(percentage);
-    }
-
-    public virtual void Collect()
-    {
-        if (current.Equals(ChargableState.Charging)) return;
-
-        percentage -= Time.deltaTime/collectionTime;
     }
 
     protected virtual void CheckStatus()

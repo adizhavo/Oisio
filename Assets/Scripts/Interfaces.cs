@@ -8,6 +8,7 @@ public interface WorldEntity
 public interface Collectable : WorldEntity
 {
     CollectableType type {get;}   
+    void Collect();
 }
 
 public interface Collector : WorldEntity
