@@ -8,11 +8,12 @@ public interface WorldEntity
 public interface Collectable : WorldEntity
 {
     CollectableType type {get;}   
-    void Collect();
+    void Collect(Collector collector);
 }
 
 public interface Collector : WorldEntity
 {
+    void CompleteCollection(CollectableType collectable);
     void Notify(Collectable nerbyCollectable);
 }
 

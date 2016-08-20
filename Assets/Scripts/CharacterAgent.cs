@@ -48,11 +48,16 @@ public class CharacterAgent : MonoBehaviour, Collector
     }
 
     #region Collector implementation
+    public void CompleteCollection(CollectableType collectable)
+    {
+        characterInventory.AddItem(collectable);
+    }
+
     public void Notify(Collectable nerbyCollectable)
     {
         if (InputConfig.Collect())
         {
-            nerbyCollectable.Collect();
+            nerbyCollectable.Collect(this);
         }
     }
     #endregion
