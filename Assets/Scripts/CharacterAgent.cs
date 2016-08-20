@@ -2,34 +2,28 @@
 
 public class CharacterAgent : MonoBehaviour, Collector
 {
-    #region Collector implementation
-    public void Notify(Collectable nerbyCollectable)
-    {
-        if (InputConfig.Collect())
-        {
-            nerbyCollectable.Collect();
-        }
-    }
-    #endregion
-
-    #region WorldEntity implementation
-    public Vector3 WorlPos
-    {
-        get
-        {
-            return transform.position;
-        }
-    }
-    #endregion
-
     public NavMeshAgent agent;
     public AttackAimer aimer;
 
     protected CollectorChecker checker;
+    protected Inventory characterInventory;
 
-    private void Start()
+    protected virtual void Start()
     {
         checker = new CollectorChecker(this);
+        InitInventory();
+    }
+
+    protected virtual void InitInventory()
+    {
+        Slot arrowSlot = new Slot(CollectableType.Arrow, 2);
+        arrowSlot.SetStockItems(1);
+
+        Slot bombSlot = new Slot(CollectableType.Bomb, 1);
+
+        characterInventory = new Inventory();
+        characterInventory.AddSlot(arrowSlot);
+        characterInventory.AddSlot(bombSlot);
     }
 
     public void Update()
@@ -52,30 +46,24 @@ public class CharacterAgent : MonoBehaviour, Collector
         Vector3 moveDirection = transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
         agent.SetDestination(moveDirection);
     }
-}
 
-public class CollectorChecker
-{
-    private Collector subscribedEntity;
-    public float CollectorRange = 0.5f;
-
-    public CollectorChecker(Collector subscribedEntity)
+    #region Collector implementation
+    public void Notify(Collectable nerbyCollectable)
     {
-        this.subscribedEntity = subscribedEntity;
-    }
-
-    public void FrameUpdate()
-    {
-        ResourceCollectable[] resources = Resources.FindObjectsOfTypeAll<ResourceCollectable>();
-
-        foreach(ResourceCollectable ctb in resources)
+        if (InputConfig.Collect())
         {
-            float distance = Vector3.Distance(ctb.WorlPos, subscribedEntity.WorlPos);
-            if (ctb.gameObject.activeInHierarchy && distance < CollectorRange)
-            {
-                subscribedEntity.Notify(ctb);
-                return;
-            }
+            nerbyCollectable.Collect();
         }
     }
+    #endregion
+
+    #region WorldEntity implementation
+    public Vector3 WorlPos
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
+    #endregion
 }
