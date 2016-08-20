@@ -3,22 +3,25 @@
 public class CharacterAgent : MonoBehaviour, Collector
 {
     public NavMeshAgent agent;
+    public Animator characterAnimator;
     public AttackAimer aimer;
     public SmokeBomb smokeLouncher;
 
+    protected CharacterAnimation animation;
     protected CollectorChecker checker;
     protected Inventory characterInventory;
 
     protected virtual void Start()
     {
         checker = new CollectorChecker(this);
+        animation = new CharacterAnimation(characterAnimator);
         InitInventory();
     }
 
     protected virtual void InitInventory()
     {
-        Slot arrowSlot = new Slot(CollectableType.Arrow, 2);
-        arrowSlot.SetStockItems(1);
+        Slot arrowSlot = new Slot(CollectableType.Arrow, 100);
+        arrowSlot.SetStockItems(100);
 
         Slot bombSlot = new Slot(CollectableType.Bomb, 2);
         bombSlot.SetStockItems(2);
@@ -74,6 +77,7 @@ public class CharacterAgent : MonoBehaviour, Collector
     {
         float runningSpeed = InputConfig.Run() ? 2f : 1f;
         agent.speed = runningSpeed;
+        animation.SetRun(runningSpeed);
     }
 
     private void MoveAgent()

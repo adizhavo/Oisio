@@ -47,6 +47,7 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
     protected virtual void Awake()
     {
         statusBar.Init(percentage);
+        Animate();
     }
 
     protected virtual void CheckStatus()
@@ -68,5 +69,21 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
     {
         CheckStatus();
         statusBar.SetBarView(percentage, current);
+    }
+
+    protected virtual void Animate()
+    {
+        float xScale = 1.1f;
+        float yScale = 1.1f;
+        float animTime = Random.Range(0.7f, 1.3f);
+
+        LeanTween.scaleX(gameObject, xScale, animTime);
+        LeanTween.scaleY(gameObject, 1, animTime).setOnComplete(
+            ()=>
+            {
+                LeanTween.scaleX(gameObject, 1, animTime);
+                LeanTween.scaleY(gameObject, yScale, animTime).setOnComplete(Animate);
+            }
+        );
     }
 }
