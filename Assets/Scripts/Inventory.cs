@@ -10,12 +10,12 @@ public class Inventory
         inventorySlots.Add(itemSlot);
     }
 
-    public bool HasItems(CollectableType requestedType)
+    public bool HasItem(CollectableType requestedType)
     {
         foreach(Slot s in inventorySlots)
         {
-            if (s.slotType.Equals(requestedType) && s.HasItems())
-                return true;
+            if (s.slotType.Equals(requestedType))
+                return s.HasItems();
         }
 
         return false;
@@ -37,7 +37,7 @@ public class Inventory
     {
         foreach(Slot s in inventorySlots)
         {
-            if (s.slotType.Equals(requestedType) && s.HasItems())
+            if (s.slotType.Equals(requestedType))
             {
                 s.UseItem();
                 return;
@@ -46,7 +46,7 @@ public class Inventory
     }
 }
 
-public struct Slot
+public class Slot
 {
     public CollectableType slotType;
     public int maxSize;

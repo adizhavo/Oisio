@@ -15,7 +15,6 @@ public class AttackAimer : MonoBehaviour
         {
             CheckArrow();
             RotateAimer();
-            ThrowArrow();
         }
         else
         {
@@ -52,15 +51,14 @@ public class AttackAimer : MonoBehaviour
         return InvertAiming ? 1 : -1;
     }
 
-    private void ThrowArrow()
+    public void ThrowArrow()
     {
-        if (InputConfig.ActionDown())
-        {
-            Vector3 shootDirection = arrowParent.position - transform.position;
-            arrowInstance.Shoot(shootDirection * ShootForce);
+        if (!arrowInstance) return;
 
-            arrowInstance.transform.SetParent(null);
-            arrowInstance = null;
-        }
+        Vector3 shootDirection = arrowParent.position - transform.position;
+        arrowInstance.Shoot(shootDirection * ShootForce);
+
+        arrowInstance.transform.SetParent(null);
+        arrowInstance = null;
     }
 }

@@ -30,9 +30,24 @@ public class CharacterAgent : MonoBehaviour, Collector
     {
         UpdateAgentSpeed();
         MoveAgent();
+        Aim();
 
-        aimer.Aim();
         checker.FrameUpdate();
+    }
+
+    private void Aim()
+    {
+        CollectableType arrow = CollectableType.Arrow;
+
+        if (characterInventory.HasItem(arrow))
+        {
+            aimer.Aim();
+            if (InputConfig.ActionDown())
+            {
+                aimer.ThrowArrow();
+                characterInventory.UseItem(arrow);
+            }
+        }
     }
 
     private void UpdateAgentSpeed()
