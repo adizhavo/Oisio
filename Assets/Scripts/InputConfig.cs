@@ -12,4 +12,9 @@ public static class InputConfig
     {
         return Input.GetAxis("Vertical");
     }
+
+    public static bool Run()
+    {
+        return Input.GetKey(KeyCode.Space);
+    }
 }
