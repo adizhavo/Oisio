@@ -4,6 +4,7 @@ public class CharacterAgent : MonoBehaviour, Collector
 {
     public NavMeshAgent agent;
     public AttackAimer aimer;
+    public SmokeBomb smokeLouncher;
 
     protected CollectorChecker checker;
     protected Inventory characterInventory;
@@ -19,7 +20,8 @@ public class CharacterAgent : MonoBehaviour, Collector
         Slot arrowSlot = new Slot(CollectableType.Arrow, 2);
         arrowSlot.SetStockItems(1);
 
-        Slot bombSlot = new Slot(CollectableType.Bomb, 1);
+        Slot bombSlot = new Slot(CollectableType.Bomb, 2);
+        bombSlot.SetStockItems(2);
 
         characterInventory = new Inventory();
         characterInventory.AddSlot(arrowSlot);
@@ -31,6 +33,7 @@ public class CharacterAgent : MonoBehaviour, Collector
         UpdateAgentSpeed();
         MoveAgent();
         Aim();
+        UpdateSmokeLouncher();
 
         checker.FrameUpdate();
     }
@@ -53,6 +56,17 @@ public class CharacterAgent : MonoBehaviour, Collector
             }
             else
                 aimer.ResetAim();
+        }
+    }
+
+    private void UpdateSmokeLouncher()
+    {
+        CollectableType smokeItem = CollectableType.Bomb;
+
+        if (InputConfig.SmokeBomb() && characterInventory.HasItem(smokeItem))
+        {
+            characterInventory.UseItem(smokeItem);
+            smokeLouncher.Fire(transform.position);
         }
     }
 

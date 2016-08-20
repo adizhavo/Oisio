@@ -27,6 +27,11 @@ public static class InputConfig
         return Input.GetKey(KeyCode.E);
     }
 
+    public static bool SmokeBomb()
+    {
+        return Input.GetKeyUp(KeyCode.Q);
+    }
+
     public static bool ActionDown()
     {
         return Input.GetMouseButtonDown(0);
