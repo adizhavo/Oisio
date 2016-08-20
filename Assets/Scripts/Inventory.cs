@@ -21,12 +21,27 @@ public class Inventory
         return false;
     }
 
-    public void UserItem(CollectableType requestedType)
+    public void AddItem(CollectableType requestedType)
+    {
+        foreach(Slot s in inventorySlots)
+        {
+            if (s.slotType.Equals(requestedType))
+            {
+                s.AddItem();
+                return;
+            }
+        }
+    }
+
+    public void UseItem(CollectableType requestedType)
     {
         foreach(Slot s in inventorySlots)
         {
             if (s.slotType.Equals(requestedType) && s.HasItems())
+            {
                 s.UseItem();
+                return;
+            }
         }
     }
 }
