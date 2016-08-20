@@ -20,8 +20,8 @@ public class CharacterAgent : MonoBehaviour, Collector
 
     protected virtual void InitInventory()
     {
-        Slot arrowSlot = new Slot(CollectableType.Arrow, 2);
-        arrowSlot.SetStockItems(1);
+        Slot arrowSlot = new Slot(CollectableType.Arrow, 100);
+        arrowSlot.SetStockItems(100);
 
         Slot bombSlot = new Slot(CollectableType.Bomb, 2);
         bombSlot.SetStockItems(2);
