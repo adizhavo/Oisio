@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CollectableStatusBar : MonoBehaviour 
 {
@@ -12,7 +11,7 @@ public class CollectableStatusBar : MonoBehaviour
     [System.Serializable]
     public struct BarColor
     {
-        public Collectable.State state;
+        public ChargableState state;
         public Color color;
     }
 
@@ -21,7 +20,7 @@ public class CollectableStatusBar : MonoBehaviour
         this.maxBar = maxBar;
     }
 
-    public void SetBarView(float barPercentage, Collectable.State collectableState)
+    public void SetBarView(float barPercentage, ChargableState collectableState)
     {
         Vector3 calcScale = new Vector3(BarPivot.localScale.x, barPercentage * maxBar, BarPivot.localScale.z);
         BarPivot.localScale = calcScale;
@@ -29,7 +28,7 @@ public class CollectableStatusBar : MonoBehaviour
         SetBarColor(collectableState);
     }
 
-    private void SetBarColor(Collectable.State collectableState)
+    private void SetBarColor(ChargableState collectableState)
     {
         foreach(BarColor barSpec in barColors)
         {
