@@ -3,6 +3,14 @@
 public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargable
 {
     #region Collectable implementation
+    public Vector3 WorlPos
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
+
     public abstract CollectableType type { get; }
     #endregion
 

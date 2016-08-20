@@ -1,8 +1,18 @@
 ﻿using UnityEngine;
 
-public interface Collectable
+public interface WorldEntity
+{
+    Vector3 WorlPos {get;}
+}
+
+public interface Collectable : WorldEntity
 {
     CollectableType type {get;}   
+}
+
+public interface Collector : WorldEntity
+{
+    void Notify(Collectable nerbyCollectable);
 }
 
 public interface Chargable
