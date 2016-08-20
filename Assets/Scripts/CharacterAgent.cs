@@ -4,11 +4,14 @@ using System.Collections;
 public class CharacterAgent : MonoBehaviour
 {
     public NavMeshAgent agent;
+    public AttackAimer aimer;
 
     public void Update()
     {
         UpdateAgentSpeed();
         MoveAgent();
+
+        aimer.Aim();
     }
 
     private void UpdateAgentSpeed()
