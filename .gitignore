@@ -1,0 +1,69 @@
+# ==== #
+# Misc #
+# ==== #
+git_stats
+# ============ #
+# Build Output #
+# ============ #
+Output
+Output/XCodeProj/*
+Output/XCodeBuild
+*.apk
+*.ipa
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
+
+# =============== #
+# Unity generated #
+# =============== #
+*.sublime-*
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Cubeblast.app/Contents/Data/Managed/Assembly-CSharp.dll
+Cubeblast.app/Contents/Data/Managed/Mono.Security.dll
+Cubeblast.app/Contents/Data/Managed/System.Core.dll
+Cubeblast.app/Contents/Data/Managed/System.dll
+Cubeblast.app/Contents/Data/Managed/UnityEngine.dll
+Cubeblast.app/Contents/Data/Managed/mscorlib.dll
+Cubeblast_Data/Managed/Assembly-CSharp.dll
+Cubeblast_Data/Managed/Mono.Security.dll
+Cubeblast_Data/Managed/System.Core.dll
+Cubeblast_Data/Managed/System.dll
+Cubeblast_Data/Managed/UnityEngine.dll
+Cubeblast_Data/Managed/mscorlib.dll
+Cubeblast_Data/Mono/mono.dll
+Assets/UnityVS/
+Assets/UnityVS.meta
+/Bin
+AdjustPostBuildAndroidLog.txt
+AdjustPostBuildiOSLog.txt
+
+*.pyc
+*.pyc.meta
+.vscode
