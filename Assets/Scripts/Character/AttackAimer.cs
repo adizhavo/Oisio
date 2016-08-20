@@ -5,6 +5,7 @@ public class AttackAimer : MonoBehaviour
     public GameObject arrowPrefab;
     public Transform arrowParent;
     public bool InvertAiming;
+    public float Sensibility = 1f;
     public float ShootForce;
 
     private Projectile arrowInstance;
@@ -29,7 +30,7 @@ public class AttackAimer : MonoBehaviour
 
     private void RotateAimer()
     {
-        float cursorDeltaX = InputConfig.GetCursorMovement().x * AimingDirection();
+        float cursorDeltaX = InputConfig.GetCursorMovement().x * AimingDirection() * Sensibility;
         transform.rotation = Quaternion.Euler(0f, 0f, transform.localEulerAngles.z + cursorDeltaX);
     }
 
