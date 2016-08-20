@@ -11,15 +11,8 @@ public class AttackAimer : MonoBehaviour
 
     public void Aim()
     {
-        if (InputConfig.Aim())
-        {
-            CheckArrow();
-            RotateAimer();
-        }
-        else
-        {
-            ResetAim();
-        }
+        CheckArrow();
+        RotateAimer();
     }
 
     private void CheckArrow()
@@ -40,7 +33,7 @@ public class AttackAimer : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, transform.localEulerAngles.z + cursorDeltaX);
     }
 
-    private void ResetAim()
+    public void ResetAim()
     {
         if (arrowInstance) arrowInstance.gameObject.SetActive(false);
         transform.localEulerAngles = Vector3.zero;

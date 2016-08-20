@@ -41,12 +41,18 @@ public class CharacterAgent : MonoBehaviour, Collector
 
         if (characterInventory.HasItem(arrow))
         {
-            aimer.Aim();
-            if (InputConfig.ActionDown())
+            if(InputConfig.Aim())
             {
-                aimer.ThrowArrow();
-                characterInventory.UseItem(arrow);
+                aimer.Aim();
+
+                if (InputConfig.ActionDown())
+                {
+                    aimer.ThrowArrow();
+                    characterInventory.UseItem(arrow);
+                }
             }
+            else
+                aimer.ResetAim();
         }
     }
 
