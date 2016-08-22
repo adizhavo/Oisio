@@ -11,6 +11,10 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
         {
             return transform.position;
         }
+        set
+        {
+            transform.position = value;
+        }
     }
 
     public abstract CollectableType type { get; }
