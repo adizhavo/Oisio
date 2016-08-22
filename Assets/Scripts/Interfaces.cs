@@ -2,7 +2,7 @@
 
 public interface WorldEntity
 {
-    Vector3 WorlPos {get;}
+    Vector3 WorlPos {set; get;}
 }
 
 public interface Collectable : WorldEntity

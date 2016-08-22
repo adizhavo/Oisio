@@ -108,6 +108,10 @@ public class CharacterAgent : MonoBehaviour, Collector
         {
             return transform.position;
         }
+        set
+        {
+            agent.SetDestination(value);
+        }
     }
     #endregion
 }
