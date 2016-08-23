@@ -68,6 +68,11 @@ public class GiantAgent : MonoBehaviour, WorldEntity
         return null;
     }
 
+    public void Notify(GiantEvent outsideEvent)
+    {
+        currentState.Notify(outsideEvent);
+    }
+
     public virtual void GotoNearestResource()
     {
         WorlPos = resourcesBlock.GetNearestPosition(this);
