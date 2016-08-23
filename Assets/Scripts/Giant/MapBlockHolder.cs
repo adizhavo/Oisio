@@ -22,4 +22,13 @@ public class MapBlockHolder
 
         return nerbyPos;
     }
+
+    public Vector3 GetRandomPos()
+    {
+        MapBlock[] blocks = Resources.FindObjectsOfTypeAll<MapBlock>();
+
+        int randomIndex = Random.Range(0, blocks.Length);
+
+        return blocks[randomIndex].GetPositionInArea();
+    }
 }
