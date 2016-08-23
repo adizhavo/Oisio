@@ -26,11 +26,19 @@ public class GiantAgent : MonoBehaviour, WorldEntity
     {   
         resourcesBlock = new MapBlockHolder();
 
-        WaitForSeconds waiTime = new WaitForSeconds(3);
         while(true)
         {
             agent.SetDestination(resourcesBlock.GetNearestPosition(this));
-            yield return waiTime;
+
+            float waitTime = Random.Range(3f, 7f);
+
+            if (Random.Range(0, 2) == 0)
+            {
+                agent.SetDestination(resourcesBlock.GetRandomPos());
+                waitTime += 5f;
+            }
+
+            yield return new WaitForSeconds(waitTime);
         }
 	}
 }
