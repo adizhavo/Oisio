@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class GiantAgent : MonoBehaviour, WorldEntity
 {
@@ -19,26 +19,62 @@ public class GiantAgent : MonoBehaviour, WorldEntity
 
     #endregion
 
-    [SerializeField] protected NavMeshAgent agent;
-    protected MapBlockHolder resourcesBlock;
+    public NavMeshAgent agent;
+    public MapBlockHolder resourcesBlock;
 
-    protected virtual IEnumerator Start ()
+    public GiantActionState currentState;
+    // all available states will be inserted in this array
+    public GiantActionState[] registeredState;
+
+    protected virtual void Start ()
     {   
         resourcesBlock = new MapBlockHolder();
 
-        while(true)
-        {
-            agent.SetDestination(resourcesBlock.GetNearestPosition(this));
-
-            float waitTime = Random.Range(3f, 7f);
-
-            if (Random.Range(0, 2) == 0)
-            {
-                agent.SetDestination(resourcesBlock.GetRandomPos());
-                waitTime += 5f;
-            }
-
-            yield return new WaitForSeconds(waitTime);
-        }
+        InitStates();
+        ChangeState<IdleState>();
 	}
+
+    protected virtual void InitStates()
+    {
+        // all available states will be inserted in this array
+        registeredState = new GiantActionState[]
+            {
+                new IdleState(this, GiantEvent.TargetNerby)
+                // next state
+                // ...
+            };
+    }
+
+    private void Update()
+    {
+        currentState.FrameFeed();
+    }
+
+    public virtual void ChangeState<T>() where T : GiantActionState
+    {
+        T state = GetActionState<T>();
+
+        if (state != null) currentState = state;
+        else  Debug.LogWarning("Current state is not mapped, changes will not apply");
+    }
+
+    protected virtual T GetActionState<T>() where T : GiantActionState
+    {
+        foreach(GiantActionState state in registeredState)
+        {
+            if (state is T) return (T)state;
+        }
+
+        return null;
+    }
+
+    public virtual void GotoNearestResource()
+    {
+        WorlPos = resourcesBlock.GetNearestPosition(this);
+    }
+
+    public virtual void GotoRandomResource()
+    {
+        WorlPos = resourcesBlock.GetRandomPos();
+    }
 }
