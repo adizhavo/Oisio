@@ -31,7 +31,7 @@ public class GiantAgent : MonoBehaviour, WorldEntity
         resourcesBlock = new MapBlockHolder();
 
         InitStates();
-        ChangeState<IdleState>();
+        ChangeState<GiantIdleState>();
 	}
 
     protected virtual void InitStates()
@@ -39,7 +39,7 @@ public class GiantAgent : MonoBehaviour, WorldEntity
         // all available states will be inserted in this array
         registeredState = new GiantActionState[]
             {
-                new IdleState(this, GiantEvent.TargetNerby)
+                new GiantIdleState(this, GiantEvent.TargetNerby)
                 // next state
                 // ...
             };

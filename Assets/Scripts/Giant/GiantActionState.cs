@@ -11,26 +11,8 @@ public abstract class GiantActionState
         this.subcribedEvent =subcribedEvent;
     }
 
-    public virtual bool IsEventValid(GiantEvent requestedEvent)
-    {
-        foreach(GiantEvent e in subcribedEvent)
-        {
-            if (e.Equals(requestedEvent)) return true;
-        }
-
-        return false;
-    }
-
-    public virtual void Notify(GiantEvent firedEvent)
-    {
-        if (IsEventValid(firedEvent))
-        {
-            ChangeState(firedEvent);
-        }
-    }
-
     public abstract void FrameFeed();
-    public abstract void ChangeState(GiantEvent firedEvent);
+    public abstract void Notify(GiantEvent firedEvent);
 }
 
 public enum GiantEvent

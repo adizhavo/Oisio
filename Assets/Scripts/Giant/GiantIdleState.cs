@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class IdleState : GiantActionState
+public class GiantIdleState : GiantActionState
 {
     protected float waitTime = 0f;
 
-    public IdleState(GiantAgent giant, params GiantEvent[] events) : base(giant, events) { }
+    public GiantIdleState(GiantAgent giant, params GiantEvent[] events) : base(giant, events) { }
 
     #region implemented abstract members of GiantActionState
     public override void FrameFeed()
@@ -24,7 +24,7 @@ public class IdleState : GiantActionState
         waitTime -= Time.deltaTime;
     }
 
-    public override void ChangeState(GiantEvent firedEvent)
+    public override void Notify(GiantEvent firedEvent)
     {
         // Change giant state
         // if (firedEvent.Equals(GiantEvent.NerbyTarget)) 
