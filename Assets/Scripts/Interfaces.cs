@@ -17,6 +17,12 @@ public interface Collector : WorldEntity
     void Notify(Collectable nerbyCollectable);
 }
 
+public interface GiantAction : WorldEntity
+{
+    int Priority {get;}
+    GiantEvent actionEvent {get;}
+}
+
 public interface Chargable
 {
     ChargableState current {get;}   

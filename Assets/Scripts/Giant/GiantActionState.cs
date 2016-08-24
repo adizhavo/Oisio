@@ -2,13 +2,11 @@
 
 public abstract class GiantActionState
 {
-    protected GiantEvent[] subcribedEvent;
     protected GiantAgent giant;
 
-    public GiantActionState(GiantAgent giant, params GiantEvent[] subcribedEvent)
+    public GiantActionState(GiantAgent giant)
     {
         this.giant = giant;
-        this.subcribedEvent =subcribedEvent;
     }
 
     public abstract void FrameFeed();
