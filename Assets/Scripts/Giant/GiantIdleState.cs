@@ -4,7 +4,7 @@ public class GiantIdleState : GiantActionState
 {
     protected float waitTime = 0f;
 
-    public GiantIdleState(GiantAgent giant, params GiantEvent[] events) : base(giant, events) { }
+    public GiantIdleState(GiantAgent giant) : base(giant) { }
 
     #region implemented abstract members of GiantActionState
     public override void FrameFeed()

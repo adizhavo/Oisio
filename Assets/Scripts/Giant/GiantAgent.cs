@@ -39,7 +39,7 @@ public class GiantAgent : MonoBehaviour, WorldEntity
         // all available states will be inserted in this array
         registeredState = new GiantActionState[]
             {
-                new GiantIdleState(this, GiantEvent.TargetNerby)
+                new GiantIdleState(this)
                 // next state
                 // ...
             };
