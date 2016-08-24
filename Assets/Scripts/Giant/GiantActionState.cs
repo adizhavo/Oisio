@@ -10,10 +10,5 @@ public abstract class GiantActionState
     }
 
     public abstract void FrameFeed();
-    public abstract void Notify(GiantEvent firedEvent);
-}
-
-public enum GiantEvent
-{
-    TargetNerby,
+    public abstract void Notify(SceneEvent firedEvent);
 }

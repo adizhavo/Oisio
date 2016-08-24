@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+#region Game interfaces
+
 public interface WorldEntity
 {
     Vector3 WorlPos {set; get;}
@@ -17,15 +19,30 @@ public interface Collector : WorldEntity
     void Notify(Collectable nerbyCollectable);
 }
 
-public interface GiantAction : WorldEntity
+public interface ActionListener : WorldEntity
+{
+    float VisibilityRadius {get;}
+    void Notify(SceneEvent action);
+}
+
+public interface Action : WorldEntity
 {
     int Priority {get;}
-    GiantEvent actionEvent {get;}
+    SceneEvent actionEvent {get;}
 }
 
 public interface Chargable
 {
     ChargableState current {get;}   
+}
+
+#endregion
+
+#region Game enums
+
+public enum SceneEvent
+{
+    NerbyTarget,
 }
 
 public enum ChargableState
@@ -39,3 +56,5 @@ public enum CollectableType
     Arrow,
     Bomb
 }
+
+#endregion
