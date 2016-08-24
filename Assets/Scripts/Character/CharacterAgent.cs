@@ -13,7 +13,7 @@ public class CharacterAgent : MonoBehaviour, Collector, Action
 
     private void Awake()
     {
-        GiantActionObserver.subscribedAction.Add(this);
+        ActionObserver.subscribedAction.Add(this);
     }
 
     protected virtual void Start()

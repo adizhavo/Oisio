@@ -49,7 +49,7 @@ public class GiantAgent : MonoBehaviour, ActionListener
     private void Update()
     {
         currentState.FrameFeed();
-        GiantActionObserver.CheckForActions(this);
+        ActionObserver.CheckForActions(this);
     }
 
     public virtual void ChangeState<T>() where T : GiantActionState

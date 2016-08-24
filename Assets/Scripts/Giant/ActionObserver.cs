@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public static class GiantActionObserver 
+public static class ActionObserver 
 {
     public static List<Action> subscribedAction = new List<Action>();
 
