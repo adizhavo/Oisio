@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GiantAgent : MonoBehaviour, WorldEntity
+public class GiantAgent : MonoBehaviour, ActionListener
 {
     #region WorldEntity implementation
 
@@ -21,6 +21,7 @@ public class GiantAgent : MonoBehaviour, WorldEntity
 
     public NavMeshAgent agent;
     public MapBlockHolder resourcesBlock;
+    public float visibilityRadius;
 
     public GiantActionState currentState;
     // all available states will be inserted in this array
@@ -48,6 +49,7 @@ public class GiantAgent : MonoBehaviour, WorldEntity
     private void Update()
     {
         currentState.FrameFeed();
+        GiantActionObserver.CheckForActions(this);
     }
 
     public virtual void ChangeState<T>() where T : GiantActionState
@@ -68,10 +70,22 @@ public class GiantAgent : MonoBehaviour, WorldEntity
         return null;
     }
 
-    public void Notify(GiantEvent outsideEvent)
+    #region ActionListener implementation
+
+    public float VisibilityRadius
+    {
+        get
+        {
+            return visibilityRadius;
+        }
+    }
+
+    public void Notify(SceneEvent outsideEvent)
     {
         currentState.Notify(outsideEvent);
     }
+
+    #endregion
 
     public virtual void GotoNearestResource()
     {

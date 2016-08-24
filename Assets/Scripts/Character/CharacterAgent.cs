@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CharacterAgent : MonoBehaviour, Collector
+public class CharacterAgent : MonoBehaviour, Collector, Action
 {
     public NavMeshAgent agent;
     public Animator characterAnimator;
@@ -10,6 +10,11 @@ public class CharacterAgent : MonoBehaviour, Collector
     protected CharacterAnimation animation;
     protected CollectorChecker checker;
     protected Inventory characterInventory;
+
+    private void Awake()
+    {
+        GiantActionObserver.subscribedAction.Add(this);
+    }
 
     protected virtual void Start()
     {
@@ -97,6 +102,24 @@ public class CharacterAgent : MonoBehaviour, Collector
         if (InputConfig.Collect())
         {
             nerbyCollectable.Collect(this);
+        }
+    }
+    #endregion
+
+    #region GiantAction implementation
+    public int Priority
+    {
+        get
+        {
+            return 10;
+        }
+    }
+
+    public SceneEvent actionEvent
+    {
+        get
+        {
+            return SceneEvent.NerbyTarget;
         }
     }
     #endregion
