@@ -22,7 +22,7 @@ public interface Collector : WorldEntity
 public interface ActionListener : WorldEntity
 {
     float VisibilityRadius {get;}
-    void Notify(SceneEvent action);
+    void Notify(Action visibleAction);
 }
 
 public interface Action : WorldEntity

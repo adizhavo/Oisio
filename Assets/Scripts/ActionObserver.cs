@@ -22,6 +22,6 @@ public static class ActionObserver
             }
         }
 
-        if (highpriorityAction != null) listener.Notify(highpriorityAction.actionEvent);
+        if (highpriorityAction != null) listener.Notify(highpriorityAction);
     }
 }

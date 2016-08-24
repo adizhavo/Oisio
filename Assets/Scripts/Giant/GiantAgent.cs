@@ -80,9 +80,9 @@ public class GiantAgent : MonoBehaviour, ActionListener
         }
     }
 
-    public void Notify(SceneEvent outsideEvent)
+    public void Notify(Action nearbyAction)
     {
-        currentState.Notify(outsideEvent);
+        currentState.Notify(nearbyAction);
     }
 
     #endregion
