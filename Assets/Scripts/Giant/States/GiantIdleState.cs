@@ -2,11 +2,18 @@
 
 public class GiantIdleState : GiantActionState
 {
-    protected float waitTime = 0f;
+    protected float waitTime;
 
     public GiantIdleState(GiantAgent giant) : base(giant) { }
 
     #region implemented abstract members of GiantActionState
+    public override void Init()
+    {
+        waitTime = 0;
+
+        Debug.Log("IdleState");
+    }
+
     public override void FrameFeed()
     {
         if (waitTime < 0f)

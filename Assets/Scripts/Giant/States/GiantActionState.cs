@@ -9,6 +9,7 @@ public abstract class GiantActionState
         this.giant = giant;
     }
 
+    public abstract void Init();
     public abstract void FrameFeed();
     public abstract void Notify(EventTrigger nerbyEvent);
 }
