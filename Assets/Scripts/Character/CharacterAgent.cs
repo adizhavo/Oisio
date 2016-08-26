@@ -13,7 +13,7 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
 
     private void Awake()
     {
-        ActionObserver.subscribedAction.Add(this);
+        EventObserver.subscribedAction.Add(this);
     }
 
     protected virtual void Start()

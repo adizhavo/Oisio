@@ -27,8 +27,6 @@ public class GiantAlertState : GiantActionState
     public override void Init()
     {
         IncreaseAlert();
-
-        Debug.Log("AlertState");
     }
 
     public override void FrameFeed()

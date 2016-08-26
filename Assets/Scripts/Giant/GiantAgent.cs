@@ -69,7 +69,7 @@ public class GiantAgent : MonoBehaviour, EventListener
     private void Update()
     {
         currentState.FrameFeed();
-        ActionObserver.CheckForActions(this);
+        EventObserver.CheckforEvent(this);
 
         DrawGizmo();
     }
