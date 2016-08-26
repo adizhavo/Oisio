@@ -24,11 +24,13 @@ public class GiantIdleState : GiantActionState
         waitTime -= Time.deltaTime;
     }
 
-    public override void Notify(SceneEvent firedEvent)
+    public override void Notify(EventTrigger nerbyEvent)
     {
-        // Change giant state
-        // if (firedEvent.Equals(GiantEvent.NerbyTarget)) 
-        // giant.ChangeState<Alert>()
+        if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
+        {
+            giant.ChangeState<GiantAlertState>();
+            giant.Notify(nerbyEvent);
+        }
     }
 
     #endregion

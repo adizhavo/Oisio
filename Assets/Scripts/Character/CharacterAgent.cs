@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CharacterAgent : MonoBehaviour, Collector, Action
+public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
 {
     public NavMeshAgent agent;
     public Animator characterAnimator;
@@ -115,11 +115,11 @@ public class CharacterAgent : MonoBehaviour, Collector, Action
         }
     }
 
-    public SceneEvent actionEvent
+    public EventSubject subject
     {
         get
         {
-            return SceneEvent.NerbyTarget;
+            return EventSubject.NerbyTarget;
         }
     }
     #endregion
