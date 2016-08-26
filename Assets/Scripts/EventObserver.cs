@@ -22,6 +22,10 @@ public static class EventObserver
             }
         }
 
-        if (highpriorityAction != null) listener.Notify(highpriorityAction);
+        if (highpriorityAction != null)
+        {
+            Debug.DrawLine(listener.WorlPos, highpriorityAction.WorlPos, Color.cyan);
+            listener.Notify(highpriorityAction);
+        }
     }
 }

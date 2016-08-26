@@ -9,7 +9,7 @@ public class GiantIdleState : GiantActionState
     #region implemented abstract members of GiantActionState
     public override void Init()
     {
-        waitTime = 0;
+        waitTime = Random.Range(3f, 7f);
     }
 
     public override void FrameFeed()
