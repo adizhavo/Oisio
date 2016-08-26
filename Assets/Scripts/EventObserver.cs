@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public static class ActionObserver 
+public static class EventObserver 
 {
     public static List<EventTrigger> subscribedAction = new List<EventTrigger>();
 
-    public static void CheckForActions(EventListener listener)
+    public static void CheckforEvent(EventListener listener)
     {
         EventTrigger highpriorityAction = null;
         float minDistance = Mathf.Infinity;
@@ -22,6 +22,10 @@ public static class ActionObserver
             }
         }
 
-        if (highpriorityAction != null) listener.Notify(highpriorityAction);
+        if (highpriorityAction != null)
+        {
+            Debug.DrawLine(listener.WorlPos, highpriorityAction.WorlPos, Color.cyan);
+            listener.Notify(highpriorityAction);
+        }
     }
 }

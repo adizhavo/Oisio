@@ -12,6 +12,11 @@ public class GiantAlertState : GiantActionState
     }
     private AlertState giantState = AlertState.Observe;
 
+    public float reactionSpeed
+    {
+        get { return giant.alertReactionSpeed * Time.deltaTime; } 
+    }
+
     public GiantAlertState(GiantAgent giant) : base(giant) 
     {
         giantState = AlertState.Observe;
@@ -19,28 +24,41 @@ public class GiantAlertState : GiantActionState
 
     #region implemented abstract members of GiantActionState
 
+    public override void Init()
+    {
+        IncreaseAlert();
+    }
+
     public override void FrameFeed()
     {
-        if (giantState.Equals(AlertState.Hunt))
+        if (eventPos.HasValue)
         {
+            if (giantState.Equals(AlertState.Hunt)) 
+                TryAttack();
+
             MovetoEventPos();
-            TryAttack();
         }
 
+        giant.AlertLevel -= reactionSpeed;
         CheckAlertLevel();
-        giant.AlertLevel -= giant.alertReactionSpeed * Time.deltaTime;
+        eventPos = null;
     }
 
     public override void Notify(EventTrigger nerbyEvent)
     {
         if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
         {
-            giant.AlertLevel += giant.alertReactionSpeed * Time.deltaTime * 2;
+            IncreaseAlert();
             eventPos = nerbyEvent.WorlPos;
         }
     }
 
     #endregion
+
+    private void IncreaseAlert()
+    {
+        giant.AlertLevel += reactionSpeed * 2;
+    }
 
     protected virtual void MovetoEventPos()
     {
@@ -52,14 +70,15 @@ public class GiantAlertState : GiantActionState
 
     protected virtual void CheckAlertLevel()
     {
-        if (giant.AlertLevel >= 1 + Mathf.Epsilon)
-        {
-            giantState = AlertState.Hunt;
-        }
-        else if (giant.AlertLevel < Mathf.Epsilon)
+        if (giant.AlertLevel < Mathf.Epsilon)
         {
             giant.ChangeState<GiantIdleState>();
-            giant.GotoLocalRandomPos();
+
+            ResetState();
+        }
+        else if (giant.AlertLevel >= 1 - Time.deltaTime - Mathf.Epsilon)
+        {
+            giantState = AlertState.Hunt;
         }
     }
 
@@ -74,6 +93,15 @@ public class GiantAlertState : GiantActionState
 
     protected virtual void Attack()
     {
-        // Change to attack state
+        eventPos = null;
+        giant.ChangeState<GiantAttackState>();
+        giant.Stop();
+    }
+
+    private void ResetState()
+    {
+        if (eventPos.HasValue) giant.WorlPos = eventPos.Value;
+        giantState = AlertState.Observe;
+        eventPos = null;
     }
 }

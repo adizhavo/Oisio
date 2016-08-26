@@ -20,10 +20,13 @@ public class GiantAgent : MonoBehaviour, EventListener
     #endregion
 
     public NavMeshAgent agent;
+    public AttackView areDamageView;
+
     public MapBlockHolder resourcesBlock;
     public float visibilityRadius;
     [Range(0f, 0.5f)] public float alertReactionSpeed;
     public float AttackRange;
+    public float AttackTime;
 
     private float alertLevel;
     public float AlertLevel
@@ -56,7 +59,8 @@ public class GiantAgent : MonoBehaviour, EventListener
         registeredState = new GiantActionState[]
             {
                 new GiantIdleState(this),
-                new GiantAlertState(this)
+                new GiantAlertState(this),
+                new GiantAttackState(this)
                 // next state
                 // ...
             };
@@ -65,14 +69,20 @@ public class GiantAgent : MonoBehaviour, EventListener
     private void Update()
     {
         currentState.FrameFeed();
-        ActionObserver.CheckForActions(this);
+        EventObserver.CheckforEvent(this);
+
+        DrawGizmo();
     }
 
     public virtual void ChangeState<T>() where T : GiantActionState
     {
         T state = GetActionState<T>();
 
-        if (state != null) currentState = state;
+        if (state != null) 
+        {
+            currentState = state;
+            currentState.Init();
+        }
         else  Debug.LogWarning("Current state is not mapped, changes will not apply");
     }
 
@@ -118,5 +128,25 @@ public class GiantAgent : MonoBehaviour, EventListener
         Vector2 randomPoint = Random.insideUnitCircle * visibilityRadius;
         Vector3 movePos = new Vector3(randomPoint.x, 0f, randomPoint.y);
         WorlPos = movePos;
+    }
+
+    public virtual void SetVisualAttack(float percentage)
+    {
+        areDamageView.SetAttackView(percentage, AttackTime);
+    }
+
+    public void Stop()
+    {
+        WorlPos = transform.position;
+    }
+
+    private void DrawGizmo()
+    {
+        #if UNITY_EDITOR
+
+        Debug.DrawLine(transform.position, transform.position + transform.right.normalized * AttackRange, Color.red);
+        Debug.DrawLine(transform.position + transform.forward/5, transform.position + transform.forward/5 + transform.right.normalized * VisibilityRadius, Color.blue);
+
+        #endif
     }
 }
