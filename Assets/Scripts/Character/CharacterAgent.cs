@@ -115,7 +115,7 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
         }
     }
 
-    public EventSubject actionEvent
+    public EventSubject subject
     {
         get
         {

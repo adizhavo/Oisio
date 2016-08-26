@@ -26,9 +26,11 @@ public class GiantIdleState : GiantActionState
 
     public override void Notify(EventTrigger nerbyEvent)
     {
-        // Change giant state
-        // if (nerbyAction.actionEvent.Equals(GiantEvent.NerbyTarget)) 
-        // giant.ChangeState<Alert>()
+        if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
+        {
+            giant.ChangeState<GiantAlertState>();
+            giant.Notify(nerbyEvent);
+        }
     }
 
     #endregion

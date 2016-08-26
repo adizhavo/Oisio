@@ -28,7 +28,7 @@ public interface EventListener : WorldEntity
 public interface EventTrigger : WorldEntity
 {
     int Priority {get;}
-    EventSubject actionEvent {get;}
+    EventSubject subject {get;}
 }
 
 public interface Chargable

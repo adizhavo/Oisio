@@ -22,6 +22,21 @@ public class GiantAgent : MonoBehaviour, EventListener
     public NavMeshAgent agent;
     public MapBlockHolder resourcesBlock;
     public float visibilityRadius;
+    [Range(0f, 0.5f)] public float alertReactionSpeed;
+    public float AttackRange;
+
+    private float alertLevel;
+    public float AlertLevel
+    {
+        get 
+        {
+            return alertLevel;
+        }
+        set
+        {
+            alertLevel = Mathf.Clamp01(value);
+        }
+    }
 
     public GiantActionState currentState;
     // all available states will be inserted in this array
@@ -40,7 +55,8 @@ public class GiantAgent : MonoBehaviour, EventListener
         // all available states will be inserted in this array
         registeredState = new GiantActionState[]
             {
-                new GiantIdleState(this)
+                new GiantIdleState(this),
+                new GiantAlertState(this)
                 // next state
                 // ...
             };
@@ -95,5 +111,12 @@ public class GiantAgent : MonoBehaviour, EventListener
     public virtual void GotoRandomResource()
     {
         WorlPos = resourcesBlock.GetRandomPos();
+    }
+
+    public void GotoLocalRandomPos()
+    {
+        Vector2 randomPoint = Random.insideUnitCircle * visibilityRadius;
+        Vector3 movePos = new Vector3(randomPoint.x, 0f, randomPoint.y);
+        WorlPos = movePos;
     }
 }
