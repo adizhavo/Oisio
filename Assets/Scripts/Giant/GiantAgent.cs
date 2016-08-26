@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GiantAgent : MonoBehaviour, ActionListener
+public class GiantAgent : MonoBehaviour, EventListener
 {
     #region WorldEntity implementation
 
@@ -70,7 +70,7 @@ public class GiantAgent : MonoBehaviour, ActionListener
         return null;
     }
 
-    #region ActionListener implementation
+    #region EventListener implementation
 
     public float VisibilityRadius
     {
@@ -80,9 +80,9 @@ public class GiantAgent : MonoBehaviour, ActionListener
         }
     }
 
-    public void Notify(Action nearbyAction)
+    public void Notify(EventTrigger nearbyEvent)
     {
-        currentState.Notify(nearbyAction);
+        currentState.Notify(nearbyEvent);
     }
 
     #endregion

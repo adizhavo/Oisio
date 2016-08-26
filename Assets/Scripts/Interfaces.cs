@@ -19,16 +19,16 @@ public interface Collector : WorldEntity
     void Notify(Collectable nerbyCollectable);
 }
 
-public interface ActionListener : WorldEntity
+public interface EventListener : WorldEntity
 {
     float VisibilityRadius {get;}
-    void Notify(Action visibleAction);
+    void Notify(EventTrigger visibleAction);
 }
 
-public interface Action : WorldEntity
+public interface EventTrigger : WorldEntity
 {
     int Priority {get;}
-    SceneEvent actionEvent {get;}
+    EventSubject actionEvent {get;}
 }
 
 public interface Chargable
@@ -40,7 +40,7 @@ public interface Chargable
 
 #region Game enums
 
-public enum SceneEvent
+public enum EventSubject
 {
     NerbyTarget,
 }

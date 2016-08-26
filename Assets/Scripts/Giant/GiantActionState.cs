@@ -10,5 +10,5 @@ public abstract class GiantActionState
     }
 
     public abstract void FrameFeed();
-    public abstract void Notify(Action nerbyAction);
+    public abstract void Notify(EventTrigger nerbyEvent);
 }

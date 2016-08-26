@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public static class ActionObserver 
 {
-    public static List<Action> subscribedAction = new List<Action>();
+    public static List<EventTrigger> subscribedAction = new List<EventTrigger>();
 
-    public static void CheckForActions(ActionListener listener)
+    public static void CheckForActions(EventListener listener)
     {
-        Action highpriorityAction = null;
+        EventTrigger highpriorityAction = null;
         float minDistance = Mathf.Infinity;
 
-        foreach(Action act in subscribedAction)
+        foreach(EventTrigger act in subscribedAction)
         {
             float distance = Vector3.Distance(listener.WorlPos, act.WorlPos);
             bool isVisible = !Physics.Linecast(listener.WorlPos, act.WorlPos) && distance < listener.VisibilityRadius;
