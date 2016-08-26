@@ -15,8 +15,6 @@ public class GiantAttackState : GiantActionState
     {
         attackEventPercentage = Mathf.Clamp01(attackEventPercentage);
         giant.SetVisualAttack(attackEventPercentage);
-
-        Debug.Log("ATTACKSTATE");
     }
 
     public override void FrameFeed()

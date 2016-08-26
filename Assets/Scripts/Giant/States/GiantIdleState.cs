@@ -10,8 +10,6 @@ public class GiantIdleState : GiantActionState
     public override void Init()
     {
         waitTime = 0;
-
-        Debug.Log("IdleState");
     }
 
     public override void FrameFeed()
