@@ -41,7 +41,7 @@ public class GiantAttackState : GiantActionState
         }
     }
 
-    protected virtual] void UpdateVisualAttack()
+    protected virtual void UpdateVisualAttack()
     {
         if (timeElapse > attackEventPercentage)
         {
