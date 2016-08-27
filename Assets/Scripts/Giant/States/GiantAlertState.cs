@@ -73,12 +73,16 @@ public class GiantAlertState : GiantActionState
         if (giant.AlertLevel < Mathf.Epsilon)
         {
             giant.ChangeState<GiantIdleState>();
-
             ResetState();
         }
         else if (giant.AlertLevel >= 1 - Time.deltaTime - Mathf.Epsilon)
         {
             giantState = AlertState.Hunt;
+            giant.SetSpeed(SpeedLevel.Fast);
+        }
+        else
+        {
+            giant.SetSpeed(SpeedLevel.Medium);
         }
     }
 

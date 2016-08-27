@@ -20,6 +20,8 @@ public class GiantAgent : MonoBehaviour, EventListener
     #endregion
 
     public NavMeshAgent agent;
+    public GiantSpeed[] availableMovements;
+
     public AttackView areDamageView;
 
     public MapBlockHolder resourcesBlock;
@@ -112,6 +114,20 @@ public class GiantAgent : MonoBehaviour, EventListener
     }
 
     #endregion
+
+    public void SetSpeed(SpeedLevel level)
+    {
+        foreach(GiantSpeed sp in availableMovements)
+        {
+            if (sp.type.Equals(level))
+            {
+                agent.speed = sp.speed;
+                return;
+            }
+        }
+
+        Debug.Log(level.ToString() + " speed level is not supported");
+    }
 
     public virtual void GotoNearestResource()
     {
