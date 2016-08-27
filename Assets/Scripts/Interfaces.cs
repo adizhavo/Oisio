@@ -43,6 +43,7 @@ public interface Chargable
 public enum EventSubject
 {
     NerbyTarget,
+    Attack
 }
 
 public enum ChargableState
