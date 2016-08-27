@@ -110,6 +110,10 @@ public class GiantAgent : MonoBehaviour, EventListener
 
     public void Notify(EventTrigger nearbyEvent)
     {
+        #if UNITY_EDITOR
+        Debug.Log("Giant notified with subject: " + nearbyEvent.subject.ToString());
+        #endif
+
         currentState.Notify(nearbyEvent);
     }
 

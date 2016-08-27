@@ -13,6 +13,10 @@ public class GiantAttackState : GiantActionState
     #region implemented abstract members of GiantActionState
     public override void Init()
     {
+        #if UNITY_EDITOR
+        Debug.Log("Giant enters into Attack state..");
+        #endif
+
         attackEventPercentage = Mathf.Clamp01(attackEventPercentage);
         giant.Attack(giant.AttackTime * attackEventPercentage);
     }

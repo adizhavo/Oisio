@@ -9,6 +9,10 @@ public class GiantIdleState : GiantActionState
     #region implemented abstract members of GiantActionState
     public override void Init()
     {
+        #if UNITY_EDITOR
+        Debug.Log("Giant enters into Idle state..");
+        #endif
+
         waitTime = Random.Range(3f, 7f);
         giant.SetSpeed(SpeedLevel.Slow);
     }
@@ -32,7 +36,7 @@ public class GiantIdleState : GiantActionState
 
     public override void Notify(EventTrigger nerbyEvent)
     {
-        if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
+        if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget) || nerbyEvent.subject.Equals(EventSubject.Attack)) 
         {
             giant.ChangeState<GiantAlertState>();
             giant.Notify(nerbyEvent);
