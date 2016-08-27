@@ -41,7 +41,9 @@ public class GiantAttackState : GiantActionState
         {
             timeElapse = 0f;
             stopFrameFeed = false;
+
             giant.ChangeState<GiantAlertState>();
+            giant.SetSpeed(SpeedLevel.Fast);
         }
     }
 
