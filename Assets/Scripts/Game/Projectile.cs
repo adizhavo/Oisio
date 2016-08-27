@@ -58,6 +58,7 @@ public class Projectile : MonoBehaviour
     {
         rigidBody.isKinematic = true;
         transform.SetParent(col.transform);
+        GetComponent<BoxCollider>().enabled = false;
 
         if (shooter == null) return;
 
