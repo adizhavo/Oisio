@@ -10,23 +10,27 @@ public class Projectile : MonoBehaviour
 
     private Vector3 currentDirection;
 
+    public EventTrigger shooter;
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.isKinematic = true;
     }
 
-    public void Shoot(Vector3 force)
+    public void Shoot(EventTrigger shooter, Vector3 force)
     {
         rigidBody.isKinematic = false;
         rigidBody.velocity = force;
         this.deviation = force;
+        this.shooter = shooter;
     }
 
-    public void Shoot(Vector3 force, Vector3 deviation)
+    public void Shoot(EventTrigger shooter, Vector3 force, Vector3 deviation)
     {
         rigidBody.isKinematic = false;
         rigidBody.velocity = force;
+        this.shooter = shooter;
 
         this.deviation = deviation * new Vector3(force.x, 0, force.z).magnitude;
     }
@@ -54,5 +58,15 @@ public class Projectile : MonoBehaviour
     {
         rigidBody.isKinematic = true;
         transform.SetParent(col.transform);
+
+        if (shooter == null) return;
+
+        EventListener listener = col.transform.GetComponent<EventListener>();
+        if (listener != null)
+        {
+            listener.Notify(shooter);
+        }
+
+        shooter = null;
     }
 }
