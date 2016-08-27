@@ -11,6 +11,8 @@ public class AttackAimer : MonoBehaviour
     private Projectile arrowInstance;
     private EnemyDirectionAim enemy;
 
+    private float cursorDeltaX;
+
     private void Start()
     {
         enemy = new EnemyDirectionAim();
@@ -36,14 +38,17 @@ public class AttackAimer : MonoBehaviour
 
     private void RotateAimer()
     {
-        float cursorDeltaX = InputConfig.GetCursorMovement().x * AimingDirection() * Sensibility;
-        transform.rotation = Quaternion.Euler(0f, 0f, transform.localEulerAngles.z + cursorDeltaX);
+        cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * Sensibility;
+        Vector3 targetPos = enemy.NearbyEnemyDir(transform.position);
+        transform.rotation = Quaternion.LookRotation(targetPos);
+        transform.rotation = Quaternion.Euler(transform.localEulerAngles.x + cursorDeltaX, transform.localEulerAngles.y, transform.localEulerAngles.z);
     }
 
     public void ResetAim()
     {
         if (arrowInstance) arrowInstance.gameObject.SetActive(false);
         transform.localEulerAngles = Vector3.zero;
+        cursorDeltaX = 0f;
     }
 
     private int AimingDirection()
@@ -56,8 +61,7 @@ public class AttackAimer : MonoBehaviour
         if (!arrowInstance) return;
 
         Vector3 shootDirection = arrowParent.position - transform.position;
-        Vector3 deviation = enemy.NearbyEnemyDir(transform.position);
-        arrowInstance.Shoot(shootDirection * ShootForce, deviation);
+        arrowInstance.Shoot(shootDirection * ShootForce);
 
         arrowInstance.transform.SetParent(null);
         arrowInstance = null;
@@ -93,5 +97,23 @@ public class EnemyDirectionAim
         direction.y = 0;
 
         return direction;
+    }
+
+    public Vector3 NearbyEnemyPos(Vector3 currentPos)
+    {
+        Vector3? closestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach(GameObject go in enemies)
+        {
+            float distance = Vector3.Distance(currentPos, go.transform.position);
+            if (!closestTarget.HasValue || distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestTarget = go.transform.position;
+            }
+        }
+
+        return closestTarget.Value;
     }
 }
