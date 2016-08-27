@@ -2,7 +2,8 @@
 {
     Slow, 
     Medium,
-    Fast
+    Fast,
+    Rage
 }
 
 [System.Serializable]

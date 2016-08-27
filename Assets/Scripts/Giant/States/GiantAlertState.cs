@@ -26,6 +26,10 @@ public class GiantAlertState : GiantActionState
 
     public override void Init()
     {
+        #if UNITY_EDITOR
+        Debug.Log("Giant enters into Alert state..");
+        #endif
+
         IncreaseAlert();
     }
 
@@ -53,11 +57,8 @@ public class GiantAlertState : GiantActionState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.Attack))
         {
-            giant.AlertLevel = 1;
-            eventPos = nerbyEvent.WorlPos;
+            RageToEvent(nerbyEvent);
         }
-
-        Debug.Log(nerbyEvent.subject.ToString());
     }
 
     #endregion
@@ -77,12 +78,24 @@ public class GiantAlertState : GiantActionState
 
     protected virtual void CheckAlertLevel()
     {
-        if (giant.AlertLevel < Mathf.Epsilon)
+        CheckIdleState();
+        CheckHuntState();
+    }
+
+    private void CheckIdleState()
+    {
+        if (giant.AlertLevel < GameConfig.minAlertLevel + Mathf.Epsilon)
         {
             giant.ChangeState<GiantIdleState>();
             ResetState();
         }
-        else if (giant.AlertLevel >= 1 - Time.deltaTime - Mathf.Epsilon)
+    }
+
+    private void CheckHuntState()
+    {
+        if (giantState.Equals(AlertState.Hunt))
+            return;
+        if (giant.AlertLevel >= GameConfig.maxAlertLevel - Time.deltaTime - Mathf.Epsilon)
         {
             giantState = AlertState.Hunt;
             giant.SetSpeed(SpeedLevel.Fast);
@@ -91,6 +104,14 @@ public class GiantAlertState : GiantActionState
         {
             giant.SetSpeed(SpeedLevel.Medium);
         }
+    }
+
+    private void RageToEvent(EventTrigger nerbyEvent)
+    {
+        eventPos = nerbyEvent.WorlPos;
+        giant.AlertLevel = GameConfig.maxAlertLevel;
+        giantState = AlertState.Hunt;
+        giant.SetSpeed(SpeedLevel.Rage);
     }
 
     protected void TryAttack()

@@ -9,6 +9,10 @@ public class GiantIdleState : GiantActionState
     #region implemented abstract members of GiantActionState
     public override void Init()
     {
+        #if UNITY_EDITOR
+        Debug.Log("Giant enters into Idle state..");
+        #endif
+
         waitTime = Random.Range(3f, 7f);
         giant.SetSpeed(SpeedLevel.Slow);
     }
