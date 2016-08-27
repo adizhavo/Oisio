@@ -53,5 +53,6 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision col)
     {
         rigidBody.isKinematic = true;
+        transform.SetParent(col.transform);
     }
 }
