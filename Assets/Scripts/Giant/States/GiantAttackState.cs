@@ -3,10 +3,10 @@ using System.Collections;
 
 public class GiantAttackState : GiantActionState
 {
-    public float attackEventPercentage = 0.7f;
+    protected float attackEventPercentage = 0.7f;
 
-    private bool stopFrameFeed = false;
-    private float timeElapse;
+    protected bool stopFrameFeed = false;
+    protected float timeElapse;
 
     public GiantAttackState(GiantAgent giant) : base(giant) { }
 
@@ -14,7 +14,7 @@ public class GiantAttackState : GiantActionState
     public override void Init()
     {
         attackEventPercentage = Mathf.Clamp01(attackEventPercentage);
-        giant.SetVisualAttack(attackEventPercentage);
+        giant.Attack(giant.AttackTime * attackEventPercentage);
     }
 
     public override void FrameFeed()
@@ -31,7 +31,7 @@ public class GiantAttackState : GiantActionState
     }
     #endregion
 
-    private void CheckState()
+    protected virtual void CheckState()
     {
         if (timeElapse > 1)
         {
@@ -41,11 +41,12 @@ public class GiantAttackState : GiantActionState
         }
     }
 
-    private void UpdateVisualAttack()
+    protected virtual void UpdateVisualAttack()
     {
         if (timeElapse > attackEventPercentage)
         {
-            giant.SetVisualAttack(0);
+            float percentage = 1f - attackEventPercentage;
+            giant.RecoverAttack(giant.AttackTime * percentage);
             stopFrameFeed = true;
         }
     }

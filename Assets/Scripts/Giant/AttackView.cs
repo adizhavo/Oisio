@@ -7,24 +7,30 @@ public class AttackView : MonoBehaviour
 
     private float timeCounter = 0f;
 
-    private float speed;
+    private float transitionTime;
+
     private float targetPercentage;
     private float currentPercentage;
 
-    public void SetAttackView(float percentage, float AttackSpeed)
+    public void Attack(float transitionTime)
     {
+        this.transitionTime = transitionTime;
+        targetPercentage = 1;
         timeCounter = 0f;
-
-        this.targetPercentage = percentage;
-        this.speed = AttackSpeed;
     }
 
-    private void LateUpdate()
+    public void Recover(float transitionTime)
+    {
+        this.transitionTime = transitionTime;
+        targetPercentage = 0;
+        timeCounter = 0f;
+    }
+
+    private void Update()
     {
         timeCounter = Mathf.Clamp01(timeCounter);
-
         currentPercentage = Mathf.Lerp(currentPercentage, targetPercentage, timeCounter);
-        timeCounter += Time.deltaTime / (speed);
+        timeCounter += Time.deltaTime / transitionTime;
 
         SetAlphaValue(ZoneImage.transform, currentPercentage);
     }

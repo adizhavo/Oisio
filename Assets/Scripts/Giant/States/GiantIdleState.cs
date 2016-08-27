@@ -10,6 +10,7 @@ public class GiantIdleState : GiantActionState
     public override void Init()
     {
         waitTime = Random.Range(3f, 7f);
+        giant.SetSpeed(SpeedLevel.Slow);
     }
 
     public override void FrameFeed()
