@@ -51,6 +51,13 @@ public class GiantAlertState : GiantActionState
             IncreaseAlert();
             eventPos = nerbyEvent.WorlPos;
         }
+        else if (nerbyEvent.subject.Equals(EventSubject.Attack))
+        {
+            giant.AlertLevel = 1;
+            eventPos = nerbyEvent.WorlPos;
+        }
+
+        Debug.Log(nerbyEvent.subject.ToString());
     }
 
     #endregion
