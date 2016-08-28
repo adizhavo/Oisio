@@ -107,6 +107,14 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
     #endregion
 
     #region GiantAction implementation
+    public bool oneShot
+    {
+        get 
+        {
+            return false;
+        }
+    }
+
     public int Priority
     {
         get

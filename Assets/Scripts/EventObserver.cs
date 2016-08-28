@@ -26,6 +26,9 @@ public static class EventObserver
         {
             Debug.DrawLine(listener.WorlPos, highpriorityAction.WorlPos, Color.cyan);
             listener.Notify(highpriorityAction);
+
+            if (highpriorityAction.oneShot)
+                subscribedAction.Remove(highpriorityAction);
         }
     }
 }

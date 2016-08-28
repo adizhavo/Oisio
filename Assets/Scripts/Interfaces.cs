@@ -27,6 +27,7 @@ public interface EventListener : WorldEntity
 
 public interface EventTrigger : WorldEntity
 {
+    bool oneShot {get;}
     int Priority {get;}
     EventSubject subject {get;}
 }
@@ -43,7 +44,8 @@ public interface Chargable
 public enum EventSubject
 {
     NerbyTarget,
-    Attack
+    Attack,
+    SmokeBomb
 }
 
 public enum ChargableState
