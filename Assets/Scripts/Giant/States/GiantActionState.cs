@@ -9,7 +9,13 @@ public abstract class GiantActionState
         this.giant = giant;
     }
 
-    public abstract void Init();
+    public virtual void Init(EventTrigger initialTrigger)
+    {
+        Init();
+        if (initialTrigger != null) Notify(initialTrigger);
+    }
+
+    protected abstract void Init();
     public abstract void FrameFeed();
     public abstract void Notify(EventTrigger nerbyEvent);
 }

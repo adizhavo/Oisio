@@ -7,6 +7,8 @@ public static class EventObserver
 
     public static void CheckforEvent(EventListener listener)
     {
+        RemoveExpired();
+
         EventTrigger highpriorityAction = null;
         float minDistance = Mathf.Infinity;
 
@@ -26,6 +28,22 @@ public static class EventObserver
         {
             Debug.DrawLine(listener.WorlPos, highpriorityAction.WorlPos, Color.cyan);
             listener.Notify(highpriorityAction);
+
+            if (highpriorityAction.oneShot)
+                subscribedAction.Remove(highpriorityAction);
+        }
+    }
+
+    private static void RemoveExpired()
+    {
+        for(int i = 0; i < subscribedAction.Count; i ++)
+        {
+            if (subscribedAction[i].hasExpired)
+            {
+                subscribedAction.Remove(subscribedAction[i]);
+                i --;
+                continue;
+            }
         }
     }
 }

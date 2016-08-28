@@ -62,7 +62,10 @@ public class GiantAgent : MonoBehaviour, EventListener
             {
                 new GiantIdleState(this),
                 new GiantAlertState(this),
-                new GiantAttackState(this)
+                new GiantAttackState(this),
+                new GiantHuntState(this),
+                new GiantRageState(this), 
+                new GiantBlindState(this)
                 // next state
                 // ...
             };
@@ -76,14 +79,14 @@ public class GiantAgent : MonoBehaviour, EventListener
         DrawGizmo();
     }
 
-    public virtual void ChangeState<T>() where T : GiantActionState
+    public virtual void ChangeState<T>(EventTrigger initialTrigger = null) where T : GiantActionState
     {
         T state = GetActionState<T>();
 
         if (state != null) 
         {
             currentState = state;
-            currentState.Init();
+            currentState.Init(initialTrigger);
         }
         else  Debug.LogWarning("Current state is not mapped, changes will not apply");
     }
@@ -150,9 +153,14 @@ public class GiantAgent : MonoBehaviour, EventListener
         WorlPos = movePos;
     }
 
-    public virtual void Attack(float attackTime)
+    public virtual void PrepareAttack(float preparationTime)
     {
-        areDamageView.Attack(attackTime);
+        areDamageView.PrepareAttack(preparationTime);
+    }
+
+    public virtual void Attack()
+    {
+        Debug.Log("Giant attacks");
     }
 
     public virtual void RecoverAttack(float recoverTime)

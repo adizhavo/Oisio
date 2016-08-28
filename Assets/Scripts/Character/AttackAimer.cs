@@ -60,7 +60,7 @@ public class AttackAimer : MonoBehaviour
     {
         if (!arrowInstance) return;
 
-        EventTrigger attackEvent = new CustomEvent(transform.position, EventSubject.Attack, 2);
+        EventTrigger attackEvent = new CustomEvent(transform.position, EventSubject.Attack, GameConfig.projectilePriority);
         Vector3 shootDirection = arrowParent.position - transform.position;
         arrowInstance.Shoot(attackEvent, shootDirection * ShootForce);
 

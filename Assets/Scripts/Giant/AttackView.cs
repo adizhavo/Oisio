@@ -12,7 +12,7 @@ public class AttackView : MonoBehaviour
     private float targetPercentage;
     private float currentPercentage;
 
-    public void Attack(float transitionTime)
+    public void PrepareAttack(float transitionTime)
     {
         this.transitionTime = transitionTime;
         targetPercentage = 1;

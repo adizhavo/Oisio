@@ -107,11 +107,27 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
     #endregion
 
     #region GiantAction implementation
+    public bool oneShot
+    {
+        get 
+        {
+            return false;
+        }
+    }
+
+    public bool hasExpired
+    {
+        get 
+        {
+            return false;
+        }
+    }
+
     public int Priority
     {
         get
         {
-            return 10;
+            return GameConfig.characterPriority;
         }
     }
 
