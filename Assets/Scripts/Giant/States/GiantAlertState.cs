@@ -46,6 +46,10 @@ public class GiantAlertState : GiantActionState
         {
             giant.ChangeState<GiantRageState>(nerbyEvent);
         }
+        else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
+        {
+            giant.ChangeState<GiantBlindState>(nerbyEvent);
+        }
     }
 
     #endregion

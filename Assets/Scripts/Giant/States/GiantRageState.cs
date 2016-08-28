@@ -11,6 +11,10 @@ public class GiantRageState : GiantActionState
 
     protected override void Init()
     {
+        #if UNITY_EDITOR
+        Debug.Log("Giant enters into Rage state..");
+        #endif
+
         giant.SetSpeed(SpeedLevel.Rage);
         giant.AlertLevel = GameConfig.maxAlertLevel;
     }
@@ -26,6 +30,10 @@ public class GiantRageState : GiantActionState
         if (nerbyEvent.subject.Equals(EventSubject.Attack) || nerbyEvent.subject.Equals(EventSubject.NerbyTarget))
         {
             RageToEvent(nerbyEvent);
+        }
+        else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
+        {
+            giant.ChangeState<GiantBlindState>(nerbyEvent);
         }
     }
 
