@@ -28,6 +28,7 @@ public interface EventListener : WorldEntity
 public interface EventTrigger : WorldEntity
 {
     bool oneShot {get;}
+    bool hasExpired {get;}
     int Priority {get;}
     EventSubject subject {get;}
 }

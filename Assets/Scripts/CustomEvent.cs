@@ -5,16 +5,30 @@ public class CustomEvent : EventTrigger
     private EventSubject eventSubject;
     private int priority;
     private bool oneShotEvent;
+    private float activeTime;
 
-    public CustomEvent(Vector3 worldPos, EventSubject eventSubject, int priority, bool oneShotEvent = false)
+    private float creationTime;
+
+    public CustomEvent(Vector3 worldPos, EventSubject eventSubject, int priority, float activeTime = Mathf.Infinity, bool oneShotEvent = false)
     {
         this.WorlPos = worldPos;
         this.eventSubject = eventSubject;
         this.priority = priority;
         this.oneShotEvent = oneShotEvent;
+        this.activeTime = activeTime;
+
+        creationTime = Time.timeSinceLevelLoad;
     }
 
     #region EventTrigger implementation
+    public bool hasExpired
+    {
+        get 
+        {
+            return Time.timeSinceLevelLoad - creationTime > activeTime;
+        }
+    }
+
     public bool oneShot
     {
         get 

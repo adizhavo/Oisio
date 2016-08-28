@@ -115,6 +115,14 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
         }
     }
 
+    public bool hasExpired
+    {
+        get 
+        {
+            return false;
+        }
+    }
+
     public int Priority
     {
         get
