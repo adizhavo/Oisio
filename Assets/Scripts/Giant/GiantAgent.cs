@@ -78,14 +78,14 @@ public class GiantAgent : MonoBehaviour, EventListener
         DrawGizmo();
     }
 
-    public virtual void ChangeState<T>() where T : GiantActionState
+    public virtual void ChangeState<T>(EventTrigger initialTrigger = null) where T : GiantActionState
     {
         T state = GetActionState<T>();
 
         if (state != null) 
         {
             currentState = state;
-            currentState.Init();
+            currentState.Init(initialTrigger);
         }
         else  Debug.LogWarning("Current state is not mapped, changes will not apply");
     }

@@ -9,12 +9,8 @@ public class GiantRageState : GiantActionState
 
     #region implemented abstract members of GiantActionState
 
-    public override void Init()
+    protected override void Init()
     {
-        #if UNITY_EDITOR
-        Debug.Log("Giant enters into Rage state..");
-        #endif
-
         giant.SetSpeed(SpeedLevel.Rage);
         giant.AlertLevel = GameConfig.maxAlertLevel;
     }

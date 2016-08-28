@@ -7,7 +7,7 @@ public class GiantIdleState : GiantActionState
     public GiantIdleState(GiantAgent giant) : base(giant) { }
 
     #region implemented abstract members of GiantActionState
-    public override void Init()
+    protected override void Init()
     {
         #if UNITY_EDITOR
         Debug.Log("Giant enters into Idle state..");
@@ -38,8 +38,7 @@ public class GiantIdleState : GiantActionState
     {
         if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget) || nerbyEvent.subject.Equals(EventSubject.Attack)) 
         {
-            giant.ChangeState<GiantAlertState>();
-            giant.Notify(nerbyEvent);
+            giant.ChangeState<GiantAlertState>(nerbyEvent);
         }
     }
 

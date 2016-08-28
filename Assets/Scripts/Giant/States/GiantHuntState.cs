@@ -13,7 +13,7 @@ public class GiantHuntState : GiantActionState
     public GiantHuntState(GiantAgent giant) : base(giant) { }
 
     #region implemented abstract members of GiantActionState
-    public override void Init()
+    protected override void Init()
     {
         #if UNITY_EDITOR
         Debug.Log("Giant enters into Hunt state..");
@@ -38,8 +38,7 @@ public class GiantHuntState : GiantActionState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.Attack))
         {
-            giant.ChangeState<GiantRageState>();
-            giant.Notify(nerbyEvent);
+            giant.ChangeState<GiantRageState>(nerbyEvent);
         }
     }
     #endregion

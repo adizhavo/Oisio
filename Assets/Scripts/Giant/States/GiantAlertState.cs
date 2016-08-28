@@ -17,7 +17,7 @@ public class GiantAlertState : GiantActionState
 
     #region implemented abstract members of GiantActionState
 
-    public override void Init()
+    protected override void Init()
     {
         #if UNITY_EDITOR
         Debug.Log("Giant enters into Alert state..");
@@ -44,8 +44,7 @@ public class GiantAlertState : GiantActionState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.Attack))
         {
-            giant.ChangeState<GiantRageState>();
-            giant.Notify(nerbyEvent);
+            giant.ChangeState<GiantRageState>(nerbyEvent);
         }
     }
 

@@ -11,7 +11,7 @@ public class GiantAttackState : GiantActionState
     public GiantAttackState(GiantAgent giant) : base(giant) { }
 
     #region implemented abstract members of GiantActionState
-    public override void Init()
+    protected override void Init()
     {
         #if UNITY_EDITOR
         Debug.Log("Giant enters into Attack state..");
