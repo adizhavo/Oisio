@@ -152,9 +152,14 @@ public class GiantAgent : MonoBehaviour, EventListener
         WorlPos = movePos;
     }
 
-    public virtual void Attack(float attackTime)
+    public virtual void PrepareAttack(float preparationTime)
     {
-        areDamageView.Attack(attackTime);
+        areDamageView.PrepareAttack(preparationTime);
+    }
+
+    public virtual void Attack()
+    {
+        Debug.Log("Giant attacks");
     }
 
     public virtual void RecoverAttack(float recoverTime)
