@@ -127,7 +127,7 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
     {
         get
         {
-            return 10;
+            return GameConfig.characterPriority;
         }
     }
 
