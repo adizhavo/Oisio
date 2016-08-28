@@ -64,7 +64,8 @@ public class GiantAgent : MonoBehaviour, EventListener
                 new GiantAlertState(this),
                 new GiantAttackState(this),
                 new GiantHuntState(this),
-                new GiantRageState(this)
+                new GiantRageState(this), 
+                new GiantBlindState(this)
                 // next state
                 // ...
             };
