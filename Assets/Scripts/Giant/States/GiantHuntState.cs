@@ -20,6 +20,7 @@ public class GiantHuntState : GiantActionState
         #endif
 
         giant.SetSpeed(SpeedLevel.Fast);
+        eventPos = null;
     }
 
     public override void FrameFeed()
@@ -34,6 +35,11 @@ public class GiantHuntState : GiantActionState
         if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
         {
             eventPos = nerbyEvent.WorlPos;
+        }
+        else if (nerbyEvent.subject.Equals(EventSubject.Attack))
+        {
+            giant.ChangeState<GiantRageState>();
+            giant.Notify(nerbyEvent);
         }
     }
     #endregion
@@ -59,7 +65,7 @@ public class GiantHuntState : GiantActionState
         }
     }
 
-    void TrytoAttack()
+    private void TrytoAttack()
     {
         float distance = Vector3.Distance(giant.WorlPos, eventPos.Value);
         if (distance < giant.AttackRange)
@@ -70,7 +76,7 @@ public class GiantHuntState : GiantActionState
 
     protected virtual void Attack()
     {
-        Reset();
+        eventPos = null;
         giant.Stop();
         giant.ChangeState<GiantAttackState>();
     }

@@ -23,6 +23,7 @@ public class GiantAlertState : GiantActionState
         Debug.Log("Giant enters into Alert state..");
         #endif
 
+        eventPos = null;
         IncreaseAlert();
     }
 
@@ -41,10 +42,11 @@ public class GiantAlertState : GiantActionState
             IncreaseAlert();
             eventPos = nerbyEvent.WorlPos;
         }
-//        else if (nerbyEvent.subject.Equals(EventSubject.Attack))
-//        {
-//            RageToEvent(nerbyEvent);
-//        }
+        else if (nerbyEvent.subject.Equals(EventSubject.Attack))
+        {
+            giant.ChangeState<GiantRageState>();
+            giant.Notify(nerbyEvent);
+        }
     }
 
     #endregion
@@ -83,13 +85,6 @@ public class GiantAlertState : GiantActionState
             giant.SetSpeed(SpeedLevel.Medium);
         }
     }
-
-//    private void RageToEvent(EventTrigger nerbyEvent)
-//    {
-//        eventPos = nerbyEvent.WorlPos;
-//        giant.AlertLevel = GameConfig.maxAlertLevel;
-//        giant.SetSpeed(SpeedLevel.Rage);
-//    }
 
     private void ResetState()
     {
