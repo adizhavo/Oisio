@@ -19,7 +19,7 @@ public static class InputConfig
 
     public static bool Aim()
     {
-        return Input.GetKey(KeyCode.Space);
+        return Action();
     }
 
     public static bool Collect()
