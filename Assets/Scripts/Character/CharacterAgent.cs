@@ -56,11 +56,12 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
             {
                 aimer.Aim();
 
-                if (InputConfig.ActionDown())
-                {
-                    aimer.ThrowArrow();
-                    characterInventory.UseItem(arrow);
-                }
+
+            }
+            else if (InputConfig.ActionUp())
+            {
+                aimer.ThrowArrow();
+                characterInventory.UseItem(arrow);
             }
             else
                 aimer.ResetAim();
