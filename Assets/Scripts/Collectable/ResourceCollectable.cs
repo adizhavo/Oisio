@@ -77,15 +77,15 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
 
     protected virtual void Animate()
     {
-        float xScale = 1.1f;
-        float yScale = 1.1f;
+        float xScale = 0.25f;
+        float yScale = 0.25f;
         float animTime = Random.Range(0.7f, 1.3f);
 
         LeanTween.scaleX(gameObject, xScale, animTime);
-        LeanTween.scaleY(gameObject, 1, animTime).setOnComplete(
+        LeanTween.scaleY(gameObject, 0.3f, animTime).setOnComplete(
             ()=>
             {
-                LeanTween.scaleX(gameObject, 1, animTime);
+                LeanTween.scaleX(gameObject, 0.3f, animTime);
                 LeanTween.scaleY(gameObject, yScale, animTime).setOnComplete(Animate);
             }
         );
