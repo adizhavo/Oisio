@@ -52,7 +52,7 @@ public class GiantRageState : GiantActionState
         if (!eventPos.HasValue) return;
 
         float distance = Vector3.Distance(giant.WorlPos, eventPos.Value);
-        if (distance < giant.AttackRange)
+        if (distance < giant.attackRange)
         {
             Attack();
         }

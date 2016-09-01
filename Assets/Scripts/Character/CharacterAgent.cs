@@ -12,10 +12,10 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
     public float collectorRange;
 
     [Header("Standart dependencies")]
-    public Transform aimerPivot;
-    public Transform arrowParent;
     public NavMeshAgent navMeshAgent;
     public Animator characterAnimator;
+    public Transform aimerPivot;
+    public Transform arrowParent;
 
     public Inventory characterInventory;
     public AgentComponent[] components;
