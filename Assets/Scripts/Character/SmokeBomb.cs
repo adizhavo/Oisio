@@ -1,16 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SmokeBomb : MonoBehaviour
+public class SmokeBomb : AgentComponent
 {
-    [SerializeField] private GameObject SmokeBombPrefab;
+    public SmokeBomb(CharacterAgent agent) : base(agent) { }
 
-    public void Fire(Vector3 pos)
+    #region implemented abstract members of AgentComponent
+
+    public override void FrameFeed()
     {
-        GameObject smokeInsr = Instantiate(SmokeBombPrefab) as GameObject;
-        smokeInsr.transform.position = pos;
+        CollectableType smokeItem = CollectableType.Bomb;
 
-        EventTrigger smokeBomb = new CustomEvent(transform.position, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, true);
+        if (InputConfig.SmokeBomb() && agent.characterInventory.HasItem(smokeItem))
+        {
+            agent.characterInventory.UseItem(smokeItem);
+            Fire();
+        }
+    }
+
+    #endregion
+
+    public void Fire()
+    {
+        GameObject smokeInsr = GameObject.Instantiate(agent.smokeBombPrefab) as GameObject;
+        Vector3 deployPosition = agent.transform.position;
+        smokeInsr.transform.position = deployPosition;
+        EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, true);
         EventObserver.subscribedAction.Add(smokeBomb);
     }
 }
