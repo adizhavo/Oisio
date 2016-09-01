@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterAnimation
+public class CharacterAnimation : AgentComponent
 {
     public static readonly string RunKey = "run";
 
-    protected Animator characterAnim;
+    public CharacterAnimation(CharacterAgent agent) : base (agent) { }
 
-    public CharacterAnimation(Animator characterAnim)
+    #region implemented abstract members of AgentComponent
+
+    public override void FrameFeed()
     {
-        this.characterAnim = characterAnim;
+        float runningSpeed = InputConfig.Run() ? GameConfig.maxCharacterSpeed : GameConfig.minCharacterSpeed;
+        SetRun(runningSpeed);
     }
 
-    public virtual void SetRun(float speed)
+    #endregion
+
+    protected virtual void SetRun(float speed)
     {
-        characterAnim.SetFloat(RunKey, speed);
+        agent.characterAnimator.SetFloat(RunKey, speed);
     }
 }

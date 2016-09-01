@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 
-public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
+public class CharacterAgent : MonoBehaviour, EventTrigger
 {
-    public NavMeshAgent agent;
-    public Animator characterAnimator;
-    public AttackAimer aimer;
-    public SmokeBomb smokeLouncher;
+    [Header("Agent Configuration")]
+    public GameObject arrowPrefab;
+    public GameObject smokeBombPrefab;
 
-    protected CharacterAnimation animation;
-    protected CollectorChecker checker;
-    protected Inventory characterInventory;
+    public bool invertAiming;
+    public float sensibility;
+    public float shootForce;
+    public float collectorRange;
+
+    [Header("Standart dependencies")]
+    public Transform aimerPivot;
+    public Transform arrowParent;
+    public NavMeshAgent navMeshAgent;
+    public Animator characterAnimator;
+
+    public Inventory characterInventory;
+    public AgentComponent[] components;
 
     private void Awake()
     {
@@ -18,94 +27,53 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
 
     protected virtual void Start()
     {
-        checker = new CollectorChecker(this);
-        animation = new CharacterAnimation(characterAnimator);
-        InitInventory();
+        components = InitComponents();
+        characterInventory = InitInventory();
     }
 
-    protected virtual void InitInventory()
+    // can be easly changed and configured with a subclass 
+    protected virtual AgentComponent[] InitComponents()
     {
-        Slot arrowSlot = new Slot(CollectableType.Arrow, 100);
-        arrowSlot.SetStockItems(100);
+        return components = new AgentComponent[]
+            {
+                // list all the agent component
+                new AttackAimer(this), 
+                new SmokeBomb(this),
+                new CharacterMovement(this),
+                new CharacterAnimation(this),
+                new ResourceCollector(this)
+            };
+    }
 
-        Slot bombSlot = new Slot(CollectableType.Bomb, 2);
-        bombSlot.SetStockItems(2);
+    protected virtual Inventory InitInventory()
+    {
+        Slot arrowSlot = new Slot(CollectableType.Arrow, GameConfig.arrowInventorySize);
+        arrowSlot.SetStockItems(GameConfig.initialArrows);
 
-        characterInventory = new Inventory();
+        Slot bombSlot = new Slot(CollectableType.Bomb, GameConfig.smokeBombInvertorySize);
+        bombSlot.SetStockItems(GameConfig.initialBombs);
+
+        Inventory characterInventory = new Inventory();
         characterInventory.AddSlot(arrowSlot);
         characterInventory.AddSlot(bombSlot);
+
+        return characterInventory;
     }
 
     public void Update()
     {
-        UpdateAgentSpeed();
-        MoveAgent();
-        Aim();
-        UpdateSmokeLouncher();
-
-        checker.FrameUpdate();
+        FeedComponents();
     }
 
-    private void Aim()
+    private void FeedComponents()
     {
-        CollectableType arrow = CollectableType.Arrow;
+        if (components == null) return;
 
-        if (characterInventory.HasItem(arrow))
+        foreach(AgentComponent cmp in components)
         {
-            if(InputConfig.Aim())
-            {
-                aimer.Aim();
-
-
-            }
-            else if (InputConfig.ActionUp())
-            {
-                aimer.ThrowArrow();
-                characterInventory.UseItem(arrow);
-            }
-            else
-                aimer.ResetAim();
+            cmp.FrameFeed();
         }
     }
-
-    private void UpdateSmokeLouncher()
-    {
-        CollectableType smokeItem = CollectableType.Bomb;
-
-        if (InputConfig.SmokeBomb() && characterInventory.HasItem(smokeItem))
-        {
-            characterInventory.UseItem(smokeItem);
-            smokeLouncher.Fire(transform.position);
-        }
-    }
-
-    private void UpdateAgentSpeed()
-    {
-        float runningSpeed = InputConfig.Run() ? 2f : 1f;
-        agent.speed = runningSpeed;
-        animation.SetRun(runningSpeed);
-    }
-
-    private void MoveAgent()
-    {
-        Vector3 moveDirection = transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
-        agent.SetDestination(moveDirection);
-    }
-
-    #region Collector implementation
-    public void CompleteCollection(CollectableType collectable)
-    {
-        characterInventory.AddItem(collectable);
-    }
-
-    public void Notify(Collectable nerbyCollectable)
-    {
-        if (InputConfig.Collect())
-        {
-            nerbyCollectable.Collect(this);
-        }
-    }
-    #endregion
 
     #region GiantAction implementation
     public bool oneShot
@@ -150,7 +118,7 @@ public class CharacterAgent : MonoBehaviour, Collector, EventTrigger
         }
         set
         {
-            agent.SetDestination(value);
+            navMeshAgent.SetDestination(value);
         }
     }
     #endregion

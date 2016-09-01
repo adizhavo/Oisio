@@ -19,7 +19,7 @@ public abstract class ResourceCollectable : MonoBehaviour, Collectable, Chargabl
 
     public abstract CollectableType type { get; }
 
-    public virtual void Collect(Collector collector)
+    public virtual void Gather(Collector collector)
     {
         if (current.Equals(ChargableState.Charging)) return;
 

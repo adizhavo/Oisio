@@ -10,13 +10,12 @@ public interface WorldEntity
 public interface Collectable : WorldEntity
 {
     CollectableType type {get;}   
-    void Collect(Collector collector);
+    void Gather(Collector collector);
 }
 
-public interface Collector : WorldEntity
+public interface Collector
 {
     void CompleteCollection(CollectableType collectable);
-    void Notify(Collectable nerbyCollectable);
 }
 
 public interface EventListener : WorldEntity

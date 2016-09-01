@@ -1,22 +1,40 @@
 ﻿using UnityEngine;
 
-public class AttackAimer : MonoBehaviour
+public class AttackAimer : AgentComponent
 {
-    public GameObject arrowPrefab;
-    public Transform arrowParent;
-    public bool InvertAiming;
-    public float Sensibility = 1f;
-    public float ShootForce;
-
     private Projectile arrowInstance;
     private EnemyDirectionAim enemy;
 
     private float cursorDeltaX;
 
-    private void Start()
+    public AttackAimer(CharacterAgent agent) : base(agent)
     {
         enemy = new EnemyDirectionAim();
     }
+
+    #region implemented abstract members of AgentComponent
+
+    public override void FrameFeed()
+    {
+        CollectableType arrow = CollectableType.Arrow;
+
+        if (agent.characterInventory.HasItem(arrow))
+        {
+            if(InputConfig.Aim())
+            {
+                Aim();
+            }
+            else if (InputConfig.ActionUp())
+            {
+                ThrowArrow();
+                agent.characterInventory.UseItem(arrow);
+            }
+            else
+                ResetAim();
+        }
+    }
+
+    #endregion
 
     public void Aim()
     {
@@ -28,8 +46,8 @@ public class AttackAimer : MonoBehaviour
     {
         if (!arrowInstance)
         {
-            arrowInstance = (Instantiate(arrowPrefab) as GameObject).GetComponent<Projectile>();
-            arrowInstance.transform.SetParent(arrowParent, false);
+            arrowInstance = (GameObject.Instantiate(agent.arrowPrefab) as GameObject).GetComponent<Projectile>();
+            arrowInstance.transform.SetParent(agent.arrowParent, false);
             arrowInstance.transform.localPosition = Vector3.zero;
         }
 
@@ -38,31 +56,35 @@ public class AttackAimer : MonoBehaviour
 
     private void RotateAimer()
     {
-        cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * Sensibility;
-        Vector3 targetPos = enemy.NearbyEnemyDir(transform.position);
-        transform.rotation = Quaternion.LookRotation(targetPos);
-        transform.rotation = Quaternion.Euler(transform.localEulerAngles.x + cursorDeltaX, transform.localEulerAngles.y, transform.localEulerAngles.z);
+        cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
+        Vector3 targetPos = enemy.NearbyEnemyDir(agent.transform.position);
+        agent.aimerPivot.rotation = Quaternion.LookRotation(targetPos);
+        agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaX, 
+                                                     agent.aimerPivot.localEulerAngles.y, 
+                                                     agent.aimerPivot.localEulerAngles.z);
     }
 
     public void ResetAim()
     {
         if (arrowInstance) arrowInstance.gameObject.SetActive(false);
-        transform.localEulerAngles = Vector3.zero;
+        agent.aimerPivot.localEulerAngles = Vector3.zero;
         cursorDeltaX = 0f;
     }
 
     private int AimingDirection()
     {
-        return InvertAiming ? 1 : -1;
+        return agent.invertAiming ? 1 : -1;
     }
 
     public void ThrowArrow()
     {
         if (!arrowInstance) return;
 
-        EventTrigger attackEvent = new CustomEvent(transform.position, EventSubject.Attack, GameConfig.projectilePriority);
-        Vector3 shootDirection = arrowParent.position - transform.position;
-        arrowInstance.Shoot(attackEvent, shootDirection * ShootForce);
+        EventTrigger attackEvent = new CustomEvent(agent.aimerPivot.position, EventSubject.Attack, GameConfig.projectilePriority);
+
+        // TODO : fix the direction calculation, the base position should be the head of the character, or the end of the arrow, not the agent
+        Vector3 shootDirection = agent.arrowParent.position - agent.aimerPivot.position;
+        arrowInstance.Shoot(attackEvent, shootDirection * agent.shootForce);
 
         arrowInstance.transform.SetParent(null);
         arrowInstance = null;
