@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterMovement : AgentComponent
+public class AgentMovement : AgentComponent
 {
-    public CharacterMovement(CharacterAgent agent) : base (agent) { }
+    public AgentMovement(CharacterAgent agent) : base (agent) { }
 
     #region implemented abstract members of AgentComponent
     public override void FrameFeed()

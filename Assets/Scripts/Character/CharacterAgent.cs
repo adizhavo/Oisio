@@ -37,11 +37,11 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
         return components = new AgentComponent[]
             {
                 // list all the agent component
-                new AttackAimer(this), 
-                new SmokeBomb(this),
-                new CharacterMovement(this),
-                new CharacterAnimation(this),
-                new ResourceCollector(this)
+                new AgentAttack(this), 
+                new AgentSmokeBomb(this),
+                new AgentMovement(this),
+                new AgentAnimation(this),
+                new AgentResourceCollector(this)
             };
     }
 

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class ResourceCollector : AgentComponent, Collector
+public class AgentResourceCollector : AgentComponent, Collector
 {
-    public ResourceCollector(CharacterAgent agent) : base(agent) { }
+    public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
     #region implemented abstract members of AgentComponent
     public override void FrameFeed()
     {
