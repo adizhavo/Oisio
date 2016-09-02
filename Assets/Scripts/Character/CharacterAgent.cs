@@ -10,6 +10,8 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
     public float sensibility;
     public float shootForce;
     public float collectorRange;
+    public float maxStamina;
+    public float staminaRegen;
 
     [Header("Standart dependencies")]
     public NavMeshAgent navMeshAgent;
@@ -23,9 +25,10 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
     private void Awake()
     {
         EventObserver.subscribedAction.Add(this);
+        Init();
     }
 
-    protected virtual void Start()
+    protected virtual void Init()
     {
         components = InitComponents();
         characterInventory = InitInventory();
@@ -39,6 +42,7 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
                 // list all the agent component
                 new AgentAttack(this), 
                 new AgentSmokeBomb(this),
+                new AgentStamina(this),
                 new AgentMovement(this),
                 new AgentAnimation(this),
                 new AgentResourceCollector(this)
@@ -60,7 +64,18 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
         return characterInventory;
     }
 
-    public void Update()
+    public T RequestComponent<T>() where T : AgentComponent
+    {
+        foreach(AgentComponent cmp in components)
+        {
+            if (cmp is T) return (T)cmp;
+        }
+
+        Debug.LogError("Agent does not have the requested component, this will return null.");
+        return null;
+    }
+
+    protected virtual void Update()
     {
         FeedComponents();
     }
