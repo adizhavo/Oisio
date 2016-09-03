@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GiantAgent : MonoBehaviour, EventListener
+public class GiantAgent : Agent, EventListener
 {
     [Header("Agent Configuration")]
     public GiantSpeed[] availableMovements;
@@ -11,7 +11,6 @@ public class GiantAgent : MonoBehaviour, EventListener
     public float visibilityRadius;
 
     [Header("Standart dependencies")]
-    public NavMeshAgent agent;
     public AttackView areDamageView;
 
     public MapBlockHolder resourcesBlock;
@@ -28,22 +27,28 @@ public class GiantAgent : MonoBehaviour, EventListener
         }
     }
 
-    public GiantActionState currentState;
-    // all available states will be inserted in this array
-    public GiantActionState[] registeredState;
+    #region Agent implementation
 
-    protected virtual void Start ()
+    protected override void Init ()
     {   
-        resourcesBlock = new MapBlockHolder();
+        base.Init();
 
-        InitStates();
         ChangeState<GiantIdleState>();
+        resourcesBlock = new MapBlockHolder();
 	}
 
-    protected virtual void InitStates()
+    protected override List<AgentComponent> InitComponents()
+    {
+        return new List<AgentComponent>
+        {
+            new NullComponent()
+        };
+    }
+
+    protected override AgentState[] InitStates()
     {
         // all available states will be inserted in this array
-        registeredState = new GiantActionState[]
+        return new GiantActionState[]
             {
                 new GiantIdleState(this),
                 new GiantAlertState(this),
@@ -56,35 +61,15 @@ public class GiantAgent : MonoBehaviour, EventListener
             };
     }
 
-    private void Update()
+    protected override void Update()
     {
-        currentState.FrameFeed();
-        EventObserver.CheckforEvent(this);
+        base.Update();
 
+        EventObserver.CheckforEvent(this);
         DrawGizmo();
     }
 
-    public virtual void ChangeState<T>(EventTrigger initialTrigger = null) where T : GiantActionState
-    {
-        T state = GetActionState<T>();
-
-        if (state != null) 
-        {
-            currentState = state;
-            currentState.Init(initialTrigger);
-        }
-        else  Debug.LogWarning("Current state is not mapped, changes will not apply");
-    }
-
-    protected virtual T GetActionState<T>() where T : GiantActionState
-    {
-        foreach(GiantActionState state in registeredState)
-        {
-            if (state is T) return (T)state;
-        }
-
-        return null;
-    }
+    #endregion
 
     #region EventListener implementation
 
@@ -113,7 +98,7 @@ public class GiantAgent : MonoBehaviour, EventListener
         {
             if (sp.type.Equals(level))
             {
-                agent.speed = sp.speed;
+                navMeshAgent.speed = sp.speed;
                 return;
             }
         }
@@ -167,20 +152,4 @@ public class GiantAgent : MonoBehaviour, EventListener
 
         #endif
     }
-
-    #region WorldEntity implementation
-
-    public Vector3 WorlPos
-    {
-        get
-        {
-            return transform.position;
-        }
-        set
-        {
-            agent.SetDestination(value);
-        }
-    }
-
-    #endregion
 }

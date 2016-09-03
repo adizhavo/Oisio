@@ -45,7 +45,7 @@ public class GiantBlindState : GiantActionState
     
     private void Escape(EventTrigger nerbyEvent)
     {
-        Vector3 bombDirection = (giant.agent.pathEndPosition - giant.WorlPos).normalized;
+        Vector3 bombDirection = (giant.navMeshAgent.pathEndPosition - giant.WorlPos).normalized;
         bombDirection.y = 0;
 
         eventPos = nerbyEvent.WorlPos + bombDirection * GameConfig.giantEscapeDistance;
