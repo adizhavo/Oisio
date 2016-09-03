@@ -18,12 +18,12 @@ public class GiantAttackState : GiantActionState
         #endif
 
         attackEventPercentage = Mathf.Clamp01(attackEventPercentage);
-        giant.PrepareAttack(giant.AttackTime * attackEventPercentage);
+        giant.PrepareAttack(giant.attackTime * attackEventPercentage);
     }
 
     public override void FrameFeed()
     {
-        timeElapse += Time.deltaTime / giant.AttackTime;
+        timeElapse += Time.deltaTime / giant.attackTime;
         CheckState();
 
         if (stopFrameFeed) return;
@@ -56,7 +56,7 @@ public class GiantAttackState : GiantActionState
             giant.Attack();
 
             float percentage = 1f - attackEventPercentage;
-            giant.RecoverAttack(giant.AttackTime * percentage);
+            giant.RecoverAttack(giant.attackTime * percentage);
         }
     }
 }

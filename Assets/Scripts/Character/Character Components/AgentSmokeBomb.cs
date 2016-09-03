@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SmokeBomb : AgentComponent
+public class AgentSmokeBomb : AgentComponent
 {
-    public SmokeBomb(CharacterAgent agent) : base(agent) { }
+    public AgentSmokeBomb(CharacterAgent agent) : base(agent) { }
 
     #region implemented abstract members of AgentComponent
 

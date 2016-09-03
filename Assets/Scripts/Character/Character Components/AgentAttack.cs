@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class AttackAimer : AgentComponent
+public class AgentAttack : AgentComponent
 {
     private Projectile arrowInstance;
     private EnemyDirectionAim enemy;
 
     private float cursorDeltaX;
 
-    public AttackAimer(CharacterAgent agent) : base(agent)
+    public AgentAttack(CharacterAgent agent) : base(agent)
     {
         enemy = new EnemyDirectionAim();
     }

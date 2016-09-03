@@ -3,33 +3,18 @@ using System.Collections.Generic;
 
 public class GiantAgent : MonoBehaviour, EventListener
 {
-    #region WorldEntity implementation
-
-    public Vector3 WorlPos
-    {
-        get
-        {
-            return transform.position;
-        }
-        set
-        {
-            agent.SetDestination(value);
-        }
-    }
-
-    #endregion
-
-    public NavMeshAgent agent;
+    [Header("Agent Configuration")]
     public GiantSpeed[] availableMovements;
+    public float alertReactionSpeed;
+    public float attackRange;
+    public float attackTime;
+    public float visibilityRadius;
 
+    [Header("Standart dependencies")]
+    public NavMeshAgent agent;
     public AttackView areDamageView;
 
     public MapBlockHolder resourcesBlock;
-    public float visibilityRadius;
-    [Range(0f, 0.5f)] public float alertReactionSpeed;
-    public float AttackRange;
-    public float AttackTime;
-
     private float alertLevel;
     public float AlertLevel
     {
@@ -177,9 +162,25 @@ public class GiantAgent : MonoBehaviour, EventListener
     {
         #if UNITY_EDITOR
 
-        Debug.DrawLine(transform.position, transform.position + transform.right.normalized * AttackRange, Color.red);
+        Debug.DrawLine(transform.position, transform.position + transform.right.normalized * attackRange, Color.red);
         Debug.DrawLine(transform.position + transform.forward/5, transform.position + transform.forward/5 + transform.right.normalized * VisibilityRadius, Color.blue);
 
         #endif
     }
+
+    #region WorldEntity implementation
+
+    public Vector3 WorlPos
+    {
+        get
+        {
+            return transform.position;
+        }
+        set
+        {
+            agent.SetDestination(value);
+        }
+    }
+
+    #endregion
 }

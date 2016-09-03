@@ -2,6 +2,8 @@
 {
     public const float minCharacterSpeed = 1;
     public const float maxCharacterSpeed = 2;
+    public const float staminaCost = 1f;
+
     public const int arrowInventorySize = 10;
     public const int smokeBombInvertorySize = 2;
     public const int initialArrows = 10;
