@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentResourceCollector : AgentComponent, Collector
+public class AgentResourceCollector : CharacterComponent, Collector
 {
     public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
     #region implemented abstract members of AgentComponent

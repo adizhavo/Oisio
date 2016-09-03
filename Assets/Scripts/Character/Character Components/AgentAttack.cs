@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentAttack : AgentComponent
+public class AgentAttack : CharacterComponent
 {
     private Projectile arrowInstance;
     private EnemyDirectionAim enemy;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentAnimation : AgentComponent
+public class AgentAnimation : CharacterComponent
 {
     public static readonly string RunKey = "run";
 
