@@ -37,6 +37,18 @@ public interface Chargable
     ChargableState current {get;}   
 }
 
+public interface AgentComponent
+{
+    void FrameFeed();
+}
+
+public interface AgentState
+{
+    void Init(EventTrigger initialTrigger);
+    void FrameFeed();
+    void Notify(EventTrigger nerbyEvent);
+}
+
 #endregion
 
 #region Game enums
