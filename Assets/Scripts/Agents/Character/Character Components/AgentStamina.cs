@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentStamina : AgentComponent
+public class AgentStamina : CharacterComponent
 {
     public float stamina
     {

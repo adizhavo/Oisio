@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentMovement : AgentComponent
+public class AgentMovement : CharacterComponent
 {
     private AgentStamina staminaComponent;
 

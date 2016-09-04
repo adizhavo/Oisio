@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentSmokeBomb : AgentComponent
+public class AgentSmokeBomb : CharacterComponent
 {
     public AgentSmokeBomb(CharacterAgent agent) : base(agent) { }
 

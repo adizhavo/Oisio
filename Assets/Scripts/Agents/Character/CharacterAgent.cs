@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-public class CharacterAgent : MonoBehaviour, EventTrigger
+public class CharacterAgent : Agent, EventTrigger
 {
     [Header("Agent Configuration")]
     public GameObject arrowPrefab;
@@ -14,30 +15,27 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
     public float staminaRegen;
 
     [Header("Standart dependencies")]
-    public NavMeshAgent navMeshAgent;
     public Animator characterAnimator;
     public Transform aimerPivot;
     public Transform arrowParent;
 
     public Inventory characterInventory;
-    public AgentComponent[] components;
 
-    private void Awake()
-    {
-        EventObserver.subscribedAction.Add(this);
-        Init();
-    }
+    #region Agent implementation
 
-    protected virtual void Init()
+    protected override void Init()
     {
-        components = InitComponents();
+        base.Init();
+
+        ChangeState<NullAgentState>();
         characterInventory = InitInventory();
+        EventObserver.subscribedAction.Add(this);
     }
 
     // can be easly changed and configured with a subclass 
-    protected virtual AgentComponent[] InitComponents()
+    protected override List<AgentComponent> InitComponents()
     {
-        return components = new AgentComponent[]
+        return new List<AgentComponent>
             {
                 // list all the agent component
                 new AgentAttack(this), 
@@ -48,6 +46,16 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
                 new AgentResourceCollector(this)
             };
     }
+
+    protected override AgentState[] InitStates()
+    {
+        return new AgentState[]
+        {
+            new NullAgentState()
+        };
+    }
+
+    #endregion
 
     protected virtual Inventory InitInventory()
     {
@@ -62,32 +70,6 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
         characterInventory.AddSlot(bombSlot);
 
         return characterInventory;
-    }
-
-    public T RequestComponent<T>() where T : AgentComponent
-    {
-        foreach(AgentComponent cmp in components)
-        {
-            if (cmp is T) return (T)cmp;
-        }
-
-        Debug.LogError("Agent does not have the requested component, this will return null.");
-        return null;
-    }
-
-    protected virtual void Update()
-    {
-        FeedComponents();
-    }
-
-    private void FeedComponents()
-    {
-        if (components == null) return;
-
-        foreach(AgentComponent cmp in components)
-        {
-            cmp.FrameFeed();
-        }
     }
 
     #region GiantAction implementation
@@ -120,20 +102,6 @@ public class CharacterAgent : MonoBehaviour, EventTrigger
         get
         {
             return EventSubject.NerbyTarget;
-        }
-    }
-    #endregion
-
-    #region WorldEntity implementation
-    public Vector3 WorlPos
-    {
-        get
-        {
-            return transform.position;
-        }
-        set
-        {
-            navMeshAgent.SetDestination(value);
         }
     }
     #endregion

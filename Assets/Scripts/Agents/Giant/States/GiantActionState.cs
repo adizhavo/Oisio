@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class GiantActionState
+public abstract class GiantActionState : AgentState
 {
     protected GiantAgent giant;
 
@@ -16,6 +16,11 @@ public abstract class GiantActionState
     }
 
     protected abstract void Init();
+
+    #region AgentState implementation
+
     public abstract void FrameFeed();
     public abstract void Notify(EventTrigger nerbyEvent);
+
+    #endregion
 }
