@@ -11,7 +11,7 @@ public class GiantAgent : Agent, EventListener
     public float visibilityRadius;
 
     [Header("Standart dependencies")]
-    public AttackView areDamageView;
+    public AttackView areaDamageView;
 
     public MapBlockHolder resourcesBlock;
     private float alertLevel;
@@ -65,7 +65,7 @@ public class GiantAgent : Agent, EventListener
     {
         base.Update();
 
-        EventObserver.CheckforEvent(this);
+        EventObserver.SearchVisibleEvent(this);
         DrawGizmo();
     }
 
@@ -125,7 +125,7 @@ public class GiantAgent : Agent, EventListener
 
     public virtual void PrepareAttack(float preparationTime)
     {
-        areDamageView.PrepareAttack(preparationTime);
+        areaDamageView.PrepareAttack(preparationTime);
     }
 
     public virtual void Attack()
@@ -135,7 +135,7 @@ public class GiantAgent : Agent, EventListener
 
     public virtual void RecoverAttack(float recoverTime)
     {
-        areDamageView.Recover(recoverTime);
+        areaDamageView.Recover(recoverTime);
     }
 
     public void Stop()

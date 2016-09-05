@@ -9,7 +9,7 @@ public class AgentSmokeBomb : CharacterComponent
 
     public override void FrameFeed()
     {
-        CollectableType smokeItem = CollectableType.Bomb;
+        ConsumableType smokeItem = ConsumableType.Bomb;
 
         if (InputConfig.SmokeBomb() && agent.characterInventory.HasItem(smokeItem))
         {
@@ -26,6 +26,6 @@ public class AgentSmokeBomb : CharacterComponent
         Vector3 deployPosition = agent.transform.position;
         smokeInsr.transform.position = deployPosition;
         EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, true);
-        EventObserver.subscribedAction.Add(smokeBomb);
+        EventObserver.Subscribe(smokeBomb);
     }
 }

@@ -16,7 +16,7 @@ public class AgentAttack : CharacterComponent
 
     public override void FrameFeed()
     {
-        CollectableType arrow = CollectableType.Arrow;
+        ConsumableType arrow = ConsumableType.Arrow;
 
         if (agent.characterInventory.HasItem(arrow))
         {

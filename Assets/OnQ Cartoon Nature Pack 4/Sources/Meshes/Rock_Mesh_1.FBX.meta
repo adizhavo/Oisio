@@ -3,7 +3,12 @@ guid: 851025b87873f6c4b85f8b21f1ec27f7
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: Cartoon_Rock_1
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0

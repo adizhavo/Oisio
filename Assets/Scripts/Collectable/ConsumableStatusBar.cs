@@ -1,34 +1,36 @@
 ﻿using UnityEngine;
 
-public class CollectableStatusBar : MonoBehaviour 
+public class ConsumableStatusBar : MonoBehaviour 
 {
+    public ConsumableAgent consumable;
+
     public Transform BarPivot;
     public SpriteRenderer ColorSprite;
-
-    private float maxBar;
     public BarColor[] barColors;
 
     [System.Serializable]
     public struct BarColor
     {
-        public ChargableState state;
+        public ConsumableAgent.ChargeState state;
         public Color color;
     }
 
-    public void Init(float maxBar)
+    private void Update()
     {
-        this.maxBar = maxBar;
+        if (consumable == null) return;
+
+        SetBarView(consumable.percentage, consumable.ConsumableState);
     }
 
-    public void SetBarView(float barPercentage, ChargableState collectableState)
+    private void SetBarView(float barPercentage, ConsumableAgent.ChargeState collectableState)
     {
-        Vector3 calcScale = new Vector3(BarPivot.localScale.x, barPercentage * maxBar, BarPivot.localScale.z);
+        Vector3 calcScale = new Vector3(BarPivot.localScale.x, barPercentage, BarPivot.localScale.z);
         BarPivot.localScale = calcScale;
 
         SetBarColor(collectableState);
     }
 
-    private void SetBarColor(ChargableState collectableState)
+    private void SetBarColor(ConsumableAgent.ChargeState collectableState)
     {
         foreach(BarColor barSpec in barColors)
         {

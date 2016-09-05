@@ -8,6 +8,7 @@ public class CustomEvent : EventTrigger
     private float activeTime;
 
     private float creationTime;
+    private bool expired = false;
 
     public CustomEvent(Vector3 worldPos, EventSubject eventSubject, int priority, float activeTime = Mathf.Infinity, bool oneShotEvent = false)
     {
@@ -25,7 +26,13 @@ public class CustomEvent : EventTrigger
     {
         get 
         {
-            return Time.timeSinceLevelLoad - creationTime > activeTime;
+            if (oneShot && !expired)
+            {
+                expired = Time.timeSinceLevelLoad - creationTime > activeTime;
+                if (expired) EventObserver.Unsubcribe(this);
+            }
+
+            return expired;
         }
     }
 

@@ -7,15 +7,9 @@ public interface WorldEntity
     Vector3 WorlPos {set; get;}
 }
 
-public interface Collectable : WorldEntity
+public interface Consumer
 {
-    CollectableType type {get;}   
-    void Gather(Collector collector);
-}
-
-public interface Collector
-{
-    void CompleteCollection(CollectableType collectable);
+    void Collected(ConsumableType collectable);
 }
 
 public interface EventListener : WorldEntity
@@ -30,11 +24,6 @@ public interface EventTrigger : WorldEntity
     bool hasExpired {get;}
     int Priority {get;}
     EventSubject subject {get;}
-}
-
-public interface Chargable
-{
-    ChargableState current {get;}   
 }
 
 public interface AgentComponent
@@ -60,13 +49,7 @@ public enum EventSubject
     SmokeBomb
 }
 
-public enum ChargableState
-{
-    Charged,
-    Charging
-}
-
-public enum CollectableType
+public enum ConsumableType
 {
     Arrow,
     Bomb

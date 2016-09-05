@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 
-public class AgentResourceCollector : CharacterComponent, Collector
+public class AgentResourceCollector : CharacterComponent, Consumer
 {
     public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
-    #region implemented abstract members of AgentComponent
+
+    #region implemented abstract members of CharacterComponent
     public override void FrameFeed()
     {
         if (InputConfig.Collect())
         {
-            ResourceCollectable[] resources = Resources.FindObjectsOfTypeAll<ResourceCollectable>();
+            ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
 
-            foreach(ResourceCollectable ctb in resources)
+            foreach(ConsumableAgent ctb in resources)
             {
                 float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
                 if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
                 {
-                    ctb.Gather(this);
+                    ctb.Collect(this);
                     return;
                 }
             }
@@ -23,9 +24,9 @@ public class AgentResourceCollector : CharacterComponent, Collector
     }
     #endregion
 
-    #region Collector implementation
+    #region Consumer implementation
 
-    public void CompleteCollection(CollectableType collectable)
+    public void Collected(ConsumableType collectable)
     {
         agent.characterInventory.AddItem(collectable);
     }
