@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public abstract class ConsumableAgent : Agent
 {
-    public abstract ConsumableType type { get; }
+    public abstract ConsumableType Type { get; }
 
     public enum ChargableState
     {
@@ -11,7 +11,7 @@ public abstract class ConsumableAgent : Agent
         Charging
     }
 
-    public ChargableState current
+    public ChargableState ConsumableState
     {
         set; get;
     }

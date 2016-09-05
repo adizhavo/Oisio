@@ -1,7 +1,7 @@
 ﻿public class ArrowResource : ConsumableAgent
 {
     #region implemented abstract members of ConsumableAgent
-    public override ConsumableType type
+    public override ConsumableType Type
     {
         get
         {

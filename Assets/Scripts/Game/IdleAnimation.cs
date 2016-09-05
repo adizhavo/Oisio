@@ -2,7 +2,7 @@
 
 public class IdleAnimation : MonoBehaviour 
 {
-	void Start () 
+	private void Start () 
     {
         Animate();
     }
