@@ -65,7 +65,7 @@ public class GiantAgent : Agent, EventListener
     {
         base.Update();
 
-        EventObserver.CheckforEvent(this);
+        EventObserver.SearchVisibleEvent(this);
         DrawGizmo();
     }
 

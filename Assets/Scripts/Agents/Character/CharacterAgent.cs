@@ -29,7 +29,12 @@ public class CharacterAgent : Agent, EventTrigger
 
         ChangeState<NullAgentState>();
         characterInventory = InitInventory();
-        EventObserver.subscribedAction.Add(this);
+        EventObserver.Subscribe(this);
+    }
+
+    private void OnDestroy()
+    {
+        EventObserver.Unsubcribe(this);
     }
 
     // can be easly changed and configured with a subclass 

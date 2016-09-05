@@ -3,12 +3,21 @@ using System.Collections.Generic;
 
 public static class EventObserver 
 {
-    public static List<EventTrigger> subscribedAction = new List<EventTrigger>();
+    private static List<EventTrigger> subscribedAction = new List<EventTrigger>();
 
-    public static void CheckforEvent(EventListener listener)
+    public static void Subscribe(EventTrigger subject)
     {
-        RemoveExpired();
+        subscribedAction.Add(subject);
+    }
 
+    public static void Unsubcribe(EventTrigger subject)
+    {
+        if (subscribedAction.Contains(subject))
+            subscribedAction.Remove(subject);
+    }
+
+    public static void SearchVisibleEvent(EventListener listener)
+    {
         EventTrigger highpriorityAction = null;
         float minDistance = Mathf.Infinity;
 
@@ -31,19 +40,6 @@ public static class EventObserver
 
             if (highpriorityAction.oneShot)
                 subscribedAction.Remove(highpriorityAction);
-        }
-    }
-
-    private static void RemoveExpired()
-    {
-        for(int i = 0; i < subscribedAction.Count; i ++)
-        {
-            if (subscribedAction[i].hasExpired)
-            {
-                subscribedAction.Remove(subscribedAction[i]);
-                i --;
-                continue;
-            }
         }
     }
 }
