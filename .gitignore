@@ -35,6 +35,11 @@ obj/
 *.unityproj
 *.booproj
 
+# ============= #
+# Vim generated #
+# ============= #
+*.swp
+
 # ============ #
 # OS generated #
 # ============ #
