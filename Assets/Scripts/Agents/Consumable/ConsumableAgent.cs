@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 public abstract class ConsumableAgent : Agent
 {
-    public abstract ConsumableType Type { get; }
+    public abstract ConsumableType Item { get; }
 
-    public enum ChargableState
+    public enum ChargeState
     {
         Charged,
         Charging
     }
 
-    public ChargableState ConsumableState
+    public ChargeState ConsumableState
     {
         set; get;
     }
@@ -53,9 +53,9 @@ public abstract class ConsumableAgent : Agent
 
     [HideInInspector] public float percentage = 1f;
 
-    public virtual void Consume(Consumer collector)
+    public virtual void Collect(Consumer cons)
     {
         Chargable c = RequestComponent<Chargable>();
-        if (c != null) c.Consume(collector);
+        if (c != null) c.Consume(cons);
     }
 }

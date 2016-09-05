@@ -3,7 +3,8 @@
 public class AgentResourceCollector : CharacterComponent, Consumer
 {
     public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
-    #region implemented abstract members of AgentComponent
+
+    #region implemented abstract members of CharacterComponent
     public override void FrameFeed()
     {
         if (InputConfig.Collect())
@@ -15,7 +16,7 @@ public class AgentResourceCollector : CharacterComponent, Consumer
                 float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
                 if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
                 {
-                    ctb.Consume(this);
+                    ctb.Collect(this);
                     return;
                 }
             }
@@ -23,9 +24,9 @@ public class AgentResourceCollector : CharacterComponent, Consumer
     }
     #endregion
 
-    #region Collector implementation
+    #region Consumer implementation
 
-    public void CompleteCollection(ConsumableType collectable)
+    public void Collected(ConsumableType collectable)
     {
         agent.characterInventory.AddItem(collectable);
     }

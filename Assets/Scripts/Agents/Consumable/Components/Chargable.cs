@@ -20,14 +20,14 @@ public class Chargable : AgentComponent
 
     private void UpdateState()
     {
-        if (agent.percentage < minCollectPercentage && agent.ConsumableState.Equals(ConsumableAgent.ChargableState.Charged))
+        if (agent.percentage < minCollectPercentage && agent.ConsumableState.Equals(ConsumableAgent.ChargeState.Charged))
         {
-            agent.ConsumableState = ConsumableAgent.ChargableState.Charging;
+            agent.ConsumableState = ConsumableAgent.ChargeState.Charging;
         }
         else
         {
             agent.percentage += Time.deltaTime/agent.reloadTime;
-            if (agent.percentage > 1) agent.ConsumableState = ConsumableAgent.ChargableState.Charged;
+            if (agent.percentage > 1) agent.ConsumableState = ConsumableAgent.ChargeState.Charged;
         }
 
         agent.percentage = Mathf.Clamp01(agent.percentage);
@@ -35,10 +35,10 @@ public class Chargable : AgentComponent
 
     public void Consume(Consumer consumer)
     {
-        if (agent.ConsumableState.Equals(ConsumableAgent.ChargableState.Charging)) return;
+        if (agent.ConsumableState.Equals(ConsumableAgent.ChargeState.Charging)) return;
 
         agent.percentage -= Time.deltaTime/agent.collectionTime;
 
-        if (agent.percentage < minCollectPercentage) consumer.CompleteCollection(agent.Type);
+        if (agent.percentage < minCollectPercentage) consumer.Collected(agent.Item);
     }
 }

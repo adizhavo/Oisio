@@ -9,7 +9,7 @@ public interface WorldEntity
 
 public interface Consumer
 {
-    void CompleteCollection(ConsumableType collectable);
+    void Collected(ConsumableType collectable);
 }
 
 public interface EventListener : WorldEntity

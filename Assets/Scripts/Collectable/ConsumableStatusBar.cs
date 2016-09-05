@@ -11,7 +11,7 @@ public class ConsumableStatusBar : MonoBehaviour
     [System.Serializable]
     public struct BarColor
     {
-        public ConsumableAgent.ChargableState state;
+        public ConsumableAgent.ChargeState state;
         public Color color;
     }
 
@@ -22,7 +22,7 @@ public class ConsumableStatusBar : MonoBehaviour
         SetBarView(consumable.percentage, consumable.ConsumableState);
     }
 
-    private void SetBarView(float barPercentage, ConsumableAgent.ChargableState collectableState)
+    private void SetBarView(float barPercentage, ConsumableAgent.ChargeState collectableState)
     {
         Vector3 calcScale = new Vector3(BarPivot.localScale.x, barPercentage, BarPivot.localScale.z);
         BarPivot.localScale = calcScale;
@@ -30,7 +30,7 @@ public class ConsumableStatusBar : MonoBehaviour
         SetBarColor(collectableState);
     }
 
-    private void SetBarColor(ConsumableAgent.ChargableState collectableState)
+    private void SetBarColor(ConsumableAgent.ChargeState collectableState)
     {
         foreach(BarColor barSpec in barColors)
         {
