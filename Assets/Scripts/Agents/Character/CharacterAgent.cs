@@ -64,10 +64,10 @@ public class CharacterAgent : Agent, EventTrigger
 
     protected virtual Inventory InitInventory()
     {
-        Slot arrowSlot = new Slot(CollectableType.Arrow, GameConfig.arrowInventorySize);
+        Slot arrowSlot = new Slot(ConsumableType.Arrow, GameConfig.arrowInventorySize);
         arrowSlot.SetStockItems(GameConfig.initialArrows);
 
-        Slot bombSlot = new Slot(CollectableType.Bomb, GameConfig.smokeBombInvertorySize);
+        Slot bombSlot = new Slot(ConsumableType.Bomb, GameConfig.smokeBombInvertorySize);
         bombSlot.SetStockItems(GameConfig.initialBombs);
 
         Inventory characterInventory = new Inventory();

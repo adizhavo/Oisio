@@ -1,11 +1,11 @@
-﻿public class BombResource : ResourceCollectable
+﻿public class BombResource : ConsumableAgent
 {
-    #region implemented abstract members of ResourceCollectable
-    public override CollectableType type
+    #region implemented abstract members of ConsumableAgent
+    public override ConsumableType type
     {
         get
         {
-            return CollectableType.Bomb;
+            return ConsumableType.Bomb;
         }
     }
     #endregion

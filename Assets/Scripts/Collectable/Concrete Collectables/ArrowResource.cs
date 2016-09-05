@@ -1,11 +1,11 @@
-﻿public class ArrowResource : ResourceCollectable
+﻿public class ArrowResource : ConsumableAgent
 {
-    #region implemented abstract members of ResourceCollectable
-    public override CollectableType type
+    #region implemented abstract members of ConsumableAgent
+    public override ConsumableType type
     {
         get
         {
-            return CollectableType.Arrow;
+            return ConsumableType.Arrow;
         }
     }
     #endregion

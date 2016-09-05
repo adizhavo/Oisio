@@ -9,7 +9,7 @@ public class AgentSmokeBomb : CharacterComponent
 
     public override void FrameFeed()
     {
-        CollectableType smokeItem = CollectableType.Bomb;
+        ConsumableType smokeItem = ConsumableType.Bomb;
 
         if (InputConfig.SmokeBomb() && agent.characterInventory.HasItem(smokeItem))
         {

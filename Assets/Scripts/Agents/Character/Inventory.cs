@@ -10,7 +10,7 @@ public class Inventory
         inventorySlots.Add(itemSlot);
     }
 
-    public bool HasItem(CollectableType requestedType)
+    public bool HasItem(ConsumableType requestedType)
     {
         foreach(Slot s in inventorySlots)
         {
@@ -21,7 +21,7 @@ public class Inventory
         return false;
     }
 
-    public void AddItem(CollectableType requestedType)
+    public void AddItem(ConsumableType requestedType)
     {
         foreach(Slot s in inventorySlots)
         {
@@ -33,7 +33,7 @@ public class Inventory
         }
     }
 
-    public void UseItem(CollectableType requestedType)
+    public void UseItem(ConsumableType requestedType)
     {
         foreach(Slot s in inventorySlots)
         {
@@ -48,12 +48,12 @@ public class Inventory
 
 public class Slot
 {
-    public CollectableType slotType;
+    public ConsumableType slotType;
     public int maxSize;
 
     private int stockItem;
 
-    public Slot(CollectableType slotType, int maxSize)
+    public Slot(ConsumableType slotType, int maxSize)
     {
         this.slotType = slotType;
         this.maxSize = maxSize;

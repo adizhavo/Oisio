@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentResourceCollector : CharacterComponent, Collector
+public class AgentResourceCollector : CharacterComponent, Consumer
 {
     public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
     #region implemented abstract members of AgentComponent
@@ -8,14 +8,14 @@ public class AgentResourceCollector : CharacterComponent, Collector
     {
         if (InputConfig.Collect())
         {
-            ResourceCollectable[] resources = Resources.FindObjectsOfTypeAll<ResourceCollectable>();
+            ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
 
-            foreach(ResourceCollectable ctb in resources)
+            foreach(ConsumableAgent ctb in resources)
             {
                 float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
                 if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
                 {
-                    ctb.Gather(this);
+                    ctb.Consume(this);
                     return;
                 }
             }
@@ -25,7 +25,7 @@ public class AgentResourceCollector : CharacterComponent, Collector
 
     #region Collector implementation
 
-    public void CompleteCollection(CollectableType collectable)
+    public void CompleteCollection(ConsumableType collectable)
     {
         agent.characterInventory.AddItem(collectable);
     }
