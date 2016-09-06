@@ -7,6 +7,8 @@ public class AgentAttack : CharacterComponent
 
     private float cursorDeltaX;
 
+    private Inventory characterInventory;
+
     public AgentAttack(CharacterAgent agent) : base(agent)
     {
         enemy = new EnemyDirectionAim();
@@ -16,9 +18,15 @@ public class AgentAttack : CharacterComponent
 
     public override void FrameFeed()
     {
+        if (characterInventory == null)
+        {
+            characterInventory = agent.RequestComponent<Inventory>();
+            return;
+        }
+
         ConsumableType arrow = ConsumableType.Arrow;
 
-        if (agent.characterInventory.HasItem(arrow))
+        if (characterInventory.HasItem(arrow))
         {
             if(InputConfig.Aim())
             {
@@ -27,7 +35,7 @@ public class AgentAttack : CharacterComponent
             else if (InputConfig.ActionUp())
             {
                 ThrowArrow();
-                agent.characterInventory.UseItem(arrow);
+                characterInventory.UseItem(arrow);
             }
             else
                 ResetAim();

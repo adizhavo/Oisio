@@ -19,16 +19,14 @@ public class CharacterAgent : Agent, EventTrigger
     public Transform aimerPivot;
     public Transform arrowParent;
 
-    public Inventory characterInventory;
-
     #region Agent implementation
 
     protected override void Init()
     {
         base.Init();
 
+        InitInventory();
         ChangeState<NullAgentState>();
-        characterInventory = InitInventory();
         EventObserver.Subscribe(this);
     }
 
@@ -43,6 +41,7 @@ public class CharacterAgent : Agent, EventTrigger
         return new List<AgentComponent>
             {
                 // list all the agent component
+                new Inventory(this),
                 new AgentAttack(this), 
                 new AgentSmokeBomb(this),
                 new AgentStamina(this),
@@ -62,19 +61,17 @@ public class CharacterAgent : Agent, EventTrigger
 
     #endregion
 
-    protected virtual Inventory InitInventory()
+    protected virtual void InitInventory()
     {
         Slot arrowSlot = new Slot(ConsumableType.Arrow, GameConfig.arrowInventorySize);
-        arrowSlot.SetStockItems(GameConfig.initialArrows);
+        arrowSlot.StockItem = GameConfig.initialArrows;
 
         Slot bombSlot = new Slot(ConsumableType.Bomb, GameConfig.smokeBombInvertorySize);
-        bombSlot.SetStockItems(GameConfig.initialBombs);
+        bombSlot.StockItem = GameConfig.initialBombs;
 
-        Inventory characterInventory = new Inventory();
+        Inventory characterInventory = RequestComponent<Inventory>();
         characterInventory.AddSlot(arrowSlot);
         characterInventory.AddSlot(bombSlot);
-
-        return characterInventory;
     }
 
     #region GiantAction implementation

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Inventory
+public class Inventory : CharacterComponent
 {
     private List<Slot> inventorySlots = new List<Slot>();
+
+    public Inventory(CharacterAgent agent) : base (agent) { }
 
     public void AddSlot(Slot itemSlot)
     {
@@ -44,6 +46,25 @@ public class Inventory
             }
         }
     }
+
+    public int GetItemStock(ConsumableType requestedType)
+    {
+        foreach(Slot s in inventorySlots)
+        {
+            if (s.slotType.Equals(requestedType))
+            {
+                return s.StockItem;
+            }
+        }
+
+        return -1;
+    }
+
+    #region CharacterComponent implementation
+
+    public override void FrameFeed() { }
+
+    #endregion
 }
 
 public class Slot
@@ -52,30 +73,34 @@ public class Slot
     public int maxSize;
 
     private int stockItem;
+    public int StockItem
+    {
+        set
+        {
+            stockItem = value;
+            stockItem = Mathf.Clamp(stockItem, 0, maxSize);
+        }
+        get
+        {
+            return stockItem;
+        }
+    }
 
     public Slot(ConsumableType slotType, int maxSize)
     {
         this.slotType = slotType;
         this.maxSize = maxSize;
-        stockItem = 0;
-    }
-
-    public void SetStockItems(int items)
-    {
-        stockItem = items;
-        stockItem = Mathf.Clamp(stockItem, 0, maxSize);
+        StockItem = 0;
     }
 
     public void AddItem()
     {
-        if (stockItem < maxSize)
-            stockItem ++;
+        StockItem ++;
     }
 
     public void UseItem()
     {
-        if (stockItem > 0)
-            stockItem --;
+        StockItem --;
     }
 
     public bool HasItems()
