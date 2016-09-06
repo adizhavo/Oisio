@@ -8,7 +8,15 @@ public class AgentStamina : CharacterComponent
         get;
     }
 
-    private float staminaRegeneration
+    public float maxStamina
+    {
+        get 
+        {
+            return agent.maxStamina;
+        }
+    }
+
+    public float staminaRegeneration
     {
         get 
         {
