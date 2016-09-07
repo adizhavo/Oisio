@@ -3,17 +3,25 @@ using System.Collections;
 
 public class AgentSmokeBomb : CharacterComponent
 {
+    private Inventory characterInventory;
+
     public AgentSmokeBomb(CharacterAgent agent) : base(agent) { }
 
     #region implemented abstract members of AgentComponent
 
     public override void FrameFeed()
     {
+        if (characterInventory == null)
+        {
+            characterInventory = agent.RequestComponent<Inventory>();
+            return;
+        }
+
         ConsumableType smokeItem = ConsumableType.Bomb;
 
-        if (InputConfig.SmokeBomb() && agent.characterInventory.HasItem(smokeItem))
+        if (InputConfig.SmokeBomb() && characterInventory.HasItem(smokeItem))
         {
-            agent.characterInventory.UseItem(smokeItem);
+            characterInventory.UseItem(smokeItem);
             Fire();
         }
     }

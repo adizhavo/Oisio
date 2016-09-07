@@ -2,11 +2,19 @@
 
 public class AgentResourceCollector : CharacterComponent, Consumer
 {
+    private Inventory characterInventory;
+
     public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
 
     #region implemented abstract members of CharacterComponent
     public override void FrameFeed()
     {
+        if (characterInventory == null)
+        {
+            characterInventory = agent.RequestComponent<Inventory>();
+            return;
+        }
+
         if (InputConfig.Collect())
         {
             ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
@@ -28,7 +36,8 @@ public class AgentResourceCollector : CharacterComponent, Consumer
 
     public void Collected(ConsumableType collectable)
     {
-        agent.characterInventory.AddItem(collectable);
+        if (characterInventory == null) return;
+        characterInventory.AddItem(collectable);
     }
 
     #endregion
