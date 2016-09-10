@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantHealth : AgentComponent
+public class AgentHealth : AgentComponent 
 {
     public float health
     {
@@ -13,7 +13,7 @@ public class GiantHealth : AgentComponent
     {
         get 
         {
-            return giant.maxHealth;
+            return agent.maxHealth;
         }
     }
 
@@ -21,16 +21,15 @@ public class GiantHealth : AgentComponent
     {
         get 
         {
-            return giant.healthRegen * Time.deltaTime;
+            return agent.healthRegen * Time.deltaTime;
         }
     }
 
-    private GiantAgent giant;
+    private CharacterAgent agent;
 
-    public GiantHealth(GiantAgent agent)
+    public AgentHealth(CharacterAgent agent)
     {
-        this.giant = agent;
-        health = giant.maxHealth;
+        this.agent = agent;
     }
 
     #region AgentComponent implementation
@@ -45,7 +44,7 @@ public class GiantHealth : AgentComponent
 
     public void ApplyDamage(float damage)
     {
-        Debug.Log("Giant applied damage : " + damage);
+        Debug.Log("Agent applied damage : " + damage);
 
         health -= damage;
     }
