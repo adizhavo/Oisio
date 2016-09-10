@@ -30,6 +30,7 @@ public class AgentHealth : AgentComponent
     public AgentHealth(CharacterAgent agent)
     {
         this.agent = agent;
+        health = agent.maxHealth;
     }
 
     #region AgentComponent implementation
@@ -44,7 +45,7 @@ public class AgentHealth : AgentComponent
 
     public void ApplyDamage(float damage)
     {
-        Debug.Log("Agent applied damage : " + damage);
+        Debug.Log("Agent damaged : " + damage);
 
         health -= damage;
     }

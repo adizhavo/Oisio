@@ -45,7 +45,7 @@ public class GiantHealth : AgentComponent
 
     public void ApplyDamage(float damage)
     {
-        Debug.Log("Giant applied damage : " + damage);
+        Debug.Log("Giant damaged : " + damage);
 
         health -= damage;
     }
