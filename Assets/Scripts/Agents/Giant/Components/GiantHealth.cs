@@ -30,6 +30,7 @@ public class GiantHealth : AgentComponent
     public GiantHealth(GiantAgent agent)
     {
         this.giant = agent;
+        health = giant.maxHealth;
     }
 
     #region AgentComponent implementation
