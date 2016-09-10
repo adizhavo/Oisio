@@ -10,6 +10,10 @@ public class GiantAgent : Agent, EventListener
     public float attackTime;
     public float visibilityRadius;
 
+    [Header("Health config")]
+    public float maxHealth;
+    public float healthRegen;
+
     [Header("Standart dependencies")]
     public AttackView areaDamageView;
 
@@ -41,7 +45,7 @@ public class GiantAgent : Agent, EventListener
     {
         return new List<AgentComponent>
         {
-            new NullComponent()
+            new GiantHealth(this)
         };
     }
 
