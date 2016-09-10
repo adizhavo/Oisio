@@ -3,11 +3,12 @@
 public class Projectile : MonoBehaviour 
 {
     public Transform Graphic;
-
     private Rigidbody rigidBody;
-    private Vector3 deviation;
+
+    public float Damage;
     private float deviationStrenght = 1;
 
+    private Vector3 deviation;
     private Vector3 currentDirection;
 
     public EventTrigger shooter;
@@ -20,19 +21,20 @@ public class Projectile : MonoBehaviour
 
     public void Shoot(EventTrigger shooter, Vector3 force)
     {
-        rigidBody.isKinematic = false;
-        rigidBody.velocity = force;
-        this.deviation = force;
-        this.shooter = shooter;
+        Init(shooter, force, force);
     }
 
     public void Shoot(EventTrigger shooter, Vector3 force, Vector3 deviation)
     {
+        Init(shooter, force, deviation * new Vector3(force.x, 0, force.z).magnitude);
+    }
+
+    private void Init(EventTrigger shooter, Vector3 force, Vector3 deviation)
+    {
         rigidBody.isKinematic = false;
         rigidBody.velocity = force;
         this.shooter = shooter;
-
-        this.deviation = deviation * new Vector3(force.x, 0, force.z).magnitude;
+        this.deviation = deviation;
     }
 
     private void Update()
@@ -56,10 +58,20 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision col)
     {
+        DisableCollisions(col);
+        DeliverEvent(col);
+        ApplyDamage(col);
+    }
+
+    private void DisableCollisions(Collision col)
+    {
         rigidBody.isKinematic = true;
         transform.SetParent(col.transform);
         GetComponent<BoxCollider>().enabled = false;
+    }
 
+    private void DeliverEvent(Collision col)
+    {
         if (shooter == null) return;
 
         EventListener listener = col.transform.GetComponent<EventListener>();
@@ -69,5 +81,14 @@ public class Projectile : MonoBehaviour
         }
 
         shooter = null;
+    }
+
+    private void ApplyDamage(Collision col)
+    {
+        Damagable dmg = col.transform.GetComponent<Damagable>();
+        if (dmg != null)
+        {
+            dmg.ApplyDamage(Damage);
+        }
     }
 }
