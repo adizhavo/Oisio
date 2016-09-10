@@ -28,7 +28,7 @@ public class AgentMovement : CharacterComponent
         bool isMoving = Mathf.Abs(InputConfig.XDriection()) + Mathf.Abs(InputConfig.YDriection()) > Mathf.Epsilon;
         bool isRunning = InputConfig.Run() && HasEnoughStamina() && isMoving;
 
-        if (InputConfig.Run()) staminaComponent.ConsumeStamina(staminaCost);
+        if (InputConfig.Run() && isMoving) staminaComponent.ConsumeStamina(staminaCost);
         float speed = isRunning ? GameConfig.maxCharacterSpeed : GameConfig.minCharacterSpeed;
         return speed;
     }
