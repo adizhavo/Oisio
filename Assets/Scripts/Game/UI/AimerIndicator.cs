@@ -8,7 +8,10 @@ public class AimerIndicator : MonoBehaviour
 	private void Update ()
     {
         Vector3 direction = (new Vector3(aimerTr.position.x, indicator.position.y, aimerTr.position.z) - indicator.position);
-        indicator.rotation = Quaternion.LookRotation(direction);
-        indicator.gameObject.SetActive(aimerTr.gameObject.activeInHierarchy);
+        if (direction.sqrMagnitude > Mathf.Epsilon)
+        {
+            indicator.rotation = Quaternion.LookRotation(direction);
+            indicator.gameObject.SetActive(aimerTr.gameObject.activeInHierarchy);
+        }
 	}
 }
