@@ -17,17 +17,6 @@ public abstract class ConsumableAgent : Agent
     }
 
     #region implemented abstract members of Agent
-    public Vector3 WorlPos
-    {
-        get
-        {
-            return transform.position;
-        }
-        set
-        {
-            transform.position = value;
-        }
-    }
 
     protected override List<AgentComponent> InitComponents()
     {
