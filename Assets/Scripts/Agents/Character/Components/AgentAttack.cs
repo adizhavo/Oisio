@@ -48,6 +48,8 @@ public class AgentAttack : CharacterComponent
     {
         CheckArrow();
         RotateAimer();
+
+        agent.aimerPivot.gameObject.SetActive(true);
     }
 
     private void CheckArrow()
@@ -76,6 +78,7 @@ public class AgentAttack : CharacterComponent
     {
         if (arrowInstance) arrowInstance.gameObject.SetActive(false);
         agent.aimerPivot.localEulerAngles = Vector3.zero;
+        agent.aimerPivot.gameObject.SetActive(false);
         cursorDeltaX = 0f;
     }
 
