@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class Chargable : AgentComponent
+public class ConsumableRechargeComponent : AgentComponent
 {
     private float minCollectPercentage = Mathf.Epsilon;
 
     private ConsumableAgent agent;
 
-    public Chargable(ConsumableAgent agent)
+    public ConsumableRechargeComponent(ConsumableAgent agent)
     {
         this.agent = agent;
     }

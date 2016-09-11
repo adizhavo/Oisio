@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentAnimation : CharacterComponent
+public class CharacterAnimationComponent : CharacterComponent
 {
     public static readonly string RunKey = "run";
 
-    public AgentAnimation(CharacterAgent agent) : base (agent) { }
+    public CharacterAnimationComponent(CharacterAgent agent) : base (agent) { }
 
     #region implemented abstract members of AgentComponent
 

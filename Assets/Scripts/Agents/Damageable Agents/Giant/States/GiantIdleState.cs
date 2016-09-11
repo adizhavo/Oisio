@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GiantIdleState : GiantActionState
+public class GiantIdleState : GiantState
 {
     protected float waitTime;
 

@@ -46,7 +46,7 @@ public class GiantAgent : DamageableAgent, EventListener
     protected override AgentState[] InitStates()
     {
         // all available states will be inserted in this array
-        return new GiantActionState[]
+        return new GiantState[]
             {
                 new GiantIdleState(this),
                 new GiantAlertState(this),

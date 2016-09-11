@@ -9,11 +9,11 @@ public class UIInventoryItem : MonoBehaviour
     [Header("UI Dependecies")]
     [SerializeField] private Text itemCount;
 
-    private Inventory inventoryComponent;
+    private CharacterInventoryComponent inventoryComponent;
 
 	private void Start ()
     {
-        inventoryComponent = inventoryCarrier.RequestComponent<Inventory>();
+        inventoryComponent = inventoryCarrier.RequestComponent<CharacterInventoryComponent>();
 	}
 
     private void Update ()

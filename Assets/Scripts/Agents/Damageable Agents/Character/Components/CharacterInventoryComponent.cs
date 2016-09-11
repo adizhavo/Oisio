@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Inventory : CharacterComponent
+public class CharacterInventoryComponent : CharacterComponent
 {
     private List<Slot> inventorySlots = new List<Slot>();
 
-    public Inventory(CharacterAgent agent) : base (agent) { }
+    public CharacterInventoryComponent(CharacterAgent agent) : base (agent) { }
 
     public void AddSlot(Slot itemSlot)
     {

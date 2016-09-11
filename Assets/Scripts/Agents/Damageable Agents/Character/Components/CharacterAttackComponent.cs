@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 
-public class AgentAttack : CharacterComponent
+public class CharacterAttackComponent : CharacterComponent
 {
     private Projectile arrowInstance;
     private EnemyDirectionAim enemy;
 
     private float cursorDeltaX;
 
-    private Inventory characterInventory;
+    private CharacterInventoryComponent characterInventory;
 
-    public AgentAttack(CharacterAgent agent) : base(agent)
+    public CharacterAttackComponent(CharacterAgent agent) : base(agent)
     {
         enemy = new EnemyDirectionAim();
     }
@@ -20,7 +20,7 @@ public class AgentAttack : CharacterComponent
     {
         if (characterInventory == null)
         {
-            characterInventory = agent.RequestComponent<Inventory>();
+            characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
             return;
         }
 

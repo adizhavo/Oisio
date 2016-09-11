@@ -8,11 +8,11 @@ public class UIStaminaBar : MonoBehaviour
     [Header("UI Dependecies")]
     [SerializeField] private Image fillBar;
 
-    private AgentStamina staminaComponent;
+    private CharacterStaminaComponent staminaComponent;
 
 	private void Start () 
     {
-        staminaComponent = observedAgent.RequestComponent<AgentStamina>();
+        staminaComponent = observedAgent.RequestComponent<CharacterStaminaComponent>();
 	}
 
 	private void Update () 

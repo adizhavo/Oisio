@@ -43,14 +43,14 @@ public class CharacterAgent : DamageableAgent, EventTrigger
         return new List<AgentComponent>
             {
                 // list all the agent component
-                new Inventory(this),
-                new AgentAttack(this), 
-                new AgentSmokeBomb(this),
-                new AgentStamina(this),
                 new AgentHealth(this),
-                new AgentMovement(this),
-                new AgentAnimation(this),
-                new AgentResourceCollector(this)
+                new CharacterInventoryComponent(this),
+                new CharacterAttackComponent(this), 
+                new CharcterSmokebombComponent(this),
+                new CharacterStaminaComponent(this),
+                new CharacterMovementComponent(this),
+                new CharacterAnimationComponent(this),
+                new CharacterResourceComponent(this)
             };
     }
 
@@ -72,7 +72,7 @@ public class CharacterAgent : DamageableAgent, EventTrigger
         Slot bombSlot = new Slot(ConsumableType.Bomb, GameConfig.smokeBombInvertorySize);
         bombSlot.StockItem = GameConfig.initialBombs;
 
-        Inventory characterInventory = RequestComponent<Inventory>();
+        CharacterInventoryComponent characterInventory = RequestComponent<CharacterInventoryComponent>();
         characterInventory.AddSlot(arrowSlot);
         characterInventory.AddSlot(bombSlot);
     }

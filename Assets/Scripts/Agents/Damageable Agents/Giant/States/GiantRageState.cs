@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantRageState : GiantActionState
+public class GiantRageState : GiantState
 {
     private Vector3? eventPos = null;
 

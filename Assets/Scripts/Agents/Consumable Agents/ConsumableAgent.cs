@@ -22,7 +22,7 @@ public abstract class ConsumableAgent : Agent
     {
         return new List<AgentComponent>
         {
-            new Chargable(this)  
+            new ConsumableRechargeComponent(this)  
         };
     }
 
@@ -44,7 +44,7 @@ public abstract class ConsumableAgent : Agent
 
     public virtual void Collect(Consumer cons)
     {
-        Chargable c = RequestComponent<Chargable>();
+        ConsumableRechargeComponent c = RequestComponent<ConsumableRechargeComponent>();
         if (c != null) c.Consume(cons);
     }
 }

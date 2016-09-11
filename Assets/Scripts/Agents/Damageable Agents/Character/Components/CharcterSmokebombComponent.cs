@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentSmokeBomb : CharacterComponent
+public class CharcterSmokebombComponent : CharacterComponent
 {
-    private Inventory characterInventory;
+    private CharacterInventoryComponent characterInventory;
 
-    public AgentSmokeBomb(CharacterAgent agent) : base(agent) { }
+    public CharcterSmokebombComponent(CharacterAgent agent) : base(agent) { }
 
     #region implemented abstract members of AgentComponent
 
@@ -13,7 +13,7 @@ public class AgentSmokeBomb : CharacterComponent
     {
         if (characterInventory == null)
         {
-            characterInventory = agent.RequestComponent<Inventory>();
+            characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
             return;
         }
 

@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 
-public class AgentResourceCollector : CharacterComponent, Consumer
+public class CharacterResourceComponent : CharacterComponent, Consumer
 {
-    private Inventory characterInventory;
+    private CharacterInventoryComponent characterInventory;
 
-    public AgentResourceCollector(CharacterAgent agent) : base(agent) { }
+    public CharacterResourceComponent(CharacterAgent agent) : base(agent) { }
 
     #region implemented abstract members of CharacterComponent
     public override void FrameFeed()
     {
         if (characterInventory == null)
         {
-            characterInventory = agent.RequestComponent<Inventory>();
+            characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
             return;
         }
 

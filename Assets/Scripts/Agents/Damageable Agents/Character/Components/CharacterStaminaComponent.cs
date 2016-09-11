@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AgentStamina : CharacterComponent
+public class CharacterStaminaComponent : CharacterComponent
 {
     public float stamina
     {
@@ -24,7 +24,7 @@ public class AgentStamina : CharacterComponent
         }
     }
 
-    public AgentStamina(CharacterAgent agent) : base (agent) 
+    public CharacterStaminaComponent(CharacterAgent agent) : base (agent) 
     {
         stamina = agent.maxStamina;
     }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantAttackState : GiantActionState
+public class GiantAttackState : GiantState
 {
     protected float attackEventPercentage = 0.7f;
 

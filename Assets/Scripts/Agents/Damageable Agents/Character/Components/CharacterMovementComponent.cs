@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class AgentMovement : CharacterComponent
+public class CharacterMovementComponent : CharacterComponent
 {
-    private AgentStamina staminaComponent;
+    private CharacterStaminaComponent staminaComponent;
 
     private float staminaCost
     {
@@ -12,12 +12,12 @@ public class AgentMovement : CharacterComponent
         }
     }
 
-    public AgentMovement(CharacterAgent agent) : base (agent) { }
+    public CharacterMovementComponent(CharacterAgent agent) : base (agent) { }
 
     #region implemented abstract members of AgentComponent
     public override void FrameFeed()
     {
-        if (staminaComponent == null) staminaComponent = agent.RequestComponent<AgentStamina>();
+        if (staminaComponent == null) staminaComponent = agent.RequestComponent<CharacterStaminaComponent>();
         agent.navMeshAgent.speed = AgentSpeed();
         MoveAgent();
     }
