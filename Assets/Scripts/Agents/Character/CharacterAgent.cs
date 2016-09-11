@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CharacterAgent : Agent, EventTrigger
+public class CharacterAgent : DamagableAgent, EventTrigger
 {
     [Header("Agent Configuration")]
     public GameObject arrowPrefab;
@@ -11,10 +11,6 @@ public class CharacterAgent : Agent, EventTrigger
     public float sensibility;
     public float shootForce;
     public float collectorRange;
-
-    [Header("Health Configuration")]
-    public float maxHealth;
-    public float healthRegen;
 
     [Header("Stamina Configuration")]
     public float maxStamina;

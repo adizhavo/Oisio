@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GiantAgent : Agent, EventListener
+public class GiantAgent : DamagableAgent, EventListener
 {
     [Header("Agent Configuration")]
     public GameObject attackGameObject;
@@ -10,10 +10,6 @@ public class GiantAgent : Agent, EventListener
     public float attackRange;
     public float attackTime;
     public float visibilityRadius;
-
-    [Header("Health config")]
-    public float maxHealth;
-    public float healthRegen;
 
     private float alertLevel;
     public float AlertLevel

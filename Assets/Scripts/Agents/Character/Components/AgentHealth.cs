@@ -25,9 +25,9 @@ public class AgentHealth : AgentComponent
         }
     }
 
-    private CharacterAgent agent;
+    private DamagableAgent agent;
 
-    public AgentHealth(CharacterAgent agent)
+    public AgentHealth(DamagableAgent agent)
     {
         this.agent = agent;
         health = agent.maxHealth;
@@ -45,8 +45,6 @@ public class AgentHealth : AgentComponent
 
     public void ApplyDamage(float damage)
     {
-        Debug.Log("Agent damaged : " + damage);
-
         health -= damage;
     }
 }
