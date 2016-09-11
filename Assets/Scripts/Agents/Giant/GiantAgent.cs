@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GiantAgent : DamagableAgent, EventListener
+public class GiantAgent : DamageableAgent, EventListener
 {
     [Header("Agent Configuration")]
     public GameObject attackGameObject;

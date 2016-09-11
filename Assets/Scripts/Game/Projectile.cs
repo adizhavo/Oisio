@@ -85,7 +85,7 @@ public class Projectile : MonoBehaviour
 
     private void ApplyDamage(Collision col)
     {
-        Damagable dmg = col.transform.GetComponent<Damagable>();
+        Damageable dmg = col.transform.GetComponent<Damageable>();
         if (dmg != null)
         {
             dmg.ApplyDamage(Damage);

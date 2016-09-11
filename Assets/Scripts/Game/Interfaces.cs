@@ -38,7 +38,7 @@ public interface AgentState
     void Notify(EventTrigger nerbyEvent);
 }
 
-public interface Damagable
+public interface Damageable
 {
     void ApplyDamage(float damage);
 }

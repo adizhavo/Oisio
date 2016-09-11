@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class CharacterAgent : DamagableAgent, EventTrigger
+public class CharacterAgent : DamageableAgent, EventTrigger
 {
     [Header("Agent Configuration")]
     public GameObject arrowPrefab;

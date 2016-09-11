@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GiantDamageSpot : MonoBehaviour, Damagable 
+public class GiantDamageSpot : MonoBehaviour, Damageable 
 {
     [SerializeField] private GiantAgent giant;
 

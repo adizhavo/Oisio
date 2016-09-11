@@ -25,9 +25,9 @@ public class AgentHealth : AgentComponent
         }
     }
 
-    private DamagableAgent agent;
+    private DamageableAgent agent;
 
-    public AgentHealth(DamagableAgent agent)
+    public AgentHealth(DamageableAgent agent)
     {
         this.agent = agent;
         health = agent.maxHealth;
