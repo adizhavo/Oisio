@@ -24,6 +24,8 @@ public class CharacterStaminaComponent : CharacterComponent
         }
     }
 
+    private bool consuming = false;
+
     public CharacterStaminaComponent(CharacterAgent agent) : base (agent) 
     {
         stamina = agent.maxStamina;
@@ -33,6 +35,12 @@ public class CharacterStaminaComponent : CharacterComponent
 
     public override void FrameFeed()
     {
+        if (consuming)
+        {
+            consuming = false;
+            return;
+        }
+
         stamina += staminaRegeneration;
         stamina = Mathf.Clamp(stamina, 0, maxStamina);
     }
@@ -41,7 +49,9 @@ public class CharacterStaminaComponent : CharacterComponent
 
     public void ConsumeStamina(float amount)
     {
-        stamina -= amount + staminaRegeneration;
+        stamina -= amount;
         if (stamina < 0) stamina = 0;
+
+        consuming = true;
     }
 }
