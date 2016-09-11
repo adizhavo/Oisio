@@ -39,7 +39,7 @@ public class GiantAgent : DamageableAgent, EventListener
         {
             new AttackAnimation(),
             new MapBlockHolder(),
-            new GiantHealth(this), 
+            new AgentHealth(this), 
         };
     }
 

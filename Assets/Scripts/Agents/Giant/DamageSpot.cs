@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class GiantDamageSpot : MonoBehaviour, Damageable 
+public class DamageSpot : MonoBehaviour, Damageable 
 {
-    [SerializeField] private GiantAgent giant;
+    [SerializeField] private DamageableAgent agent;
 
     public float DamageResist;
 
@@ -10,9 +10,9 @@ public class GiantDamageSpot : MonoBehaviour, Damageable
 
     public void ApplyDamage(float damage)
     {
-        if (giant == null) return;
+        if (agent == null) return;
 
-        GiantHealth healthComp = giant.RequestComponent<GiantHealth>();
+        AgentHealth healthComp = agent.RequestComponent<AgentHealth>();
         if (healthComp != null)
         {
             float damageReceived = - (DamageResist - damage);
