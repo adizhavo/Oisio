@@ -7,6 +7,9 @@ public class GiantAgent : DamageableAgent, EventListener
     public GameObject attackGameObject;
     public GiantSpeed[] availableMovements;
     public float alertReactionSpeed;
+
+    [Header("Attack Configuration")]
+    public float attackDamage;
     public float attackRange;
     public float attackTime;
     public float visibilityRadius;
@@ -39,7 +42,8 @@ public class GiantAgent : DamageableAgent, EventListener
         {
             new AttackAnimation(),
             new MapBlockHolder(),
-            new AgentHealth(this), 
+            new AgentHealth(this),
+            new GiantAttackComponent(this)
         };
     }
 
@@ -129,6 +133,7 @@ public class GiantAgent : DamageableAgent, EventListener
     public virtual void Attack()
     {
         RequestComponent<AttackAnimation>().Attack(attackGameObject);
+        RequestComponent<GiantAttackComponent>().Attack<CharacterAgent>();
     }
 
     public virtual void RecoverAttack(float recoverTime)
