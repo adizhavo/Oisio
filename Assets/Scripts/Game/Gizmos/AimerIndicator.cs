@@ -13,5 +13,7 @@ public class AimerIndicator : MonoBehaviour
             indicator.rotation = Quaternion.LookRotation(direction);
             indicator.gameObject.SetActive(aimerTr.gameObject.activeInHierarchy);
         }
+        else 
+            indicator.gameObject.SetActive(false);
 	}
 }
