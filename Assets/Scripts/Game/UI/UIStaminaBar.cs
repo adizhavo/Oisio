@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UIStaminaBar : MonoBehaviour 
 {
-    [SerializeField] private Agent observedAgent;
+    [SerializeField] private CharacterAgent observedAgent;
 
     [Header("UI Dependecies")]
     [SerializeField] private Image fillBar;

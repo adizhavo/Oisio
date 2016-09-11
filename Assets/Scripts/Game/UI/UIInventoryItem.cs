@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UIInventoryItem : MonoBehaviour
 {
     [SerializeField] private ConsumableType item;
-    [SerializeField] private Agent inventoryCarrier;
+    [SerializeField] private CharacterAgent inventoryCarrier;
 
     [Header("UI Dependecies")]
     [SerializeField] private Text itemCount;
