@@ -34,7 +34,7 @@ public class AgentStamina : CharacterComponent
     public override void FrameFeed()
     {
         stamina += staminaRegeneration;
-        stamina = Mathf.Clamp(stamina, 0, agent.maxStamina);
+        stamina = Mathf.Clamp(stamina, 0, maxStamina);
     }
 
     #endregion

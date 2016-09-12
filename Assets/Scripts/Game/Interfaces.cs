@@ -38,6 +38,11 @@ public interface AgentState
     void Notify(EventTrigger nerbyEvent);
 }
 
+public interface Damagable
+{
+    void ApplyDamage(float damage);
+}
+
 #endregion
 
 #region Game enums
