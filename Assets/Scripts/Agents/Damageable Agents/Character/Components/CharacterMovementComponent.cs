@@ -12,6 +12,14 @@ public class CharacterMovementComponent : CharacterComponent
         }
     }
 
+    private bool isMoving
+    {
+        get 
+        {
+            return Mathf.Abs(InputConfig.XDriection()) > Mathf.Epsilon || Mathf.Abs(InputConfig.YDriection()) > Mathf.Epsilon;
+        }
+    }
+
     public CharacterMovementComponent(CharacterAgent agent) : base (agent) { }
 
     #region implemented abstract members of AgentComponent
@@ -25,9 +33,7 @@ public class CharacterMovementComponent : CharacterComponent
 
     private float AgentSpeed()
     {
-        bool isMoving = Mathf.Abs(InputConfig.XDriection()) + Mathf.Abs(InputConfig.YDriection()) > Mathf.Epsilon;
         bool isRunning = InputConfig.Run() && HasEnoughStamina() && isMoving;
-
         if (InputConfig.Run() && isMoving) staminaComponent.ConsumeStamina(staminaCost);
         float speed = isRunning ? GameConfig.maxCharacterSpeed : GameConfig.minCharacterSpeed;
         return speed;
@@ -40,7 +46,12 @@ public class CharacterMovementComponent : CharacterComponent
 
     private void MoveAgent()
     {
-        Vector3 moveDirection = agent.transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
-        agent.navMeshAgent.SetDestination(moveDirection);
+        if (isMoving)
+        {
+            Vector3 moveDirection = agent.transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
+            agent.navMeshAgent.SetDestination(moveDirection);
+        }
+        else
+            agent.navMeshAgent.speed = 0f;
     }
 }
