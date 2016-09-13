@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GiantAlertState : GiantState 
 {
-    private Vector3? eventPos = null;
+    protected Vector3? eventPos = null;
 
     public float reactionSpeed
     {
@@ -54,12 +54,12 @@ public class GiantAlertState : GiantState
 
     #endregion
 
-    private void IncreaseAlert()
+    protected void IncreaseAlert()
     {
         giant.AlertLevel += reactionSpeed * 2;
     }
 
-    private void DecreseAlert()
+    protected void DecreseAlert()
     {
         giant.AlertLevel -= reactionSpeed;
     }
@@ -72,7 +72,7 @@ public class GiantAlertState : GiantState
         }
     }
 
-    private void CheckAlertLevel()
+    protected virtual void CheckAlertLevel()
     {
         if (giant.AlertLevel < GameConfig.minAlertLevel + Mathf.Epsilon)
         {
@@ -89,7 +89,7 @@ public class GiantAlertState : GiantState
         }
     }
 
-    private void ResetState()
+    protected virtual void ResetState()
     {
         if (eventPos.HasValue) giant.WorlPos = eventPos.Value;
         eventPos = null;
