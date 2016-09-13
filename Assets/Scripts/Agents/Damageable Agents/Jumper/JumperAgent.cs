@@ -22,7 +22,8 @@ public class JumperAgent : GiantAgent
         {
             new JumperIdleState(this),
             new JumperAlertState(this), 
-            new JumperAttackState(this)
+            new JumperAttackState(this), 
+            new GiantBlindState(this)
         };
     }
 

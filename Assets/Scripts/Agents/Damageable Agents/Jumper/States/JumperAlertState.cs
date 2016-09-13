@@ -27,6 +27,10 @@ public class JumperAlertState : GiantAlertState
             eventPos = nerbyEvent.WorlPos;
             Attack();
         }
+        else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
+        {
+            giant.ChangeState<GiantBlindState>(nerbyEvent);
+        }
     }
 
     protected override void CheckAlertLevel()
