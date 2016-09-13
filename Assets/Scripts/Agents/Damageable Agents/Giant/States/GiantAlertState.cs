@@ -92,6 +92,7 @@ public class GiantAlertState : GiantState
     protected virtual void ResetState()
     {
         if (eventPos.HasValue) giant.WorlPos = eventPos.Value;
+        giant.AlertLevel = GameConfig.minAlertLevel;
         eventPos = null;
     }
 }
