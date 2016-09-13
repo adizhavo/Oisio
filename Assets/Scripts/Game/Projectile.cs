@@ -47,7 +47,7 @@ public class Projectile : MonoBehaviour
 
     private void DeviationCorrection()
     {
-        rigidBody.velocity = new Vector3(deviation.x, rigidBody.velocity.y, deviation.z);
+        rigidBody.velocity = new Vector3(deviation.x, rigidBody.velocity.y, deviation.z) * deviationStrenght;
     }
 
     private void ArrowDirection()

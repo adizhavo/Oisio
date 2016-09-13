@@ -11,6 +11,12 @@ public class CharacterAgent : Agent, EventTrigger
     public float sensibility;
     public float shootForce;
     public float collectorRange;
+
+    [Header("Health Configuration")]
+    public float maxHealth;
+    public float healthRegen;
+
+    [Header("Stamina Configuration")]
     public float maxStamina;
     public float staminaRegen;
 
@@ -45,6 +51,7 @@ public class CharacterAgent : Agent, EventTrigger
                 new AgentAttack(this), 
                 new AgentSmokeBomb(this),
                 new AgentStamina(this),
+                new AgentHealth(this),
                 new AgentMovement(this),
                 new AgentAnimation(this),
                 new AgentResourceCollector(this)

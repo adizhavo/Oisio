@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class GiantAgent : Agent, EventListener
 {
     [Header("Agent Configuration")]
+    public GameObject attackGameObject;
     public GiantSpeed[] availableMovements;
     public float alertReactionSpeed;
     public float attackRange;
@@ -14,10 +15,6 @@ public class GiantAgent : Agent, EventListener
     public float maxHealth;
     public float healthRegen;
 
-    [Header("Standart dependencies")]
-    public AttackView areaDamageView;
-
-    public MapBlockHolder resourcesBlock;
     private float alertLevel;
     public float AlertLevel
     {
@@ -38,14 +35,15 @@ public class GiantAgent : Agent, EventListener
         base.Init();
 
         ChangeState<GiantIdleState>();
-        resourcesBlock = new MapBlockHolder();
 	}
 
     protected override List<AgentComponent> InitComponents()
     {
         return new List<AgentComponent>
         {
-            new GiantHealth(this)
+            new AttackAnimation(),
+            new MapBlockHolder(),
+            new GiantHealth(this), 
         };
     }
 
@@ -112,12 +110,12 @@ public class GiantAgent : Agent, EventListener
 
     public virtual void GotoNearestResource()
     {
-        WorlPos = resourcesBlock.GetNearestPosition(this);
+        WorlPos = RequestComponent<MapBlockHolder>().GetNearestPosition(this);
     }
 
     public virtual void GotoRandomResource()
     {
-        WorlPos = resourcesBlock.GetRandomPos();
+        WorlPos = RequestComponent<MapBlockHolder>().GetRandomPos();
     }
 
     public void GotoLocalRandomPos()
@@ -129,17 +127,17 @@ public class GiantAgent : Agent, EventListener
 
     public virtual void PrepareAttack(float preparationTime)
     {
-        areaDamageView.PrepareAttack(preparationTime);
+        RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);
     }
 
     public virtual void Attack()
     {
-        Debug.Log("Giant attacks");
+        RequestComponent<AttackAnimation>().Attack(attackGameObject);
     }
 
     public virtual void RecoverAttack(float recoverTime)
     {
-        areaDamageView.Recover(recoverTime);
+        RequestComponent<AttackAnimation>().Recover(attackGameObject, recoverTime);
     }
 
     public void Stop()

@@ -1,39 +1,49 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class AttackView : MonoBehaviour
+public class AttackAnimation : AgentComponent
 {
-    public GameObject ZoneImage;
+    private GameObject ZoneImage;
 
     private float timeCounter = 0f;
-
     private float transitionTime;
-
     private float targetPercentage;
     private float currentPercentage;
 
-    public void PrepareAttack(float transitionTime)
+    public void PrepareAttack(GameObject animation, float transitionTime)
     {
         this.transitionTime = transitionTime;
         targetPercentage = 1;
         timeCounter = 0f;
+        ZoneImage = animation;
     }
 
-    public void Recover(float transitionTime)
+    public void Attack(GameObject animation)
+    {
+        Debug.Log("Attack animation...");
+    }
+
+    public void Recover(GameObject animation, float transitionTime)
     {
         this.transitionTime = transitionTime;
         targetPercentage = 0;
         timeCounter = 0f;
+        ZoneImage = animation;
     }
 
-    private void Update()
+    #region AgentComponent implementaion
+
+    public void FrameFeed()
     {
+        if (ZoneImage == null) return;
+
         timeCounter = Mathf.Clamp01(timeCounter);
         currentPercentage = Mathf.Lerp(currentPercentage, targetPercentage, timeCounter);
         timeCounter += Time.deltaTime / transitionTime;
 
         SetAlphaValue(ZoneImage.transform, currentPercentage);
     }
+
+    #endregion
 
     private void SetAlphaValue(Transform alphaTr, float alphaValue)
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MapBlockHolder 
+public class MapBlockHolder : AgentComponent
 {    
     public Vector3 GetNearestPosition(WorldEntity caller)
     {
@@ -31,4 +31,10 @@ public class MapBlockHolder
 
         return blocks[randomIndex].GetPositionInArea();
     }
+
+    #region AgentComponent implementation
+
+    public void FrameFeed() { }
+
+    #endregion
 }
