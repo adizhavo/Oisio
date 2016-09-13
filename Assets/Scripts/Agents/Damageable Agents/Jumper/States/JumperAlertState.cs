@@ -22,6 +22,11 @@ public class JumperAlertState : GiantAlertState
             IncreaseAlert();
             eventPos = nerbyEvent.WorlPos;
         }
+        else if (nerbyEvent.subject.Equals(EventSubject.Attack))
+        {
+            eventPos = nerbyEvent.WorlPos;
+            Attack();
+        }
     }
 
     protected override void CheckAlertLevel()
@@ -33,11 +38,16 @@ public class JumperAlertState : GiantAlertState
         }
         else if (eventPos.HasValue && giant.AlertLevel >= GameConfig.maxAlertLevel - Time.deltaTime - Mathf.Epsilon)
         {
-            CustomEvent targetEvent = new CustomEvent(eventPos.Value, EventSubject.Attack, 100, 0f, true);
-            giant.ChangeState<JumperAttackState>(targetEvent);
-            ResetState();
+            Attack();
         }
     }
 
     #endregion
+
+    private void Attack()
+    {
+        CustomEvent targetEvent = new CustomEvent(eventPos.Value, EventSubject.Attack, 100, 0f, true);
+        giant.ChangeState<JumperAttackState>(targetEvent);
+        ResetState();
+    }
 }

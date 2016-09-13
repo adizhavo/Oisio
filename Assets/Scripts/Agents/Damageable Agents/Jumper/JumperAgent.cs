@@ -7,7 +7,7 @@ public class JumperAgent : GiantAgent
     public GameObject jumperRoot;
     public float jumpDistance;
     public float jumpHeight;
-    public float jumpTime;
+    public float jumpSpeed;
 
     #region GiantAgent implementation
 

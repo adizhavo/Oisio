@@ -13,8 +13,9 @@ public class JumperAttackState : GiantState
     private Vector3? eventPos = null;
 
     private float angle;
-    private float targetAngle = 180f;
+    private float jumpTime;
     private Vector3 startPos;
+    private float targetAngle = 180f;
 
     #region JunperAttackState implementation
 
@@ -24,11 +25,11 @@ public class JumperAttackState : GiantState
         Debug.Log("Jumper enters into Attack state..");
         #endif
 
-//        giant.Stop();
-        giant.PrepareAttack(jumper.jumpTime);
+        giant.PrepareAttack(jumper.jumpSpeed);
         startPos = giant.WorlPos;
 
         angle = 0f;
+        jumpTime = 0f;
         eventPos = null;
     }
 
@@ -42,6 +43,9 @@ public class JumperAttackState : GiantState
         if (nerbyEvent.subject.Equals(EventSubject.Attack))
         {
             eventPos = nerbyEvent.WorlPos;
+
+            float distance = Vector3.Distance(eventPos.Value, startPos);
+            jumpTime = distance / jumper.jumpSpeed;
         }
     }
 
@@ -51,7 +55,7 @@ public class JumperAttackState : GiantState
     {
         if (eventPos.HasValue)
         {
-            angle += (2 * Time.deltaTime) / jumper.jumpTime ;
+            angle += (2 * Time.deltaTime) / jumpTime;
             float sinValue = Mathf.Sin(angle);
             float height = jumper.jumpHeight * sinValue;
 
@@ -65,6 +69,7 @@ public class JumperAttackState : GiantState
         {
             giant.Attack();
             giant.RecoverAttack(0.2f);
+            jumper.jumperRoot.transform.localPosition = Vector3.zero;
 
             giant.ChangeState<JumperAlertState>();
         }
