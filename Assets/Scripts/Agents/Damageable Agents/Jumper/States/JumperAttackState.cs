@@ -55,25 +55,34 @@ public class JumperAttackState : GiantState
     {
         if (eventPos.HasValue)
         {
-            angle += (2 * Time.deltaTime) / jumpTime;
-            float sinValue = Mathf.Sin(angle);
-            Vector3 targetPos = Vector3.ClampMagnitude(eventPos.Value - startPos, jumper.jumpDistance);
-
-            float distance = Vector3.Distance(eventPos.Value, startPos);
-            float height = jumper.heightMultiplier * sinValue * distance / 2;
-
-            Vector3 calcPos = Vector3.Lerp(startPos, startPos + targetPos, angle / (targetAngle * Mathf.Deg2Rad) );
-            giant.transform.position = calcPos;
-            jumper.jumperRoot.transform.localPosition = new Vector3(0f, giant.WorlPos.y + height, 0f);
+            CalculateJump();
         }
 
         if (angle >= targetAngle * Mathf.Deg2Rad)
         {
-            giant.Attack();
-            giant.RecoverAttack(0.2f);
-            jumper.jumperRoot.transform.localPosition = Vector3.zero;
-
-            giant.ChangeState<JumperAlertState>();
+            TriggerAttack();
         }
+    }
+
+    private void CalculateJump()
+    {
+        angle += (2 * Time.deltaTime) / jumpTime;
+        float sinValue = Mathf.Sin(angle);
+        Vector3 targetPos = Vector3.ClampMagnitude(eventPos.Value - startPos, jumper.jumpDistance);
+
+        float distance = Vector3.Distance(eventPos.Value, startPos);
+        float height = jumper.heightMultiplier * sinValue * distance / 2;
+
+        Vector3 calcPos = Vector3.Lerp(startPos, startPos + targetPos, angle / (targetAngle * Mathf.Deg2Rad) );
+        giant.transform.position = calcPos;
+        jumper.jumperRoot.transform.localPosition = new Vector3(0f, giant.WorlPos.y + height, 0f);
+    }
+
+    private void TriggerAttack()
+    {
+        giant.Attack();
+        giant.RecoverAttack(0.2f);
+        jumper.jumperRoot.transform.localPosition = Vector3.zero;
+        giant.ChangeState<JumperAlertState>();
     }
 }
