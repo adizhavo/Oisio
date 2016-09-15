@@ -3,16 +3,16 @@ using UnityEngine.UI;
 
 public class UIStaminaBar : MonoBehaviour 
 {
-    [SerializeField] private Agent observedAgent;
+    [SerializeField] private CharacterAgent observedAgent;
 
     [Header("UI Dependecies")]
     [SerializeField] private Image fillBar;
 
-    private AgentStamina staminaComponent;
+    private CharacterStaminaComponent staminaComponent;
 
 	private void Start () 
     {
-        staminaComponent = observedAgent.RequestComponent<AgentStamina>();
+        staminaComponent = observedAgent.RequestComponent<CharacterStaminaComponent>();
 	}
 
 	private void Update () 

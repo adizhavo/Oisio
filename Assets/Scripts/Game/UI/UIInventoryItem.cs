@@ -4,16 +4,16 @@ using UnityEngine.UI;
 public class UIInventoryItem : MonoBehaviour
 {
     [SerializeField] private ConsumableType item;
-    [SerializeField] private Agent inventoryCarrier;
+    [SerializeField] private CharacterAgent inventoryCarrier;
 
     [Header("UI Dependecies")]
     [SerializeField] private Text itemCount;
 
-    private Inventory inventoryComponent;
+    private CharacterInventoryComponent inventoryComponent;
 
 	private void Start ()
     {
-        inventoryComponent = inventoryCarrier.RequestComponent<Inventory>();
+        inventoryComponent = inventoryCarrier.RequestComponent<CharacterInventoryComponent>();
 	}
 
     private void Update ()

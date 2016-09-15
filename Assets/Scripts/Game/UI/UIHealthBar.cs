@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UIHealthBar : MonoBehaviour 
 {
-    [SerializeField] private Agent observedAgent;
+    [SerializeField] private DamageableAgent observedAgent;
 
     [Header("UI Dependecies")]
     [SerializeField] private Image fillBar;
