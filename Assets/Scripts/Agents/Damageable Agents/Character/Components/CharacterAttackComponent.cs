@@ -40,6 +40,8 @@ public class CharacterAttackComponent : CharacterComponent
             else
                 ResetAim();
         }
+        else
+            ResetAim();
     }
 
     #endregion
