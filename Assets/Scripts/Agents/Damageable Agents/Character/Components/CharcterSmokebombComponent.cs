@@ -33,7 +33,7 @@ public class CharcterSmokebombComponent : CharacterComponent
         GameObject smokeInsr = GameObject.Instantiate(agent.smokeBombPrefab) as GameObject;
         Vector3 deployPosition = agent.transform.position;
         smokeInsr.transform.position = deployPosition;
-        EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, true);
+        EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, false);
         EventObserver.Subscribe(smokeBomb);
     }
 }

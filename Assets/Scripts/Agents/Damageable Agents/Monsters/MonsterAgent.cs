@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class GiantAgent : DamageableAgent, EventListener
+public abstract class MonsterAgent : DamageableAgent, EventListener
 {
     [Header("Agent Configuration")]
     public GameObject attackGameObject;
@@ -27,52 +27,6 @@ public class GiantAgent : DamageableAgent, EventListener
         }
     }
 
-    #region Agent implementation
-
-    protected override void Init ()
-    {   
-        base.Init();
-
-        ChangeState<GiantIdleState>();
-	}
-
-    protected override List<AgentComponent> InitComponents()
-    {
-        return new List<AgentComponent>
-        {
-            new AttackAnimation(),
-            new MapBlockHolder(),
-            new AgentHealth(this),
-            new GiantAttackComponent(this)
-        };
-    }
-
-    protected override AgentState[] InitStates()
-    {
-        // all available states will be inserted in this array
-        return new GiantState[]
-            {
-                new GiantIdleState(this),
-                new GiantAlertState(this),
-                new GiantAttackState(this),
-                new GiantHuntState(this),
-                new GiantRageState(this), 
-                new GiantBlindState(this)
-                // next state
-                // ...
-            };
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
-        EventObserver.SearchVisibleEvent(this);
-        DrawGizmo();
-    }
-
-    #endregion
-
     #region EventListener implementation
 
     public float VisibilityRadius
@@ -85,10 +39,6 @@ public class GiantAgent : DamageableAgent, EventListener
 
     public void Notify(EventTrigger nearbyEvent)
     {
-        #if UNITY_EDITOR
-        Debug.Log("Giant notified with subject: " + nearbyEvent.subject.ToString());
-        #endif
-
         currentState.Notify(nearbyEvent);
     }
 
@@ -108,22 +58,17 @@ public class GiantAgent : DamageableAgent, EventListener
         Debug.Log(level.ToString() + " speed level is not supported");
     }
 
-    public virtual void GotoNearestResource()
+    #region Agent implementation
+
+    protected override void Update()
     {
-        WorlPos = RequestComponent<MapBlockHolder>().GetNearestPosition(this);
+        base.Update();
+
+        EventObserver.SearchVisibleEvent(this);
+        DrawGizmo();
     }
 
-    public virtual void GotoRandomResource()
-    {
-        WorlPos = RequestComponent<MapBlockHolder>().GetRandomPos();
-    }
-
-    public void GotoLocalRandomPos()
-    {
-        Vector2 randomPoint = Random.insideUnitCircle * visibilityRadius;
-        Vector3 movePos = new Vector3(randomPoint.x, 0f, randomPoint.y);
-        WorlPos = movePos;
-    }
+    #endregion
 
     public virtual void PrepareAttack(float preparationTime)
     {

@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JumperAttackState : GiantState
+public class JumperAttackState : MonsterState
 {
-    private JumperAgent jumper;
-
-    public JumperAttackState(JumperAgent giant) : base (giant)
+    private JumperAgent jumper
     {
-        jumper = giant;
+        get
+        {
+            return (JumperAgent)monster;
+        }
     }
+
+    public JumperAttackState(JumperAgent monster) : base (monster) { }
 
     private Vector3? eventPos = null;
 
@@ -25,8 +28,8 @@ public class JumperAttackState : GiantState
         Debug.Log("Jumper enters into Attack state..");
         #endif
 
-        giant.PrepareAttack(jumper.jumpSpeed);
-        startPos = giant.WorlPos;
+        monster.PrepareAttack(jumper.jumpSpeed);
+        startPos = monster.WorlPos;
 
         angle = 0f;
         jumpTime = 0f;
@@ -74,15 +77,15 @@ public class JumperAttackState : GiantState
         float height = jumper.heightMultiplier * sinValue * distance / 2;
 
         Vector3 calcPos = Vector3.Lerp(startPos, startPos + targetPos, angle / (targetAngle * Mathf.Deg2Rad) );
-        giant.transform.position = calcPos;
-        jumper.jumperRoot.transform.localPosition = new Vector3(0f, giant.WorlPos.y + height, 0f);
+        monster.transform.position = calcPos;
+        jumper.jumperRoot.transform.localPosition = new Vector3(0f, monster.WorlPos.y + height, 0f);
     }
 
     private void TriggerAttack()
     {
-        giant.Attack();
-        giant.RecoverAttack(0.2f);
+        monster.Attack();
+        monster.RecoverAttack(0.2f);
         jumper.jumperRoot.transform.localPosition = Vector3.zero;
-        giant.ChangeState<JumperAlertState>();
+        monster.ChangeState<JumperAlertState>();
     }
 }

@@ -2,7 +2,7 @@
 
 public class DamageSpot : MonoBehaviour, Damageable, EventListener
 {
-    [SerializeField] private GiantAgent giant;
+    [SerializeField] private MonsterAgent giant;
 
     public float DamageResist;
 

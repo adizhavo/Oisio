@@ -10,7 +10,7 @@ public class JumperIdleState : GiantIdleState
     {
         if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget) || nerbyEvent.subject.Equals(EventSubject.Attack))
         {
-            giant.ChangeState<JumperAlertState>(nerbyEvent);
+            monster.ChangeState<JumperAlertState>(nerbyEvent);
         }
     }
 

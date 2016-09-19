@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantHuntState : GiantState 
+public class GiantHuntState : MonsterState 
 {
     private Vector3? eventPos = null;
 
     public float reactionSpeed
     {
-        get { return giant.alertReactionSpeed * Time.deltaTime; } 
+        get { return monster.alertReactionSpeed * Time.deltaTime; } 
     }
 
-    public GiantHuntState(GiantAgent giant) : base(giant) { }
+    public GiantHuntState(MonsterAgent monster) : base(monster) { }
 
     #region implemented abstract members of GiantActionState
     protected override void Init()
@@ -19,7 +19,7 @@ public class GiantHuntState : GiantState
         Debug.Log("Giant enters into Hunt state..");
         #endif
 
-        giant.SetSpeed(SpeedLevel.Fast);
+        monster.SetSpeed(SpeedLevel.Fast);
         eventPos = null;
     }
 
@@ -38,11 +38,11 @@ public class GiantHuntState : GiantState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.Attack))
         {
-            giant.ChangeState<GiantRageState>(nerbyEvent);
+            monster.ChangeState<GiantRageState>(nerbyEvent);
         }
         else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
         {
-            giant.ChangeState<GiantBlindState>(nerbyEvent);
+            monster.ChangeState<GiantBlindState>(nerbyEvent);
         }
     }
     #endregion
@@ -51,7 +51,7 @@ public class GiantHuntState : GiantState
     {
         if (eventPos.HasValue)
         {
-            giant.WorlPos = eventPos.Value;
+            monster.WorlPos = eventPos.Value;
         }
     }
 
@@ -59,7 +59,7 @@ public class GiantHuntState : GiantState
     {
         if (!eventPos.HasValue)
         {
-            giant.ChangeState<GiantAlertState>();
+            monster.ChangeState<GiantAlertState>();
             Reset();
         }
         else
@@ -70,8 +70,8 @@ public class GiantHuntState : GiantState
 
     private void TrytoAttack()
     {
-        float distance = Vector3.Distance(giant.WorlPos, eventPos.Value);
-        if (distance < giant.attackRange)
+        float distance = Vector3.Distance(monster.WorlPos, eventPos.Value);
+        if (distance < monster.attackRange)
         {
             Attack();
         }
@@ -80,13 +80,13 @@ public class GiantHuntState : GiantState
     protected virtual void Attack()
     {
         eventPos = null;
-        giant.Stop();
-        giant.ChangeState<GiantAttackState>();
+        monster.Stop();
+        monster.ChangeState<GiantAttackState>();
     }
 
     private void Reset()
     {
         eventPos = null;
-        giant.AlertLevel /= 2f;
+        monster.AlertLevel /= 2f;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantBlindState : GiantState 
+public class GiantBlindState : MonsterState 
 {
     private Vector3? eventPos;
 
-    public GiantBlindState(GiantAgent giant) : base(giant) { }
+    public GiantBlindState(MonsterAgent monster) : base(monster) { }
 
     #region implemented abstract members of GiantActionState
     protected override void Init()
@@ -36,28 +36,28 @@ public class GiantBlindState : GiantState
     {
         if (!eventPos.HasValue) return;
 
-        float distance = (int)(Vector3.Distance(eventPos.Value, giant.WorlPos) * 10);
+        float distance = (int)(Vector3.Distance(eventPos.Value, monster.WorlPos) * 10);
         if (distance  < Mathf.Epsilon)
         {
-            giant.ChangeState<GiantAlertState>();
+            monster.ChangeState<GiantAlertState>();
         }
     }
     
     private void Escape(EventTrigger nerbyEvent)
     {
-        Vector3 bombDirection = (giant.navMeshAgent.pathEndPosition - giant.WorlPos).normalized;
+        Vector3 bombDirection = (monster.navMeshAgent.pathEndPosition - monster.WorlPos).normalized;
         bombDirection.y = 0;
 
         eventPos = nerbyEvent.WorlPos + bombDirection * GameConfig.giantEscapeDistance;
-        giant.WorlPos = eventPos.Value;
-        giant.SetSpeed(SpeedLevel.Fast);
+        monster.WorlPos = eventPos.Value;
+        monster.SetSpeed(SpeedLevel.Fast);
     }
 
     private void DrawEscapePos()
     {
         #if UNITY_EDITOR
 
-        if (eventPos.HasValue) Debug.DrawLine(giant.WorlPos, eventPos.Value, Color.red);
+        if (eventPos.HasValue) Debug.DrawLine(monster.WorlPos, eventPos.Value, Color.red);
 
         #endif
     }

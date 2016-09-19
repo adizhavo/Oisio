@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class GiantIdleState : GiantState
+public class GiantIdleState : MonsterState
 {
     protected float waitTime;
 
-    public GiantIdleState(GiantAgent giant) : base(giant) { }
+    public GiantIdleState(MonsterAgent monster) : base(monster) { }
 
     #region implemented abstract members of GiantActionState
     protected override void Init()
@@ -14,19 +14,19 @@ public class GiantIdleState : GiantState
         #endif
 
         waitTime = Random.Range(3f, 7f);
-        giant.SetSpeed(SpeedLevel.Slow);
+        monster.SetSpeed(SpeedLevel.Slow);
     }
 
     public override void FrameFeed()
     {
         if (waitTime < 0f)
         {
-            giant.GotoNearestResource();
+            GotoNearestResource();
             waitTime = Random.Range(3f, 7f);
 
             if (ShouldChangeResource())
             {
-                giant.GotoRandomResource();
+                GotoRandomResource();
                 waitTime += 5f;
             }
         }
@@ -38,7 +38,7 @@ public class GiantIdleState : GiantState
     {
         if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget) || nerbyEvent.subject.Equals(EventSubject.Attack)) 
         {
-            giant.ChangeState<GiantAlertState>(nerbyEvent);
+            monster.ChangeState<GiantAlertState>(nerbyEvent);
         }
     }
 
@@ -47,5 +47,15 @@ public class GiantIdleState : GiantState
     protected virtual bool ShouldChangeResource()
     {
         return Random.Range(0, 2) == 0;
+    }
+
+    public virtual void GotoNearestResource()
+    {
+        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetNearestPosition(monster);
+    }
+
+    public virtual void GotoRandomResource()
+    {
+        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetRandomPos();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class JumperAgent : GiantAgent 
+public class JumperAgent : MonsterAgent 
 {
     [Header("Jumper Configuration")]
     public GameObject jumperRoot;
@@ -9,11 +9,24 @@ public class JumperAgent : GiantAgent
     public float heightMultiplier;
     public float jumpSpeed;
 
-    #region GiantAgent implementation
+    #region MonsterAgent implementation
 
     protected override void Init()
     {
         base.Init();
+
+        ChangeState<JumperIdleState>();
+    }
+
+    protected override List<AgentComponent> InitComponents()
+    {
+        return new List<AgentComponent>
+        {
+            new AttackAnimation(),
+            new MapBlockHolder(),
+            new AgentHealth(this),
+            new GiantAttackComponent(this)
+        };
     }
 
     protected override AgentState[] InitStates()

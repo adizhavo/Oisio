@@ -14,9 +14,10 @@
            
     public const float giantEscapeDistance = 2;
            
-    public const int projectilePriority = 2;
-    public const int characterPriority = 10;
-    public const int smokeBombPriotity = 100;
+    public const int projectilePriority = 1;
+    public const int characterPriority = 2;
+    public const int jumperAttackPriority = 3;
+    public const int smokeBombPriotity = 4;
            
     public const float smokeBombEnableTime = 10;
     public const float smokeBombRange = 0.2f;
