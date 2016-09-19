@@ -50,7 +50,7 @@ public class JumperAlertState : GiantAlertState
 
     private void Attack()
     {
-        CustomEvent targetEvent = new CustomEvent(eventPos.Value, EventSubject.Attack, 100, 0f, true);
+        CustomEvent targetEvent = new CustomEvent(eventPos.Value, EventSubject.Attack, GameConfig.jumperAttackPriority, 0f, true);
         monster.ChangeState<JumperAttackState>(targetEvent);
         ResetState();
     }
