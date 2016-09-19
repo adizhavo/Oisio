@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public abstract class GiantState : AgentState
+public abstract class MonsterState : AgentState
 {
-    protected GiantAgent giant;
+    protected MonsterAgent monster;
 
-    public GiantState(GiantAgent giant)
+    public MonsterState(MonsterAgent monster)
     {
-        this.giant = giant;
+        this.monster = monster;
     }
 
     protected abstract void Init();
