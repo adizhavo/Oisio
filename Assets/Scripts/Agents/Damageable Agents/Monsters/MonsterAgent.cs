@@ -70,16 +70,6 @@ public abstract class MonsterAgent : DamageableAgent, EventListener
 
     #endregion
 
-    public virtual void GotoNearestResource()
-    {
-        WorlPos = RequestComponent<MapBlockHolder>().GetNearestPosition(this);
-    }
-
-    public virtual void GotoRandomResource()
-    {
-        WorlPos = RequestComponent<MapBlockHolder>().GetRandomPos();
-    }
-
     public virtual void PrepareAttack(float preparationTime)
     {
         RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);

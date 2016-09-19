@@ -21,12 +21,12 @@ public class GiantIdleState : MonsterState
     {
         if (waitTime < 0f)
         {
-            monster.GotoNearestResource();
+            GotoNearestResource();
             waitTime = Random.Range(3f, 7f);
 
             if (ShouldChangeResource())
             {
-                monster.GotoRandomResource();
+                GotoRandomResource();
                 waitTime += 5f;
             }
         }
@@ -47,5 +47,15 @@ public class GiantIdleState : MonsterState
     protected virtual bool ShouldChangeResource()
     {
         return Random.Range(0, 2) == 0;
+    }
+
+    public virtual void GotoNearestResource()
+    {
+        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetNearestPosition(this);
+    }
+
+    public virtual void GotoRandomResource()
+    {
+        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetRandomPos();
     }
 }
