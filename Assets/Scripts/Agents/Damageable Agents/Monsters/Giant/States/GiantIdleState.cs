@@ -51,7 +51,7 @@ public class GiantIdleState : MonsterState
 
     public virtual void GotoNearestResource()
     {
-        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetNearestPosition(this);
+        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetNearestPosition(monster);
     }
 
     public virtual void GotoRandomResource()
