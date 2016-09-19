@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantAlertState : GiantState 
+public class GiantAlertState : MonsterState 
 {
     protected Vector3? eventPos = null;
 
     public float reactionSpeed
     {
-        get { return giant.alertReactionSpeed * Time.deltaTime; } 
+        get { return monster.alertReactionSpeed * Time.deltaTime; } 
     }
 
-    public GiantAlertState(GiantAgent giant) : base(giant) 
+    public GiantAlertState(MonsterAgent monster) : base(monster) 
     {
-        giant.SetSpeed(SpeedLevel.Medium);
+        monster.SetSpeed(SpeedLevel.Medium);
     }
 
     #region implemented abstract members of GiantActionState
@@ -44,11 +44,11 @@ public class GiantAlertState : GiantState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.Attack))
         {
-            giant.ChangeState<GiantRageState>(nerbyEvent);
+            monster.ChangeState<GiantRageState>(nerbyEvent);
         }
         else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
         {
-            giant.ChangeState<GiantBlindState>(nerbyEvent);
+            monster.ChangeState<GiantBlindState>(nerbyEvent);
         }
     }
 
@@ -56,43 +56,43 @@ public class GiantAlertState : GiantState
 
     protected void IncreaseAlert()
     {
-        giant.AlertLevel += reactionSpeed * 2;
+        monster.AlertLevel += reactionSpeed * 2;
     }
 
     protected void DecreseAlert()
     {
-        giant.AlertLevel -= reactionSpeed;
+        monster.AlertLevel -= reactionSpeed;
     }
 
     protected virtual void MovetoEventPos()
     {
         if (eventPos.HasValue)
         {
-            giant.WorlPos = eventPos.Value;
+            monster.WorlPos = eventPos.Value;
         }
     }
 
     protected virtual void CheckAlertLevel()
     {
-        if (giant.AlertLevel < GameConfig.minAlertLevel + Mathf.Epsilon)
+        if (monster.AlertLevel < GameConfig.minAlertLevel + Mathf.Epsilon)
         {
-            giant.ChangeState<GiantIdleState>();
+            monster.ChangeState<GiantIdleState>();
             ResetState();
         }
-        else if (giant.AlertLevel >= GameConfig.maxAlertLevel - Time.deltaTime - Mathf.Epsilon)
+        else if (monster.AlertLevel >= GameConfig.maxAlertLevel - Time.deltaTime - Mathf.Epsilon)
         {
-            giant.ChangeState<GiantHuntState>();
+            monster.ChangeState<GiantHuntState>();
         }
         else
         {
-            giant.SetSpeed(SpeedLevel.Medium);
+            monster.SetSpeed(SpeedLevel.Medium);
         }
     }
 
     protected virtual void ResetState()
     {
-        if (eventPos.HasValue) giant.WorlPos = eventPos.Value;
-        giant.AlertLevel = GameConfig.minAlertLevel;
+        if (eventPos.HasValue) monster.WorlPos = eventPos.Value;
+        monster.AlertLevel = GameConfig.minAlertLevel;
         eventPos = null;
     }
 }

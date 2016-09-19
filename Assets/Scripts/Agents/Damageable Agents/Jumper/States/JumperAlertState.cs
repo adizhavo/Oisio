@@ -2,7 +2,7 @@
 
 public class JumperAlertState : GiantAlertState
 {
-    public JumperAlertState(GiantAgent giant) : base (giant) { } 
+    public JumperAlertState(MonsterAgent giant) : base (giant) { } 
 
     #region implemented abstract members of GiantState
 
@@ -29,18 +29,18 @@ public class JumperAlertState : GiantAlertState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
         {
-            giant.ChangeState<GiantBlindState>(nerbyEvent);
+            monster.ChangeState<GiantBlindState>(nerbyEvent);
         }
     }
 
     protected override void CheckAlertLevel()
     {
-        if (giant.AlertLevel < GameConfig.minAlertLevel + Mathf.Epsilon)
+        if (monster.AlertLevel < GameConfig.minAlertLevel + Mathf.Epsilon)
         {
-            giant.ChangeState<JumperIdleState>();
+            monster.ChangeState<JumperIdleState>();
             ResetState();
         }
-        else if (eventPos.HasValue && giant.AlertLevel >= GameConfig.maxAlertLevel - Time.deltaTime - Mathf.Epsilon)
+        else if (eventPos.HasValue && monster.AlertLevel >= GameConfig.maxAlertLevel - Time.deltaTime - Mathf.Epsilon)
         {
             Attack();
         }
@@ -51,7 +51,7 @@ public class JumperAlertState : GiantAlertState
     private void Attack()
     {
         CustomEvent targetEvent = new CustomEvent(eventPos.Value, EventSubject.Attack, 100, 0f, true);
-        giant.ChangeState<JumperAttackState>(targetEvent);
+        monster.ChangeState<JumperAttackState>(targetEvent);
         ResetState();
     }
 }

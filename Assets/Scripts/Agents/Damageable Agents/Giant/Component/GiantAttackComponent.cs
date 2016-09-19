@@ -3,9 +3,9 @@ using System.Collections;
 
 public class GiantAttackComponent : AgentComponent
 {
-    private GiantAgent attacker;
+    private MonsterAgent attacker;
 
-    public GiantAttackComponent(GiantAgent attacker)
+    public GiantAttackComponent(MonsterAgent attacker)
     {
         this.attacker = attacker;
     }

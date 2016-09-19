@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantAttackState : GiantState
+public class GiantAttackState : MonsterState
 {
     protected float attackEventPercentage = 0.7f;
 
     protected bool stopFrameFeed = false;
     protected float timeElapse;
 
-    public GiantAttackState(GiantAgent giant) : base(giant) { }
+    public GiantAttackState(GiantAgent monster) : base(monster) { }
 
     #region implemented abstract members of GiantActionState
     protected override void Init()
@@ -18,12 +18,12 @@ public class GiantAttackState : GiantState
         #endif
 
         attackEventPercentage = Mathf.Clamp01(attackEventPercentage);
-        giant.PrepareAttack(giant.attackTime * attackEventPercentage);
+        monster.PrepareAttack(monster.attackTime * attackEventPercentage);
     }
 
     public override void FrameFeed()
     {
-        timeElapse += Time.deltaTime / giant.attackTime;
+        timeElapse += Time.deltaTime / monster.attackTime;
         CheckState();
 
         if (stopFrameFeed) return;
@@ -43,8 +43,8 @@ public class GiantAttackState : GiantState
             timeElapse = 0f;
             stopFrameFeed = false;
 
-            giant.ChangeState<GiantAlertState>();
-            giant.SetSpeed(SpeedLevel.Fast);
+            monster.ChangeState<GiantAlertState>();
+            monster.SetSpeed(SpeedLevel.Fast);
         }
     }
 
@@ -53,10 +53,10 @@ public class GiantAttackState : GiantState
         if (timeElapse > attackEventPercentage)
         {
             stopFrameFeed = true;
-            giant.Attack();
+            monster.Attack();
 
             float percentage = 1f - attackEventPercentage;
-            giant.RecoverAttack(giant.attackTime * percentage);
+            monster.RecoverAttack(monster.attackTime * percentage);
         }
     }
 }

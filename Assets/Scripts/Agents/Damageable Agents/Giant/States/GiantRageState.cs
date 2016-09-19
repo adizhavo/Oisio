@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantRageState : GiantState
+public class GiantRageState : MonsterState
 {
     private Vector3? eventPos = null;
 
-    public GiantRageState(GiantAgent giant) : base(giant) { }
+    public GiantRageState(MonsterAgent monster) : base(monster) { }
 
     #region implemented abstract members of GiantActionState
 
@@ -15,8 +15,8 @@ public class GiantRageState : GiantState
         Debug.Log("Giant enters into Rage state..");
         #endif
 
-        giant.SetSpeed(SpeedLevel.Rage);
-        giant.AlertLevel = GameConfig.maxAlertLevel;
+        monster.SetSpeed(SpeedLevel.Rage);
+        monster.AlertLevel = GameConfig.maxAlertLevel;
     }
 
     public override void FrameFeed()
@@ -33,7 +33,7 @@ public class GiantRageState : GiantState
         }
         else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
         {
-            giant.ChangeState<GiantBlindState>(nerbyEvent);
+            monster.ChangeState<GiantBlindState>(nerbyEvent);
         }
     }
 
@@ -43,7 +43,7 @@ public class GiantRageState : GiantState
     {
         if (eventPos.HasValue)
         {
-            giant.WorlPos = eventPos.Value;
+            monster.WorlPos = eventPos.Value;
         }
     }
 
@@ -51,8 +51,8 @@ public class GiantRageState : GiantState
     {
         if (!eventPos.HasValue) return;
 
-        float distance = Vector3.Distance(giant.WorlPos, eventPos.Value);
-        if (distance < giant.attackRange)
+        float distance = Vector3.Distance(monster.WorlPos, eventPos.Value);
+        if (distance < monster.attackRange)
         {
             Attack();
         }
@@ -60,9 +60,9 @@ public class GiantRageState : GiantState
 
     protected virtual void Attack()
     {
-        giant.Stop();
+        monster.Stop();
         eventPos = null;
-        giant.ChangeState<GiantAttackState>();
+        monster.ChangeState<GiantAttackState>();
     }
 
     private void RageToEvent(EventTrigger nerbyEvent)
