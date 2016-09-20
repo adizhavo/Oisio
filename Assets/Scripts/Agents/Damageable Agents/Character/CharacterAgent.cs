@@ -11,10 +11,13 @@ public class CharacterAgent : DamageableAgent, EventTrigger
     public float sensibility;
     public float shootForce;
     public float collectorRange;
+    public float walkSpeed;
+    public float runSpeed;
 
     [Header("Stamina Configuration")]
     public float maxStamina;
     public float staminaRegen;
+    public float staminaCost;
 
     [Header("Standart dependencies")]
     public Animator characterAnimator;
