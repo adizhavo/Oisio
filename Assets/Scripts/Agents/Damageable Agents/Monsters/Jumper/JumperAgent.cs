@@ -25,7 +25,7 @@ public class JumperAgent : MonsterAgent
             new AttackAnimation(),
             new MapBlockHolder(),
             new AgentHealth(this),
-            new GiantAttackComponent(this)
+            new MonsterAttackComponent(this)
         };
     }
 
@@ -48,7 +48,7 @@ public class JumperAgent : MonsterAgent
     public override void Attack()
     {
         RequestComponent<AttackAnimation>().Attack(attackGameObject);
-        RequestComponent<GiantAttackComponent>().Attack<CharacterAgent>();
+        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
         CameraShake.Instance.StartShake(ShakeType.JumperAttack);
     }
 

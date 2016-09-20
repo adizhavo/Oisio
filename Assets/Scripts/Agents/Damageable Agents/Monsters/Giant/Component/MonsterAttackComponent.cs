@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GiantAttackComponent : AgentComponent
+public class MonsterAttackComponent : AgentComponent
 {
     private MonsterAgent attacker;
 
-    public GiantAttackComponent(MonsterAgent attacker)
+    public MonsterAttackComponent(MonsterAgent attacker)
     {
         this.attacker = attacker;
     }
@@ -17,7 +17,7 @@ public class GiantAttackComponent : AgentComponent
         foreach(T d in damageables)
         {
             float distance = Vector3.Distance(attacker.WorlPos, d.WorlPos);
-            if (distance > attacker.VisibilityRadius) return;
+            if (distance > attacker.attackRange) return;
 
             AgentHealth health = d.RequestComponent<AgentHealth>();
 
