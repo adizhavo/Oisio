@@ -1,41 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// Decreases a light's intensity over time
-/// </summary>
+// Cartoon FX  - (c) 2013, Jean Moreno
+
+// Decreases a light's intensity over time.
 
 [RequireComponent(typeof(Light))]
 public class CFX_LightIntensityFade : MonoBehaviour
 {
-	/// <summary>
-	/// Duration of the effect.
-	/// </summary>
+	// Duration of the effect.
 	public float duration = 1.0f;
 	
-	/// <summary>
-	/// Delay of the effect.
-	/// </summary>
+	// Delay of the effect.
 	public float delay = 0.0f;
 	
-	/// <summary>
 	/// Final intensity of the light.
-	/// </summary>
 	public float finalIntensity = 0.0f;
 	
-	/// <summary>
-	/// Base intensity, automatically taken from light parameters.
-	/// </summary>
+	// Base intensity, automatically taken from light parameters.
 	private float baseIntensity;
 	
-	/// <summary>
-	/// If <c>true</c>, light will destructs itself on completion of the effect
-	/// </summary>
+	// If <c>true</c>, light will destructs itself on completion of the effect
 	public bool autodestruct;
 	
 	private float p_lifetime = 0.0f;
 	private float p_delay;
-	
 	
 	void Start()
 	{
