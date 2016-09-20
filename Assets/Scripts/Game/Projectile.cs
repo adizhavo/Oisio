@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(DisableDelay))]
 public class Projectile : MonoBehaviour 
 {
     public Transform Graphic;
     private Rigidbody rigidBody;
+    private DisableDelay disableCountdown;
 
     public float Damage;
     private float deviationStrenght = 1;
@@ -16,7 +18,21 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
+        disableCountdown = GetComponent<DisableDelay>(); 
+        disableCountdown.enabled = false;
+    }
+
+    private void OnEnable()
+    {
+        ResetGraphic();
+        disableCountdown.enabled = false;
         rigidBody.isKinematic = true;
+        GetComponent<BoxCollider>().enabled = false;
+    }
+
+    private void ResetGraphic()
+    {
+        Graphic.rotation = Quaternion.identity;
     }
 
     public void Shoot(EventTrigger shooter, Vector3 force)
@@ -32,6 +48,8 @@ public class Projectile : MonoBehaviour
     private void Init(EventTrigger shooter, Vector3 force, Vector3 deviation)
     {
         rigidBody.isKinematic = false;
+
+        GetComponent<BoxCollider>().enabled = true;
         rigidBody.velocity = force;
         this.shooter = shooter;
         this.deviation = deviation;

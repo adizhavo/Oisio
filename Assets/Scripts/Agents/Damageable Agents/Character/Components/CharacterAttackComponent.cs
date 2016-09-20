@@ -58,7 +58,7 @@ public class CharacterAttackComponent : CharacterComponent
     {
         if (!arrowInstance)
         {
-            arrowInstance = (GameObject.Instantiate(agent.arrowPrefab) as GameObject).GetComponent<Projectile>();
+            arrowInstance = PooledObjects.Instance.RequestGameObject(GameObjectPool.Arrow).GetComponent<Projectile>();
             arrowInstance.transform.SetParent(agent.arrowParent, false);
             arrowInstance.transform.localPosition = Vector3.zero;
         }

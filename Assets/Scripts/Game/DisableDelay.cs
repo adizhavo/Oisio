@@ -13,6 +13,14 @@ public class DisableDelay : MonoBehaviour
     private IEnumerator StartCountdown () 
     {
         yield return new WaitForSeconds(disableAfter);
+        ResetTransform();
         gameObject.SetActive(false);
 	}
+
+    private void ResetTransform()
+    {
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        transform.localScale = Vector3.one;
+    }
 }
