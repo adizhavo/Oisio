@@ -116,11 +116,3 @@ public class Shake
         return currentAmplitude < 0f;
     }
 }
-
-public enum ShakeType
-{
-    Walk = 0,
-    Run = 1,
-    GiantAttack = 2,
-    JumperAttack = 3
-}
