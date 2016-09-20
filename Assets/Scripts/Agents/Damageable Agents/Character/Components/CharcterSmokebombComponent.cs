@@ -30,7 +30,7 @@ public class CharcterSmokebombComponent : CharacterComponent
 
     public void Fire()
     {
-        GameObject smokeInsr = PooledObjects.Instance.RequestGameObject(GameObjectPool.SmokeGranade);
+        GameObject smokeInsr = PooledObjects.Instance.RequestGameObject(GameObjectPool.SmokeGrenade);
         Vector3 deployPosition = agent.transform.position;
         smokeInsr.transform.position = deployPosition;
         EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, false);

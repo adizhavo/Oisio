@@ -2,5 +2,5 @@
 public enum GameObjectPool
 {
     Arrow = 0,
-    SmokeGranade = 1,
+    SmokeGrenade = 1,
 }
