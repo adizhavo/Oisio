@@ -16,4 +16,7 @@
            
     public const float smokeBombEnableTime = 10;
     public const float monsterSmokeEscapeDistance = 2;
+
+    public const string GAMEOBJECT_POOL_NAME = "GameObjectPool";
+    public const string GAMEOBJECT_POOL_PATH = "GameObjectPool";
 }
