@@ -16,7 +16,7 @@ public class CameraShake : ScriptableObject
     }
 
     [SerializeField] private Shake[] configuredShakes;
-    private List<Shake> activeShakes = new List<Shake>();
+    private List<Shake> activeShakes;
 
     public void FrameFeed()
     {
@@ -58,7 +58,7 @@ public class CameraShake : ScriptableObject
             foreach(ShakeType sht in shakes)
                 if (activeShakes[i].type.Equals(sht) && activeShakes.Contains(activeShakes[i]))
                 {
-                    activeShakes.Remove(activeShakes[i]);
+                    activeShakes.RemoveAt(i);
                     if (i > 0) i--;
                 }
     }
@@ -67,16 +67,18 @@ public class CameraShake : ScriptableObject
     public Vector2 GetShakePoint()
     {
         Vector2 center = Vector2.zero;
+        Vector2 direction = Vector2.zero;
 
         foreach(Shake shake in activeShakes)
         {
             Vector2 shakePoint = shake.GetShakePoint();
-            if (center.sqrMagnitude < Mathf.Epsilon) center = shakePoint;
-
-            center.x += Mathf.Abs(center.x - shakePoint.x) * Mathf.Sin(center.x);
-            center.y += Mathf.Abs(center.y - shakePoint.y) * Mathf.Sin(center.y);
+            center.x += Mathf.Abs(shakePoint.x);
+            center.y += Mathf.Abs(shakePoint.y);
+            direction += shakePoint;
         }
 
+        center.x *= Mathf.Sign(direction.x);
+        center.y *= Mathf.Sign(direction.y);
         return center;
     }
 }
@@ -106,7 +108,7 @@ public class Shake
 
     public Vector2 GetShakePoint()
     {
-        return hasFinished() ? Vector2.zero : Random.insideUnitCircle * currentAmplitude;
+        return hasFinished() ? Vector2.zero : Random.insideUnitCircle.normalized * currentAmplitude;
     }
 
     public bool hasFinished()
@@ -117,7 +119,8 @@ public class Shake
 
 public enum ShakeType
 {
-    Run,
-    GiantAttack,
-    JumperAttack
+    Walk = 0,
+    Run = 1,
+    GiantAttack = 2,
+    JumperAttack = 3
 }
