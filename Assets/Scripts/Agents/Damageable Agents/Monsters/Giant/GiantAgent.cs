@@ -39,5 +39,22 @@ public class GiantAgent : MonsterAgent
             };
     }
 
+    public override void PrepareAttack(float preparationTime)
+    {
+        RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);
+    }
+
+    public override void Attack()
+    {
+        RequestComponent<AttackAnimation>().Attack(attackGameObject);
+        RequestComponent<GiantAttackComponent>().Attack<CharacterAgent>();
+        CameraShake.Instance.StartShake(ShakeType.GiantAttack);
+    }
+
+    public override void RecoverAttack(float recoverTime)
+    {
+        RequestComponent<AttackAnimation>().Recover(attackGameObject, recoverTime);
+    }
+
     #endregion
 }

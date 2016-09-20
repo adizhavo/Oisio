@@ -70,21 +70,9 @@ public abstract class MonsterAgent : DamageableAgent, EventListener
 
     #endregion
 
-    public virtual void PrepareAttack(float preparationTime)
-    {
-        RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);
-    }
-
-    public virtual void Attack()
-    {
-        RequestComponent<AttackAnimation>().Attack(attackGameObject);
-        RequestComponent<GiantAttackComponent>().Attack<CharacterAgent>();
-    }
-
-    public virtual void RecoverAttack(float recoverTime)
-    {
-        RequestComponent<AttackAnimation>().Recover(attackGameObject, recoverTime);
-    }
+    public abstract void Attack();
+    public abstract void PrepareAttack(float preparationTime);
+    public abstract void RecoverAttack(float recoverTime);
 
     public void Stop()
     {
