@@ -8,7 +8,7 @@ public class CharacterMovementComponent : CharacterComponent
     {
         get 
         {
-            return GameConfig.staminaCost * Time.deltaTime;
+            return agent.staminaCost * Time.deltaTime;
         }
     }
 
@@ -35,7 +35,7 @@ public class CharacterMovementComponent : CharacterComponent
     {
         bool isRunning = InputConfig.Run() && HasEnoughStamina() && isMoving;
         if (InputConfig.Run() && isMoving) staminaComponent.ConsumeStamina(staminaCost);
-        float speed = isRunning ? GameConfig.maxCharacterSpeed : GameConfig.minCharacterSpeed;
+        float speed = isRunning ? agent.runSpeed : agent.walkSpeed;
         return speed;
     }
 

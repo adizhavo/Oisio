@@ -48,7 +48,7 @@ public class GiantBlindState : MonsterState
         Vector3 bombDirection = (monster.navMeshAgent.pathEndPosition - monster.WorlPos).normalized;
         bombDirection.y = 0;
 
-        eventPos = nerbyEvent.WorlPos + bombDirection * GameConfig.giantEscapeDistance;
+        eventPos = nerbyEvent.WorlPos + bombDirection * GameConfig.monsterSmokeEscapeDistance;
         monster.WorlPos = eventPos.Value;
         monster.SetSpeed(SpeedLevel.Fast);
     }

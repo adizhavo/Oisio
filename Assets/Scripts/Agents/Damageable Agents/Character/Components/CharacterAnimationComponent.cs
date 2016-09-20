@@ -11,7 +11,7 @@ public class CharacterAnimationComponent : CharacterComponent
 
     public override void FrameFeed()
     {
-        float runningSpeed = InputConfig.Run() ? GameConfig.maxCharacterSpeed : GameConfig.minCharacterSpeed;
+        float runningSpeed = InputConfig.Run() ? agent.runSpeed : agent.walkSpeed;
         SetRun(runningSpeed);
     }
 

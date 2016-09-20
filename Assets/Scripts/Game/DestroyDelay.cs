@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DestroyDelay : MonoBehaviour
 {
-    [SerializeField] private float destroyAfter = 1;
+    [SerializeField] private float destroyAfter;
 
     private IEnumerator Start () 
     {
