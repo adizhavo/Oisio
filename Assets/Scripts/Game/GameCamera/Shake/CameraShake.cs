@@ -20,6 +20,8 @@ public class CameraShake : ScriptableObject
 
     public void FrameFeed()
     {
+        if (activeShakes == null) return;
+
         for(int i = 0; i < activeShakes.Count; i ++)
         {
             activeShakes[i].FrameFeed();
