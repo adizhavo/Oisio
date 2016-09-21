@@ -24,12 +24,12 @@ public static class InputConfig
 
     public static bool Collect()
     {
-        return Input.GetKey(KeyCode.E);
+        return Input.GetKey(KeyCode.Space);
     }
 
     public static bool SmokeBomb()
     {
-        return Input.GetKeyUp(KeyCode.Q);
+        return Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.RightControl);
     }
 
     public static bool ActionDown()

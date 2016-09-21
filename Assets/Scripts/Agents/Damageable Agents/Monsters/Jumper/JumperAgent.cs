@@ -40,21 +40,10 @@ public class JumperAgent : MonsterAgent
         };
     }
 
-    public override void PrepareAttack(float preparationTime)
-    {
-        RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);
-    }
-
     public override void Attack()
     {
-        RequestComponent<AttackAnimation>().Attack(attackGameObject);
-        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
+        base.Attack();
         CameraShake.Instance.StartShake(ShakeType.JumperAttack);
-    }
-
-    public override void RecoverAttack(float recoverTime)
-    {
-        RequestComponent<AttackAnimation>().Recover(attackGameObject, recoverTime);
     }
 
     #endregion

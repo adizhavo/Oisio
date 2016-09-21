@@ -10,7 +10,11 @@ public class CameraShake : ScriptableObject
     {
         get
         {
-            if (instance == null) instance = Resources.Load(GameConfig.CAMERA_SHAKE_PATH) as CameraShake;
+            if (instance == null)
+            {
+                instance = Resources.Load(GameConfig.CAMERA_SHAKE_PATH) as CameraShake;
+                instance.Init();
+            }
             return instance;
         }
     }
@@ -18,8 +22,15 @@ public class CameraShake : ScriptableObject
     [SerializeField] private Shake[] configuredShakes;
     private List<Shake> activeShakes;
 
+    private void Init()
+    {
+        activeShakes = new List<Shake>();
+    }
+
     public void FrameFeed()
     {
+        if (activeShakes == null) return;
+
         for(int i = 0; i < activeShakes.Count; i ++)
         {
             activeShakes[i].FrameFeed();

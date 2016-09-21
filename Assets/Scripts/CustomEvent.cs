@@ -26,13 +26,7 @@ public class CustomEvent : EventTrigger
     {
         get 
         {
-            if (oneShot && !expired)
-            {
-                expired = Time.timeSinceLevelLoad - creationTime > activeTime;
-                if (expired) EventObserver.Unsubcribe(this);
-            }
-
-            return expired;
+            return Time.timeSinceLevelLoad - creationTime > activeTime;
         }
     }
 
