@@ -19,7 +19,7 @@ public class GiantAgent : MonsterAgent
             new AttackAnimation(),
             new MapBlockHolder(),
             new AgentHealth(this),
-            new GiantAttackComponent(this)
+            new MonsterAttackComponent(this)
         };
     }
 
@@ -37,6 +37,23 @@ public class GiantAgent : MonsterAgent
                 // next state
                 // ...
             };
+    }
+
+    public override void PrepareAttack(float preparationTime)
+    {
+        RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);
+    }
+
+    public override void Attack()
+    {
+        RequestComponent<AttackAnimation>().Attack(attackGameObject);
+        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
+        CameraShake.Instance.StartShake(ShakeType.GiantAttack);
+    }
+
+    public override void RecoverAttack(float recoverTime)
+    {
+        RequestComponent<AttackAnimation>().Recover(attackGameObject, recoverTime);
     }
 
     #endregion

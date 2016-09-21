@@ -12,7 +12,15 @@ public class CharacterMovementComponent : CharacterComponent
         }
     }
 
-    private bool isMoving
+    public bool isRunning
+    {
+        get
+        {
+            return InputConfig.Run() && HasEnoughStamina() && isMoving;
+        }
+    }
+
+    public bool isMoving
     {
         get 
         {
@@ -33,7 +41,6 @@ public class CharacterMovementComponent : CharacterComponent
 
     private float AgentSpeed()
     {
-        bool isRunning = InputConfig.Run() && HasEnoughStamina() && isMoving;
         if (InputConfig.Run() && isMoving) staminaComponent.ConsumeStamina(staminaCost);
         float speed = isRunning ? agent.runSpeed : agent.walkSpeed;
         return speed;

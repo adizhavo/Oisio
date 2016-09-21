@@ -19,4 +19,7 @@
 
     public const string GAMEOBJECT_POOL_NAME = "GameObjectPool";
     public const string GAMEOBJECT_POOL_PATH = "GameObjectPool";
+
+    public const string CAMERA_SHAKE_NAME = "CameraShakeConfig";
+    public const string CAMERA_SHAKE_PATH = "CameraShakeConfig";
 }

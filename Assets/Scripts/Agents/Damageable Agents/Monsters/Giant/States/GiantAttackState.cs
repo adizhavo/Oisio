@@ -54,6 +54,7 @@ public class GiantAttackState : MonsterState
         {
             stopFrameFeed = true;
             monster.Attack();
+            CameraShake.Instance.StartShake(ShakeType.GiantAttack);
 
             float percentage = 1f - attackEventPercentage;
             monster.RecoverAttack(monster.attackTime * percentage);
