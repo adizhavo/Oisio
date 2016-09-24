@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(Animator)]
+[RequireComponent(typeof(Animator))]
 public class GiantAgent : MonsterAgent
 {
     [Header("Giant FX Configuration")]
