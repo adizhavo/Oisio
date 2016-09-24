@@ -41,6 +41,7 @@ public interface AgentState
 public interface Damageable
 {
     void ApplyDamage(float damage);
+    void ApplyDamage(float damage, Vector3 hitPos);
 }
 
 #endregion

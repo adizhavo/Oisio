@@ -106,7 +106,7 @@ public class Projectile : MonoBehaviour
         Damageable dmg = col.transform.GetComponent<Damageable>();
         if (dmg != null)
         {
-            dmg.ApplyDamage(Damage);
+            dmg.ApplyDamage(Damage, col.contacts[(int)(col.contacts.Length / 2f)].point);
         }
     }
 }
