@@ -9,6 +9,9 @@ public class JumperAgent : MonsterAgent
     public float heightMultiplier;
     public float jumpSpeed;
 
+    [Header("Jumper FX Configuration")]
+    public GameObjectPool AttackEffect;
+
     #region MonsterAgent implementation
 
     protected override void Init()
@@ -44,7 +47,13 @@ public class JumperAgent : MonsterAgent
     {
         base.Attack();
         CameraShake.Instance.StartShake(ShakeType.JumperAttack);
+        DisplayAttackEffect();
     }
 
     #endregion
+
+    private void DisplayAttackEffect()
+    {
+        PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+    }
 }

@@ -4,5 +4,6 @@ public enum GameObjectPool
     Arrow = 0,
     SmokeGrenade = 1,
     NormalHit = 2,
-    CriticHit = 3
+    CriticHit = 3,
+    LightExplosion = 4,
 }
