@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public abstract class MonsterAgent : DamageableAgent, EventListener
 {
     [Header("Agent Configuration")]
-    public GameObject attackGameObject;
     public GiantSpeed[] availableMovements;
     public float alertReactionSpeed;
 
@@ -26,8 +25,6 @@ public abstract class MonsterAgent : DamageableAgent, EventListener
             alertLevel = Mathf.Clamp01(value);
         }
     }
-
-    protected MonsterAnimation monsterAnim;
 
     #region EventListener implementation
 
@@ -72,23 +69,6 @@ public abstract class MonsterAgent : DamageableAgent, EventListener
 
     #endregion
 
-    public virtual void Attack()
-    {
-        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
-    }
-
-    public virtual void PrepareAttack(float preparationTime)
-    {
-        RequestComponent<AttackAnimation>().PrepareAttack(attackGameObject, preparationTime);
-        monsterAnim.PrepareAttack(preparationTime);
-    }
-
-    public virtual void RecoverAttack(float recoverTime)
-    {
-        RequestComponent<AttackAnimation>().Recover(attackGameObject, recoverTime);
-        monsterAnim.Recover(recoverTime);
-    }
-
     public void Stop()
     {
         WorlPos = transform.position;
@@ -103,35 +83,8 @@ public abstract class MonsterAgent : DamageableAgent, EventListener
 
         #endif
     }
-}
 
-public class MonsterAnimation
-{
-    private Animator controller;
-    private string prepareAttackTrigger;
-    private string recoverAttackTrigger;
-    private string prepareAttackSpeed;
-    private string recoverAttackSpeed;
-
-    public MonsterAnimation(Animator controller, string prepareAttackTrigger, string prepareAttackSpeed, string recoverAttackTrigger, string recoverAttackSpeed)
-    {
-        this.controller = controller;
-        this.prepareAttackTrigger = prepareAttackTrigger;
-        this.recoverAttackTrigger = recoverAttackTrigger;
-
-        this.prepareAttackSpeed = prepareAttackSpeed;
-        this.recoverAttackSpeed = recoverAttackSpeed;
-    }
-
-    public void PrepareAttack(float time)
-    {
-        controller.SetTrigger(prepareAttackTrigger);
-//        controller.SetFloat(prepareAttackSpeed, time);
-    }
-
-    public void Recover(float time)
-    {
-        controller.SetTrigger(recoverAttackTrigger);
-//        controller.SetFloat(recoverAttackSpeed, time);
-    }
+    public abstract void Attack();
+    public abstract void PrepareAttack(float preparationTime);
+    public abstract void RecoverAttack(float recoverTime);
 }

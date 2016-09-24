@@ -12,14 +12,13 @@ public class JumperAgent : MonsterAgent
 
     [Header("Jumper FX Configuration")]
     public GameObjectPool AttackEffect;
+    public GameObject DamageZone;
 
     #region MonsterAgent implementation
 
     protected override void Init()
     {
         base.Init();
-
-        monsterAnim = new MonsterAnimation(GetComponent<Animator>(), "PrepareAttack", "PreSpeed", "RecoverAttack", "RecoverSpeed");
         ChangeState<JumperIdleState>();
     }
 
@@ -47,9 +46,19 @@ public class JumperAgent : MonsterAgent
 
     public override void Attack()
     {
-        base.Attack();
+        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
         CameraShake.Instance.StartShake(ShakeType.JumperAttack);
         DisplayAttackEffect();
+    }
+
+    public override void PrepareAttack(float preparationTime)
+    {
+        RequestComponent<AttackAnimation>().PrepareAttack(GetComponent<Animator>(), DamageZone, preparationTime);
+    }
+
+    public override void RecoverAttack(float recoverTime)
+    {
+        RequestComponent<AttackAnimation>().Recover(GetComponent<Animator>(), DamageZone, recoverTime);
     }
 
     #endregion
