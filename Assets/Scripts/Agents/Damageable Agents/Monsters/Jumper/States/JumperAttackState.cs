@@ -28,9 +28,6 @@ public class JumperAttackState : MonsterState
         Debug.Log("Jumper enters into Attack state..");
         #endif
 
-        monster.PrepareAttack(jumper.jumpSpeed);
-        startPos = monster.WorlPos;
-
         angle = 0f;
         jumpTime = 0f;
         eventPos = null;
@@ -43,12 +40,14 @@ public class JumperAttackState : MonsterState
 
     public override void Notify(EventTrigger nerbyEvent)
     {
-        if (nerbyEvent.subject.Equals(EventSubject.Attack))
+        if (!eventPos.HasValue && nerbyEvent.subject.Equals(EventSubject.Attack))
         {
             eventPos = nerbyEvent.WorlPos;
+            startPos = monster.WorlPos;
 
             float distance = Vector3.Distance(eventPos.Value, startPos);
             jumpTime = distance / jumper.jumpSpeed;
+            monster.PrepareAttack(jumpTime);
         }
     }
 
