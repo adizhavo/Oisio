@@ -1,4 +1,6 @@
-﻿public static class GameConfig 
+﻿using UnityEngine;
+
+public static class GameConfig 
 {
     // Character
     public const int arrowInventorySize = 10;
@@ -15,6 +17,7 @@
     public const int characterPriority = 2;
     public const int jumperAttackPriority = 3;
     public const int smokeBombPriotity = 4;
+    public static LayerMask EVENT_OBSERVER_IGNORE_MASK = LayerMask.NameToLayer("Monster");
            
     public const float smokeBombEnableTime = 10;
     public const float monsterSmokeEscapeDistance = 2;
