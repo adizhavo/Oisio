@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(Animator)]
 public class GiantAgent : MonsterAgent
 {
     [Header("Giant FX Configuration")]
@@ -12,6 +13,7 @@ public class GiantAgent : MonsterAgent
     {   
         base.Init();
 
+        monsterAnim = new MonsterAnimation(GetComponent<Animator>(), "PrepareAttack", "PreSpeed", "RecoverAttack", "RecoverSpeed");
         ChangeState<GiantIdleState>();
 	}
 

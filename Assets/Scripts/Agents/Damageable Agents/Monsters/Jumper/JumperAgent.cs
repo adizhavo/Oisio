@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(Animator)]
 public class JumperAgent : MonsterAgent 
 {
     [Header("Jumper Configuration")]
@@ -18,6 +19,7 @@ public class JumperAgent : MonsterAgent
     {
         base.Init();
 
+        monsterAnim = new MonsterAnimation(GetComponent<Animator>(), "PrepareAttack", "PreSpeed", "RecoverAttack", "RecoverSpeed");
         ChangeState<JumperIdleState>();
     }
 

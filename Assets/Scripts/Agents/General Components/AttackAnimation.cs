@@ -9,17 +9,12 @@ public class AttackAnimation : AgentComponent
     private float targetPercentage;
     private float currentPercentage;
 
-    public void PrepareAttack(GameObject animation, float transitionTime)
+    public void PrepareAttack(GameObject damageZone, float transitionTime)
     {
         this.transitionTime = transitionTime;
         targetPercentage = 1;
         timeCounter = 0f;
-        ZoneImage = animation;
-    }
-
-    public void Attack(GameObject animation)
-    {
-        Debug.Log("Attack animation...");
+        ZoneImage = damageZone;
     }
 
     public void Recover(GameObject animation, float transitionTime)
