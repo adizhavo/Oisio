@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class GiantAgent : MonsterAgent
 {
+    [Header("Giant FX Configuration")]
+    public GameObjectPool AttackEffect;
+
     #region MonsterAgent implementation
 
     protected override void Init ()
@@ -43,7 +46,13 @@ public class GiantAgent : MonsterAgent
     {
         base.Attack();
         CameraShake.Instance.StartShake(ShakeType.GiantAttack);
+        DisplayAttackEffect();
     }
 
     #endregion
+
+    private void DisplayAttackEffect()
+    {
+        PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+    }
 }
