@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Animator))]
 public class JumperAgent : MonsterAgent 
 {
     [Header("Jumper Configuration")]
@@ -9,12 +10,16 @@ public class JumperAgent : MonsterAgent
     public float heightMultiplier;
     public float jumpSpeed;
 
+    [Header("Jumper FX Configuration")]
+    public GameObjectPool AttackEffect;
+
     #region MonsterAgent implementation
 
     protected override void Init()
     {
         base.Init();
 
+        monsterAnim = new MonsterAnimation(GetComponent<Animator>(), "PrepareAttack", "PreSpeed", "RecoverAttack", "RecoverSpeed");
         ChangeState<JumperIdleState>();
     }
 
@@ -44,7 +49,13 @@ public class JumperAgent : MonsterAgent
     {
         base.Attack();
         CameraShake.Instance.StartShake(ShakeType.JumperAttack);
+        DisplayAttackEffect();
     }
 
     #endregion
+
+    private void DisplayAttackEffect()
+    {
+        PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+    }
 }
