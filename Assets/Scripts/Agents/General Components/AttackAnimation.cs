@@ -9,20 +9,34 @@ public class AttackAnimation : AgentComponent
     private float targetPercentage;
     private float currentPercentage;
 
-    public void PrepareAttack(GameObject damageZone, float transitionTime)
+    public void PrepareAttack(Animator anim, GameObject damageZone, float transitionTime)
     {
+        if (anim != null)
+        {
+            anim.SetTrigger(GameConfig.MONSTER_PREPARE_ATTACK_ANIM);
+        }
+
+        if (damageZone == null) return;
+
         this.transitionTime = transitionTime;
         targetPercentage = 1;
         timeCounter = 0f;
         ZoneImage = damageZone;
     }
 
-    public void Recover(GameObject animation, float transitionTime)
+    public void Recover(Animator anim, GameObject damageZone, float transitionTime)
     {
+        if (anim != null)
+        {
+            anim.SetTrigger(GameConfig.MONSTER_RECOVER_ATTACK_ANIM);
+        }
+
+        if (damageZone == null) return;
+
         this.transitionTime = transitionTime;
         targetPercentage = 0;
         timeCounter = 0f;
-        ZoneImage = animation;
+        ZoneImage = damageZone;
     }
 
     #region AgentComponent implementaion
