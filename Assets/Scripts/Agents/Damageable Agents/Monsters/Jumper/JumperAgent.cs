@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Agent.State;
 using Oisio.Agent.Component;
 using System.Collections.Generic;
 

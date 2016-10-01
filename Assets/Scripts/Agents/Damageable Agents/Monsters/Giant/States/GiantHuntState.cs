@@ -1,92 +1,95 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
 
-public class GiantHuntState : MonsterState 
+namespace Oisio.Agent.State
 {
-    private Vector3? eventPos = null;
-
-    public float reactionSpeed
+    public class GiantHuntState : MonsterState 
     {
-        get { return monster.alertReactionSpeed * Time.deltaTime; } 
-    }
+        private Vector3? eventPos = null;
 
-    public GiantHuntState(MonsterAgent monster) : base(monster) { }
-
-    #region implemented abstract members of GiantActionState
-    protected override void Init()
-    {
-        #if UNITY_EDITOR
-        Debug.Log("Giant enters into Hunt state..");
-        #endif
-
-        monster.SetSpeed(SpeedLevel.Fast);
-        eventPos = null;
-    }
-
-    public override void FrameFeed()
-    {
-        MovetoEventPos();
-        CheckState();
-        eventPos = null;
-    }
-
-    public override void Notify(EventTrigger nerbyEvent)
-    {
-        if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
+        public float reactionSpeed
         {
-            eventPos = nerbyEvent.WorlPos;
+            get { return monster.alertReactionSpeed * Time.deltaTime; } 
         }
-        else if (nerbyEvent.subject.Equals(EventSubject.Attack))
-        {
-            monster.ChangeState<GiantRageState>(nerbyEvent);
-        }
-        else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
-        {
-            monster.ChangeState<GiantBlindState>(nerbyEvent);
-        }
-    }
-    #endregion
 
-    protected virtual void MovetoEventPos()
-    {
-        if (eventPos.HasValue)
-        {
-            monster.WorlPos = eventPos.Value;
-        }
-    }
+        public GiantHuntState(MonsterAgent monster) : base(monster) { }
 
-    protected void CheckState()
-    {
-        if (!eventPos.HasValue)
+        #region implemented abstract members of GiantActionState
+        protected override void Init()
         {
-            monster.ChangeState<GiantAlertState>();
-            Reset();
+            #if UNITY_EDITOR
+            Debug.Log("Giant enters into Hunt state..");
+            #endif
+
+            monster.SetSpeed(SpeedLevel.Fast);
+            eventPos = null;
         }
-        else
+
+        public override void FrameFeed()
         {
-            TrytoAttack();
+            MovetoEventPos();
+            CheckState();
+            eventPos = null;
         }
-    }
 
-    private void TrytoAttack()
-    {
-        float distance = Vector3.Distance(monster.WorlPos, eventPos.Value);
-        if (distance < monster.attackRange)
+        public override void Notify(EventTrigger nerbyEvent)
         {
-            Attack();
+            if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget)) 
+            {
+                eventPos = nerbyEvent.WorlPos;
+            }
+            else if (nerbyEvent.subject.Equals(EventSubject.Attack))
+            {
+                monster.ChangeState<GiantRageState>(nerbyEvent);
+            }
+            else if (nerbyEvent.subject.Equals(EventSubject.SmokeBomb))
+            {
+                monster.ChangeState<GiantBlindState>(nerbyEvent);
+            }
         }
-    }
+        #endregion
 
-    protected virtual void Attack()
-    {
-        eventPos = null;
-        monster.Stop();
-        monster.ChangeState<GiantAttackState>();
-    }
+        protected virtual void MovetoEventPos()
+        {
+            if (eventPos.HasValue)
+            {
+                monster.WorlPos = eventPos.Value;
+            }
+        }
 
-    private void Reset()
-    {
-        eventPos = null;
-        monster.AlertLevel /= 2f;
+        protected void CheckState()
+        {
+            if (!eventPos.HasValue)
+            {
+                monster.ChangeState<GiantAlertState>();
+                Reset();
+            }
+            else
+            {
+                TrytoAttack();
+            }
+        }
+
+        private void TrytoAttack()
+        {
+            float distance = Vector3.Distance(monster.WorlPos, eventPos.Value);
+            if (distance < monster.attackRange)
+            {
+                Attack();
+            }
+        }
+
+        protected virtual void Attack()
+        {
+            eventPos = null;
+            monster.Stop();
+            monster.ChangeState<GiantAttackState>();
+        }
+
+        private void Reset()
+        {
+            eventPos = null;
+            monster.AlertLevel /= 2f;
+        }
     }
 }

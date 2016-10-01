@@ -1,62 +1,65 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
 
-public class GiantIdleState : MonsterState
+namespace Oisio.Agent.State
 {
-    protected float waitTime;
-
-    public GiantIdleState(MonsterAgent monster) : base(monster) { }
-
-    #region implemented abstract members of GiantActionState
-    protected override void Init()
+    public class GiantIdleState : MonsterState
     {
-        #if UNITY_EDITOR
-        Debug.Log("Giant enters into Idle state..");
-        #endif
+        protected float waitTime;
 
-        waitTime = Random.Range(3f, 7f);
-        monster.SetSpeed(SpeedLevel.Slow);
-    }
+        public GiantIdleState(MonsterAgent monster) : base(monster) { }
 
-    public override void FrameFeed()
-    {
-        if (waitTime < 0f)
+        #region implemented abstract members of GiantActionState
+        protected override void Init()
         {
-            GotoNearestResource();
-            waitTime = Random.Range(3f, 7f);
+            #if UNITY_EDITOR
+            Debug.Log("Giant enters into Idle state..");
+            #endif
 
-            if (ShouldChangeResource())
+            waitTime = Random.Range(3f, 7f);
+            monster.SetSpeed(SpeedLevel.Slow);
+        }
+
+        public override void FrameFeed()
+        {
+            if (waitTime < 0f)
             {
-                GotoRandomResource();
-                waitTime += 5f;
+                GotoNearestResource();
+                waitTime = Random.Range(3f, 7f);
+
+                if (ShouldChangeResource())
+                {
+                    GotoRandomResource();
+                    waitTime += 5f;
+                }
+            }
+
+            waitTime -= Time.deltaTime;
+        }
+
+        public override void Notify(EventTrigger nerbyEvent)
+        {
+            if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget) || nerbyEvent.subject.Equals(EventSubject.Attack)) 
+            {
+                monster.ChangeState<GiantAlertState>(nerbyEvent);
             }
         }
 
-        waitTime -= Time.deltaTime;
-    }
+        #endregion
 
-    public override void Notify(EventTrigger nerbyEvent)
-    {
-        if (nerbyEvent.subject.Equals(EventSubject.NerbyTarget) || nerbyEvent.subject.Equals(EventSubject.Attack)) 
+        protected virtual bool ShouldChangeResource()
         {
-            monster.ChangeState<GiantAlertState>(nerbyEvent);
+            return Random.Range(0, 2) == 0;
         }
-    }
 
-    #endregion
+        public virtual void GotoNearestResource()
+        {
+            monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetNearestPosition(monster);
+        }
 
-    protected virtual bool ShouldChangeResource()
-    {
-        return Random.Range(0, 2) == 0;
-    }
-
-    public virtual void GotoNearestResource()
-    {
-        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetNearestPosition(monster);
-    }
-
-    public virtual void GotoRandomResource()
-    {
-        monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetRandomPos();
+        public virtual void GotoRandomResource()
+        {
+            monster.WorlPos = monster.RequestComponent<MapBlockHolder>().GetRandomPos();
+        }
     }
 }
