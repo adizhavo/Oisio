@@ -2,165 +2,168 @@
 using Oisio.Events;
 using Oisio.Agent;
 
-// Handles character aim and attack with an arrow
-public class CharacterAttackComponent : CharacterComponent
+namespace Oisio.Agent.Component
 {
-    private Projectile arrowInstance;
-    private EnemyDirectionAim enemy;
-
-    private float cursorDeltaX;
-
-    private CharacterInventoryComponent characterInventory;
-    private TrajectoryGizmo throwTrajectory;
-
-    private ConsumableType arrow = ConsumableType.Arrow;
-
-    public CharacterAttackComponent(CharacterAgent agent) : base(agent)
+    // Handles character aim and attack with an arrow
+    public class CharacterAttackComponent : CharacterComponent
     {
-        enemy = new EnemyDirectionAim();
-    }
+        private Projectile arrowInstance;
+        private EnemyDirectionAim enemy;
 
-    #region implemented abstract members of AgentComponent
+        private float cursorDeltaX;
 
-    public override void FrameFeed()
-    {
-        if (characterInventory == null)
+        private CharacterInventoryComponent characterInventory;
+        private TrajectoryGizmo throwTrajectory;
+
+        private ConsumableType arrow = ConsumableType.Arrow;
+
+        public CharacterAttackComponent(CharacterAgent agent) : base(agent)
         {
-            characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
-            throwTrajectory = agent.RequestComponent<TrajectoryGizmo>();
-            return;
+            enemy = new EnemyDirectionAim();
         }
 
-        if (characterInventory.HasItem(arrow))
+        #region implemented abstract members of AgentComponent
+
+        public override void FrameFeed()
         {
-            if(InputConfig.Aim())
+            if (characterInventory == null)
             {
-                Aim();
+                characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
+                throwTrajectory = agent.RequestComponent<TrajectoryGizmo>();
+                return;
             }
-            else if (InputConfig.ActionUp())
+
+            if (characterInventory.HasItem(arrow))
             {
-                ThrowArrow();
-                characterInventory.UseItem(arrow);
+                if(InputConfig.Aim())
+                {
+                    Aim();
+                }
+                else if (InputConfig.ActionUp())
+                {
+                    ThrowArrow();
+                    characterInventory.UseItem(arrow);
+                }
+                else
+                    ResetAim();
             }
             else
                 ResetAim();
         }
-        else
-            ResetAim();
-    }
 
-    #endregion
+        #endregion
 
-    public void Aim()
-    {
-        CheckArrow();
-        RotateAimer();
-        DisplayTrajectory();
-        agent.aimerPivot.gameObject.SetActive(true);
-    }
-
-    private void CheckArrow()
-    {
-        if (!arrowInstance)
+        public void Aim()
         {
-            arrowInstance = PooledObjects.Instance.RequestGameObject(GameObjectPool.Arrow).GetComponent<Projectile>();
-            arrowInstance.transform.SetParent(agent.arrowParent, false);
-            arrowInstance.transform.localPosition = Vector3.zero;
+            CheckArrow();
+            RotateAimer();
+            DisplayTrajectory();
+            agent.aimerPivot.gameObject.SetActive(true);
         }
 
-        arrowInstance.gameObject.SetActive(true);
-    }
-
-    private void RotateAimer()
-    {
-        cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
-        Vector3 targetPos = enemy.NearbyEnemyDir(agent.transform.position);
-        agent.aimerPivot.rotation = Quaternion.LookRotation(targetPos);
-        agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaX, 
-                                                     agent.aimerPivot.localEulerAngles.y, 
-                                                     agent.aimerPivot.localEulerAngles.z);
-    }
-
-    private void DisplayTrajectory()
-    {
-        Vector3 shootForce = (agent.arrowParent.position - agent.aimerPivot.position).normalized * agent.shootForce;
-        throwTrajectory.Display(agent.aimerPivot.position, shootForce);
-    }
-
-    public void ResetAim()
-    {
-        if (arrowInstance) arrowInstance.gameObject.SetActive(false);
-        agent.aimerPivot.localEulerAngles = Vector3.zero;
-        agent.aimerPivot.gameObject.SetActive(false);
-        cursorDeltaX = 0f;
-    }
-
-    private int AimingDirection()
-    {
-        return agent.invertAiming ? 1 : -1;
-    }
-
-    public void ThrowArrow()
-    {
-        if (!arrowInstance) return;
-
-        EventTrigger attackEvent = new CustomEvent(agent.aimerPivot.position, EventSubject.Attack, GameConfig.projectilePriority);
-
-        // TODO : fix the direction calculation, the base position should be the head of the character, or the end of the arrow, not the agent
-        Vector3 shootDirection = agent.arrowParent.position - agent.aimerPivot.position;
-        arrowInstance.Shoot(attackEvent, shootDirection.normalized * agent.shootForce);
-
-        arrowInstance.transform.SetParent(null);
-        arrowInstance = null;
-    }
-}
-
-public class EnemyDirectionAim
-{
-    private GameObject[] enemies;
-    private string enemyTag = "Enemy";
-
-    public EnemyDirectionAim()
-    {
-        enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-    }
-
-    public Vector3 NearbyEnemyDir(Vector3 currentPos)
-    {
-        Vector3? closestTarget = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach(GameObject go in enemies)
+        private void CheckArrow()
         {
-            float distance = Vector3.Distance(currentPos, go.transform.position);
-            if (!closestTarget.HasValue || distance < closestDistance)
+            if (!arrowInstance)
             {
-                closestDistance = distance;
-                closestTarget = go.transform.position;
+                arrowInstance = PooledObjects.Instance.RequestGameObject(GameObjectPool.Arrow).GetComponent<Projectile>();
+                arrowInstance.transform.SetParent(agent.arrowParent, false);
+                arrowInstance.transform.localPosition = Vector3.zero;
             }
+
+            arrowInstance.gameObject.SetActive(true);
         }
 
-        Vector3 direction = (closestTarget.Value - currentPos).normalized;
-        direction.y = 0;
+        private void RotateAimer()
+        {
+            cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
+            Vector3 targetPos = enemy.NearbyEnemyDir(agent.transform.position);
+            agent.aimerPivot.rotation = Quaternion.LookRotation(targetPos);
+            agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaX, 
+                                                         agent.aimerPivot.localEulerAngles.y, 
+                                                         agent.aimerPivot.localEulerAngles.z);
+        }
 
-        return direction;
+        private void DisplayTrajectory()
+        {
+            Vector3 shootForce = (agent.arrowParent.position - agent.aimerPivot.position).normalized * agent.shootForce;
+            throwTrajectory.Display(agent.aimerPivot.position, shootForce);
+        }
+
+        public void ResetAim()
+        {
+            if (arrowInstance) arrowInstance.gameObject.SetActive(false);
+            agent.aimerPivot.localEulerAngles = Vector3.zero;
+            agent.aimerPivot.gameObject.SetActive(false);
+            cursorDeltaX = 0f;
+        }
+
+        private int AimingDirection()
+        {
+            return agent.invertAiming ? 1 : -1;
+        }
+
+        public void ThrowArrow()
+        {
+            if (!arrowInstance) return;
+
+            EventTrigger attackEvent = new CustomEvent(agent.aimerPivot.position, EventSubject.Attack, GameConfig.projectilePriority);
+
+            // TODO : fix the direction calculation, the base position should be the head of the character, or the end of the arrow, not the agent
+            Vector3 shootDirection = agent.arrowParent.position - agent.aimerPivot.position;
+            arrowInstance.Shoot(attackEvent, shootDirection.normalized * agent.shootForce);
+
+            arrowInstance.transform.SetParent(null);
+            arrowInstance = null;
+        }
     }
 
-    public Vector3 NearbyEnemyPos(Vector3 currentPos)
+    public class EnemyDirectionAim
     {
-        Vector3? closestTarget = null;
-        float closestDistance = Mathf.Infinity;
+        private GameObject[] enemies;
+        private string enemyTag = "Enemy";
 
-        foreach(GameObject go in enemies)
+        public EnemyDirectionAim()
         {
-            float distance = Vector3.Distance(currentPos, go.transform.position);
-            if (!closestTarget.HasValue || distance < closestDistance)
-            {
-                closestDistance = distance;
-                closestTarget = go.transform.position;
-            }
+            enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         }
 
-        return closestTarget.Value;
+        public Vector3 NearbyEnemyDir(Vector3 currentPos)
+        {
+            Vector3? closestTarget = null;
+            float closestDistance = Mathf.Infinity;
+
+            foreach(GameObject go in enemies)
+            {
+                float distance = Vector3.Distance(currentPos, go.transform.position);
+                if (!closestTarget.HasValue || distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = go.transform.position;
+                }
+            }
+
+            Vector3 direction = (closestTarget.Value - currentPos).normalized;
+            direction.y = 0;
+
+            return direction;
+        }
+
+        public Vector3 NearbyEnemyPos(Vector3 currentPos)
+        {
+            Vector3? closestTarget = null;
+            float closestDistance = Mathf.Infinity;
+
+            foreach(GameObject go in enemies)
+            {
+                float distance = Vector3.Distance(currentPos, go.transform.position);
+                if (!closestTarget.HasValue || distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = go.transform.position;
+                }
+            }
+
+            return closestTarget.Value;
+        }
     }
 }

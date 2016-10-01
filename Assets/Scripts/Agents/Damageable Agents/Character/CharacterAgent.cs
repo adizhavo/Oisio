@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Oisio.Events;
+using Oisio.Agent.Component;
 using System.Collections.Generic;
 
 namespace Oisio.Agent

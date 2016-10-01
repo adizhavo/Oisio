@@ -1,58 +1,61 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
 
-public class CharacterStaminaComponent : CharacterComponent
+namespace Oisio.Agent.Component
 {
-    public float stamina
+    public class CharacterStaminaComponent : CharacterComponent
     {
-        private set;
-        get;
-    }
-
-    public float maxStamina
-    {
-        get 
+        public float stamina
         {
-            return agent.maxStamina;
-        }
-    }
-
-    public float staminaRegeneration
-    {
-        get 
-        {
-            return agent.staminaRegen * Time.deltaTime;
-        }
-    }
-
-    private bool consuming = false;
-
-    public CharacterStaminaComponent(CharacterAgent agent) : base (agent) 
-    {
-        stamina = agent.maxStamina;
-    }
-
-    #region implemented abstract members of AgentComponent
-
-    public override void FrameFeed()
-    {
-        if (consuming)
-        {
-            consuming = false;
-            return;
+            private set;
+            get;
         }
 
-        stamina += staminaRegeneration;
-        stamina = Mathf.Clamp(stamina, 0, maxStamina);
-    }
+        public float maxStamina
+        {
+            get 
+            {
+                return agent.maxStamina;
+            }
+        }
 
-    #endregion
+        public float staminaRegeneration
+        {
+            get 
+            {
+                return agent.staminaRegen * Time.deltaTime;
+            }
+        }
 
-    public void ConsumeStamina(float amount)
-    {
-        stamina -= amount;
-        if (stamina < 0) stamina = 0;
+        private bool consuming = false;
 
-        consuming = true;
+        public CharacterStaminaComponent(CharacterAgent agent) : base (agent) 
+        {
+            stamina = agent.maxStamina;
+        }
+
+        #region implemented abstract members of AgentComponent
+
+        public override void FrameFeed()
+        {
+            if (consuming)
+            {
+                consuming = false;
+                return;
+            }
+
+            stamina += staminaRegeneration;
+            stamina = Mathf.Clamp(stamina, 0, maxStamina);
+        }
+
+        #endregion
+
+        public void ConsumeStamina(float amount)
+        {
+            stamina -= amount;
+            if (stamina < 0) stamina = 0;
+
+            consuming = true;
+        }
     }
 }

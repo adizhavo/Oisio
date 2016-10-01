@@ -2,110 +2,113 @@
 using Oisio.Agent;
 using System.Collections.Generic;
 
-public class CharacterInventoryComponent : CharacterComponent
+namespace Oisio.Agent.Component
 {
-    private List<Slot> inventorySlots = new List<Slot>();
-
-    public CharacterInventoryComponent(CharacterAgent agent) : base (agent) { }
-
-    public void AddSlot(Slot itemSlot)
+    public class CharacterInventoryComponent : CharacterComponent
     {
-        inventorySlots.Add(itemSlot);
-    }
+        private List<Slot> inventorySlots = new List<Slot>();
 
-    public bool HasItem(ConsumableType requestedType)
-    {
-        foreach(Slot s in inventorySlots)
+        public CharacterInventoryComponent(CharacterAgent agent) : base (agent) { }
+
+        public void AddSlot(Slot itemSlot)
         {
-            if (s.slotType.Equals(requestedType))
-                return s.HasItems();
+            inventorySlots.Add(itemSlot);
         }
 
-        return false;
-    }
-
-    public void AddItem(ConsumableType requestedType)
-    {
-        foreach(Slot s in inventorySlots)
+        public bool HasItem(ConsumableType requestedType)
         {
-            if (s.slotType.Equals(requestedType))
+            foreach(Slot s in inventorySlots)
             {
-                s.AddItem();
-                return;
+                if (s.slotType.Equals(requestedType))
+                    return s.HasItems();
             }
-        }
-    }
 
-    public void UseItem(ConsumableType requestedType)
-    {
-        foreach(Slot s in inventorySlots)
-        {
-            if (s.slotType.Equals(requestedType))
-            {
-                s.UseItem();
-                return;
-            }
+            return false;
         }
-    }
 
-    public int GetItemStock(ConsumableType requestedType)
-    {
-        foreach(Slot s in inventorySlots)
+        public void AddItem(ConsumableType requestedType)
         {
-            if (s.slotType.Equals(requestedType))
+            foreach(Slot s in inventorySlots)
             {
-                return s.StockItem;
+                if (s.slotType.Equals(requestedType))
+                {
+                    s.AddItem();
+                    return;
+                }
             }
         }
 
-        return -1;
-    }
-
-    #region CharacterComponent implementation
-
-    public override void FrameFeed() { }
-
-    #endregion
-}
-
-public class Slot
-{
-    public ConsumableType slotType;
-    public int maxSize;
-
-    private int stockItem;
-    public int StockItem
-    {
-        set
+        public void UseItem(ConsumableType requestedType)
         {
-            stockItem = value;
-            stockItem = Mathf.Clamp(stockItem, 0, maxSize);
+            foreach(Slot s in inventorySlots)
+            {
+                if (s.slotType.Equals(requestedType))
+                {
+                    s.UseItem();
+                    return;
+                }
+            }
         }
-        get
+
+        public int GetItemStock(ConsumableType requestedType)
         {
-            return stockItem;
+            foreach(Slot s in inventorySlots)
+            {
+                if (s.slotType.Equals(requestedType))
+                {
+                    return s.StockItem;
+                }
+            }
+
+            return -1;
         }
+
+        #region CharacterComponent implementation
+
+        public override void FrameFeed() { }
+
+        #endregion
     }
 
-    public Slot(ConsumableType slotType, int maxSize)
+    public class Slot
     {
-        this.slotType = slotType;
-        this.maxSize = maxSize;
-        StockItem = 0;
-    }
+        public ConsumableType slotType;
+        public int maxSize;
 
-    public void AddItem()
-    {
-        StockItem ++;
-    }
+        private int stockItem;
+        public int StockItem
+        {
+            set
+            {
+                stockItem = value;
+                stockItem = Mathf.Clamp(stockItem, 0, maxSize);
+            }
+            get
+            {
+                return stockItem;
+            }
+        }
 
-    public void UseItem()
-    {
-        StockItem --;
-    }
+        public Slot(ConsumableType slotType, int maxSize)
+        {
+            this.slotType = slotType;
+            this.maxSize = maxSize;
+            StockItem = 0;
+        }
 
-    public bool HasItems()
-    {
-        return stockItem > 0;
+        public void AddItem()
+        {
+            StockItem ++;
+        }
+
+        public void UseItem()
+        {
+            StockItem --;
+        }
+
+        public bool HasItems()
+        {
+            return stockItem > 0;
+        }
     }
 }
