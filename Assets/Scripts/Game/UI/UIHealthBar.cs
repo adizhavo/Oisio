@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
+using Oisio.Agent.Component;
 using UnityEngine.UI;
 
 public class UIHealthBar : MonoBehaviour 

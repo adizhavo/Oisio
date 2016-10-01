@@ -1,50 +1,53 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
 
-public class AgentHealth : AgentComponent 
+namespace Oisio.Agent.Component
 {
-    public float health
+    public class AgentHealth : AgentComponent 
     {
-        private set;
-        get;
-    }
-
-    public float maxhealth
-    {
-        get 
+        public float health
         {
-            return agent.maxHealth;
+            private set;
+            get;
         }
-    }
 
-    public float healthRegen
-    {
-        get 
+        public float maxhealth
         {
-            return agent.healthRegen * Time.deltaTime;
+            get 
+            {
+                return agent.maxHealth;
+            }
         }
-    }
 
-    private DamageableAgent agent;
+        public float healthRegen
+        {
+            get 
+            {
+                return agent.healthRegen * Time.deltaTime;
+            }
+        }
 
-    public AgentHealth(DamageableAgent agent)
-    {
-        this.agent = agent;
-        health = agent.maxHealth;
-    }
+        private DamageableAgent agent;
 
-    #region AgentComponent implementation
+        public AgentHealth(DamageableAgent agent)
+        {
+            this.agent = agent;
+            health = agent.maxHealth;
+        }
 
-    public void FrameFeed()
-    {
-        health += healthRegen;
-        health = Mathf.Clamp(health, 0f, maxhealth);
-    }
+        #region AgentComponent implementation
 
-    #endregion
+        public void FrameFeed()
+        {
+            health += healthRegen;
+            health = Mathf.Clamp(health, 0f, maxhealth);
+        }
 
-    public void ApplyDamage(float damage)
-    {
-        health -= damage;
+        #endregion
+
+        public void ApplyDamage(float damage)
+        {
+            health -= damage;
+        }
     }
 }
