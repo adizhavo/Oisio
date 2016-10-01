@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Oisio.Game;
+using UnityEngine;
 using Oisio.Agent;
 
 namespace Oisio.Agent.Component

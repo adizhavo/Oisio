@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Oisio.Game;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace Oisio.Events

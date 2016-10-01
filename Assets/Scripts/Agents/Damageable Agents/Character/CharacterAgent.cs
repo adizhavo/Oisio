@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Oisio.Game;
+using UnityEngine;
 using Oisio.Events;
+using Oisio.Agent.State;
 using Oisio.Agent.Component;
 using System.Collections.Generic;
 

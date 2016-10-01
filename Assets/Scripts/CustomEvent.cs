@@ -11,7 +11,6 @@ namespace Oisio.Events
         private float activeTime;
 
         private float creationTime;
-        private bool expired = false;
 
         public CustomEvent(Vector3 worldPos, EventSubject eventSubject, int priority, float activeTime = Mathf.Infinity, bool oneShotEvent = false)
         {

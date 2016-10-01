@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Oisio.Game;
+using UnityEngine;
 using Oisio.Agent;
+using System.Collections;
 
 namespace Oisio.Agent.Component
 {

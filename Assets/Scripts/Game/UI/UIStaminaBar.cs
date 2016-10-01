@@ -3,25 +3,28 @@ using Oisio.Agent;
 using Oisio.Agent.Component;
 using UnityEngine.UI;
 
-public class UIStaminaBar : MonoBehaviour 
+namespace Oisio.Game
 {
-    [SerializeField] private CharacterAgent observedAgent;
-
-    [Header("UI Dependecies")]
-    [SerializeField] private Image fillBar;
-
-    private CharacterStaminaComponent staminaComponent;
-
-	private void Start () 
+    public class UIStaminaBar : MonoBehaviour 
     {
-        staminaComponent = observedAgent.RequestComponent<CharacterStaminaComponent>();
-	}
+        [SerializeField] private CharacterAgent observedAgent;
 
-	private void Update () 
-    {
-        if (staminaComponent == null) return;
+        [Header("UI Dependecies")]
+        [SerializeField] private Image fillBar;
 
-        float percentage = staminaComponent.stamina / staminaComponent.maxStamina;
-        fillBar.fillAmount = percentage;
-	}
+        private CharacterStaminaComponent staminaComponent;
+
+    	private void Start () 
+        {
+            staminaComponent = observedAgent.RequestComponent<CharacterStaminaComponent>();
+    	}
+
+    	private void Update () 
+        {
+            if (staminaComponent == null) return;
+
+            float percentage = staminaComponent.stamina / staminaComponent.maxStamina;
+            fillBar.fillAmount = percentage;
+    	}
+    }
 }
