@@ -8,6 +8,7 @@ public class CharacterAttackComponent : CharacterComponent
     private float cursorDeltaX;
 
     private CharacterInventoryComponent characterInventory;
+    private ConsumableType arrow = ConsumableType.Arrow;
 
     public CharacterAttackComponent(CharacterAgent agent) : base(agent)
     {
@@ -23,8 +24,6 @@ public class CharacterAttackComponent : CharacterComponent
             characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
             return;
         }
-
-        ConsumableType arrow = ConsumableType.Arrow;
 
         if (characterInventory.HasItem(arrow))
         {
@@ -97,7 +96,7 @@ public class CharacterAttackComponent : CharacterComponent
 
         // TODO : fix the direction calculation, the base position should be the head of the character, or the end of the arrow, not the agent
         Vector3 shootDirection = agent.arrowParent.position - agent.aimerPivot.position;
-        arrowInstance.Shoot(attackEvent, shootDirection * agent.shootForce);
+        arrowInstance.Shoot(attackEvent, shootDirection.normalized * agent.shootForce);
 
         arrowInstance.transform.SetParent(null);
         arrowInstance = null;
