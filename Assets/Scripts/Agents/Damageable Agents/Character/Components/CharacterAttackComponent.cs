@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Events;
 
 public class CharacterAttackComponent : CharacterComponent
 {

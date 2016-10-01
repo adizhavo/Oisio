@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Oisio.Events;
 
 public class CharcterSmokebombComponent : CharacterComponent
 {

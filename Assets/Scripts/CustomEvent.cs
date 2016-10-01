@@ -1,58 +1,62 @@
 ﻿using UnityEngine;
 
-public class CustomEvent : EventTrigger
+namespace Oisio.Events
 {
-    private EventSubject eventSubject;
-    private int priority;
-    private bool oneShotEvent;
-    private float activeTime;
-
-    private float creationTime;
-    private bool expired = false;
-
-    public CustomEvent(Vector3 worldPos, EventSubject eventSubject, int priority, float activeTime = Mathf.Infinity, bool oneShotEvent = false)
+    // custom event that cna be cinstructed and subscribed to the observer
+    public class CustomEvent : EventTrigger
     {
-        this.WorlPos = worldPos;
-        this.eventSubject = eventSubject;
-        this.priority = priority;
-        this.oneShotEvent = oneShotEvent;
-        this.activeTime = activeTime;
+        private EventSubject eventSubject;
+        private int priority;
+        private bool oneShotEvent;
+        private float activeTime;
 
-        creationTime = Time.timeSinceLevelLoad;
-    }
+        private float creationTime;
+        private bool expired = false;
 
-    #region EventTrigger implementation
-    public bool hasExpired
-    {
-        get 
+        public CustomEvent(Vector3 worldPos, EventSubject eventSubject, int priority, float activeTime = Mathf.Infinity, bool oneShotEvent = false)
         {
-            return Time.timeSinceLevelLoad - creationTime > activeTime;
-        }
-    }
+            this.WorlPos = worldPos;
+            this.eventSubject = eventSubject;
+            this.priority = priority;
+            this.oneShotEvent = oneShotEvent;
+            this.activeTime = activeTime;
 
-    public bool oneShot
-    {
-        get 
-        {
-            return oneShotEvent;
+            creationTime = Time.timeSinceLevelLoad;
         }
-    }
 
-    public int Priority
-    {
-        get
+        #region EventTrigger implementation
+        public bool hasExpired
         {
-            return priority;
+            get 
+            {
+                return Time.timeSinceLevelLoad - creationTime > activeTime;
+            }
         }
-    }
-    public EventSubject subject
-    {
-        get
-        {
-            return eventSubject;
-        }
-    }
 
-    public Vector3 WorlPos { set; get; }
-    #endregion
+        public bool oneShot
+        {
+            get 
+            {
+                return oneShotEvent;
+            }
+        }
+
+        public int Priority
+        {
+            get
+            {
+                return priority;
+            }
+        }
+        public EventSubject subject
+        {
+            get
+            {
+                return eventSubject;
+            }
+        }
+
+        public Vector3 WorlPos { set; get; }
+        #endregion
+    }
 }

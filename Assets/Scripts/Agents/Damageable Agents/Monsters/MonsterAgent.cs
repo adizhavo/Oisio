@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Events;
 using System.Collections.Generic;
 
 public abstract class MonsterAgent : DamageableAgent, EventListener

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Events;
 using System.Collections.Generic;
 
 public class CharacterAgent : DamageableAgent, EventTrigger
