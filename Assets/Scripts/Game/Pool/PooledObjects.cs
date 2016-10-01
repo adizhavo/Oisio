@@ -67,7 +67,7 @@ public class Pool
         pool = new List<GameObject>();
 
         for(int i = 0; i < size; i ++)
-            AddClone();
+            CreateAndAddClone(false);
     }
 
     public bool isInitialized()
@@ -77,25 +77,40 @@ public class Pool
 
     public GameObject GetPooledObject()
     {
-        foreach(GameObject ob in pool)
+        for (int i = 0; i < pool.Count; i++)
         {
-            if (!ob.activeSelf)
+            if (pool[i] == null) 
             {
-                ob.SetActive(true);
-                return ob;
+                return CreateAndAddClone(true);   
+            }
+            else if (!pool[i].activeSelf)
+            {
+                pool[i].SetActive(true);
+                return pool[i];
             }
         }
 
-        GameObject clone = AddClone();
-        clone.SetActive(true);
+        return CreateAndAddClone(true);
+    }
+
+    private GameObject CreateAndAddClone(bool active)
+    {
+        GameObject clone = CreateClone();
+        AddClone(clone);
+        clone.SetActive(active);
         return clone;
     }
 
-    private GameObject AddClone()
+    private GameObject CreateClone()
     {
         GameObject clone = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
         clone.transform.SetParent(poolParent);
         clone.SetActive(false);
+        return clone;
+    }
+
+    private GameObject AddClone(GameObject clone)
+    {
         pool.Add(clone);
         return clone;
     }

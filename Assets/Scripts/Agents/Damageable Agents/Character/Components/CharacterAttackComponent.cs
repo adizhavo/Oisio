@@ -8,6 +8,9 @@ public class CharacterAttackComponent : CharacterComponent
     private float cursorDeltaX;
 
     private CharacterInventoryComponent characterInventory;
+    private TrajectoryGizmo throwTrajectory;
+
+    private ConsumableType arrow = ConsumableType.Arrow;
 
     public CharacterAttackComponent(CharacterAgent agent) : base(agent)
     {
@@ -21,10 +24,9 @@ public class CharacterAttackComponent : CharacterComponent
         if (characterInventory == null)
         {
             characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
+            throwTrajectory = agent.RequestComponent<TrajectoryGizmo>();
             return;
         }
-
-        ConsumableType arrow = ConsumableType.Arrow;
 
         if (characterInventory.HasItem(arrow))
         {
@@ -50,7 +52,7 @@ public class CharacterAttackComponent : CharacterComponent
     {
         CheckArrow();
         RotateAimer();
-
+        DisplayTrajectory();
         agent.aimerPivot.gameObject.SetActive(true);
     }
 
@@ -76,6 +78,12 @@ public class CharacterAttackComponent : CharacterComponent
                                                      agent.aimerPivot.localEulerAngles.z);
     }
 
+    private void DisplayTrajectory()
+    {
+        Vector3 shootForce = (agent.arrowParent.position - agent.aimerPivot.position).normalized * agent.shootForce;
+        throwTrajectory.Display(agent.aimerPivot.position, shootForce);
+    }
+
     public void ResetAim()
     {
         if (arrowInstance) arrowInstance.gameObject.SetActive(false);
@@ -97,7 +105,7 @@ public class CharacterAttackComponent : CharacterComponent
 
         // TODO : fix the direction calculation, the base position should be the head of the character, or the end of the arrow, not the agent
         Vector3 shootDirection = agent.arrowParent.position - agent.aimerPivot.position;
-        arrowInstance.Shoot(attackEvent, shootDirection * agent.shootForce);
+        arrowInstance.Shoot(attackEvent, shootDirection.normalized * agent.shootForce);
 
         arrowInstance.transform.SetParent(null);
         arrowInstance = null;
