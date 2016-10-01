@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Agent;
 using System.Collections.Generic;
 
 public class CharacterInventoryComponent : CharacterComponent

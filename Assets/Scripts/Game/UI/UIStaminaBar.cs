@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Agent;
 using UnityEngine.UI;
 
 public class UIStaminaBar : MonoBehaviour 

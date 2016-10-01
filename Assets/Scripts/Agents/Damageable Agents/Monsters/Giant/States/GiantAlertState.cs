@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Oisio.Agent;
 
 public class GiantAlertState : MonsterState 
 {

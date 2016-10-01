@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using Oisio.Agent;
 
+// Collects nerby resources
 public class CharacterResourceComponent : CharacterComponent, Consumer
 {
     private CharacterInventoryComponent characterInventory;

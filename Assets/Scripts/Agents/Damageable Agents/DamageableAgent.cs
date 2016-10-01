@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class DamageableAgent : Agent
+namespace Oisio.Agent
 {
-    [Header("Health config")]
-    public float maxHealth;
-    public float healthRegen;
+    public abstract class DamageableAgent : Agent
+    {
+        [Header("Health config")]
+        public float maxHealth;
+        public float healthRegen;
+    }
 }

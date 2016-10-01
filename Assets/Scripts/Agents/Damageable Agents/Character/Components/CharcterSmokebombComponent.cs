@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Oisio.Events;
+using Oisio.Agent;
 
 public class CharcterSmokebombComponent : CharacterComponent
 {

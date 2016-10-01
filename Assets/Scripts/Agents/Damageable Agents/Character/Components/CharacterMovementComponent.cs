@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Agent;
 
 public class CharacterMovementComponent : CharacterComponent
 {

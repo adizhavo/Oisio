@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Oisio.Events;
+using Oisio.Agent;
 
+// Handles character aim and attack with an arrow
 public class CharacterAttackComponent : CharacterComponent
 {
     private Projectile arrowInstance;

@@ -1,70 +1,73 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Animator))]
-public class JumperAgent : MonsterAgent 
+namespace Oisio.Agent
 {
-    [Header("Jumper Configuration")]
-    public GameObject jumperRoot;
-    public float jumpDistance;
-    public float heightMultiplier;
-    public float jumpSpeed;
-
-    [Header("Jumper FX Configuration")]
-    public GameObjectPool AttackEffect;
-    public GameObject DamageZone;
-
-    #region MonsterAgent implementation
-
-    protected override void Init()
+    [RequireComponent(typeof(Animator))]
+    public class JumperAgent : MonsterAgent 
     {
-        base.Init();
-        ChangeState<JumperIdleState>();
-    }
+        [Header("Jumper Configuration")]
+        public GameObject jumperRoot;
+        public float jumpDistance;
+        public float heightMultiplier;
+        public float jumpSpeed;
 
-    protected override List<AgentComponent> InitComponents()
-    {
-        return new List<AgentComponent>
+        [Header("Jumper FX Configuration")]
+        public GameObjectPool AttackEffect;
+        public GameObject DamageZone;
+
+        #region MonsterAgent implementation
+
+        protected override void Init()
         {
-            new AttackAnimation(),
-            new MapBlockHolder(),
-            new AgentHealth(this),
-            new MonsterAttackComponent(this)
-        };
-    }
+            base.Init();
+            ChangeState<JumperIdleState>();
+        }
 
-    protected override AgentState[] InitStates()
-    {
-        return new AgentState[]
+        protected override List<AgentComponent> InitComponents()
         {
-            new JumperIdleState(this),
-            new JumperAlertState(this), 
-            new JumperAttackState(this), 
-            new GiantBlindState(this)
-        };
-    }
+            return new List<AgentComponent>
+            {
+                new AttackAnimation(),
+                new MapBlockHolder(),
+                new AgentHealth(this),
+                new MonsterAttackComponent(this)
+            };
+        }
 
-    public override void Attack()
-    {
-        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
-        CameraShake.Instance.StartShake(ShakeType.JumperAttack);
-        DisplayAttackEffect();
-    }
+        protected override AgentState[] InitStates()
+        {
+            return new AgentState[]
+            {
+                new JumperIdleState(this),
+                new JumperAlertState(this), 
+                new JumperAttackState(this), 
+                new GiantBlindState(this)
+            };
+        }
 
-    public override void PrepareAttack(float preparationTime)
-    {
-        RequestComponent<AttackAnimation>().PrepareAttack(GetComponent<Animator>(), DamageZone, preparationTime);
-    }
+        public override void Attack()
+        {
+            RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
+            CameraShake.Instance.StartShake(ShakeType.JumperAttack);
+            DisplayAttackEffect();
+        }
 
-    public override void RecoverAttack(float recoverTime)
-    {
-        RequestComponent<AttackAnimation>().Recover(GetComponent<Animator>(), DamageZone, recoverTime);
-    }
+        public override void PrepareAttack(float preparationTime)
+        {
+            RequestComponent<AttackAnimation>().PrepareAttack(GetComponent<Animator>(), DamageZone, preparationTime);
+        }
 
-    #endregion
+        public override void RecoverAttack(float recoverTime)
+        {
+            RequestComponent<AttackAnimation>().Recover(GetComponent<Animator>(), DamageZone, recoverTime);
+        }
 
-    private void DisplayAttackEffect()
-    {
-        PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+        #endregion
+
+        private void DisplayAttackEffect()
+        {
+            PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+        }
     }
 }

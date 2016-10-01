@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Oisio.Agent;
 
+// handles character run animation and fx
 public class CharacterAnimationComponent : CharacterComponent
 {
     public static readonly string RunKey = "run";
