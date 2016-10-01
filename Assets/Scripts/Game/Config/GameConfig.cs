@@ -33,4 +33,7 @@ public static class GameConfig
     // Animations
     public const string MONSTER_PREPARE_ATTACK_ANIM = "PrepareAttack";
     public const string MONSTER_RECOVER_ATTACK_ANIM = "RecoverAttack";
+
+    // Trajectory gizmo
+    public const string TRAJECOTRY_GIZMO_PATH = "Game/TrajectoryLineRenderer";
 }

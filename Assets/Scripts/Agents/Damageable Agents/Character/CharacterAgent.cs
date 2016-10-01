@@ -46,6 +46,7 @@ public class CharacterAgent : DamageableAgent, EventTrigger
         return new List<AgentComponent>
             {
                 // list all the agent component
+                new TrajectoryGizmo(30, 3),
                 new AgentHealth(this),
                 new CharacterInventoryComponent(this),
                 new CharacterAttackComponent(this), 

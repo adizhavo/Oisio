@@ -8,6 +8,8 @@ public class CharacterAttackComponent : CharacterComponent
     private float cursorDeltaX;
 
     private CharacterInventoryComponent characterInventory;
+    private TrajectoryGizmo throwTrajectory;
+
     private ConsumableType arrow = ConsumableType.Arrow;
 
     public CharacterAttackComponent(CharacterAgent agent) : base(agent)
@@ -22,6 +24,7 @@ public class CharacterAttackComponent : CharacterComponent
         if (characterInventory == null)
         {
             characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
+            throwTrajectory = agent.RequestComponent<TrajectoryGizmo>();
             return;
         }
 
@@ -49,7 +52,7 @@ public class CharacterAttackComponent : CharacterComponent
     {
         CheckArrow();
         RotateAimer();
-
+        DisplayTrajectory();
         agent.aimerPivot.gameObject.SetActive(true);
     }
 
@@ -73,6 +76,12 @@ public class CharacterAttackComponent : CharacterComponent
         agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaX, 
                                                      agent.aimerPivot.localEulerAngles.y, 
                                                      agent.aimerPivot.localEulerAngles.z);
+    }
+
+    private void DisplayTrajectory()
+    {
+        Vector3 shootForce = (agent.arrowParent.position - agent.aimerPivot.position).normalized * agent.shootForce;
+        throwTrajectory.Display(agent.aimerPivot.position, shootForce);
     }
 
     public void ResetAim()
