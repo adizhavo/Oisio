@@ -7,6 +7,7 @@ namespace Oisio.Agent.State
     public class GiantBlindState : MonsterState 
     {
         private Vector3? eventPos;
+        private NavMeshHit hit;
 
         public GiantBlindState(MonsterAgent monster) : base(monster) { }
 
@@ -50,8 +51,11 @@ namespace Oisio.Agent.State
         {
             Vector3 bombDirection = (monster.navMeshAgent.pathEndPosition - monster.WorlPos).normalized;
             bombDirection.y = 0;
-
             eventPos = nerbyEvent.WorlPos + bombDirection * GameConfig.monsterSmokeEscapeDistance;
+
+            bool blocked = NavMesh.Raycast(monster.WorlPos, eventPos.Value, out hit, NavMesh.AllAreas);
+            if (blocked) eventPos = hit.position;
+
             monster.WorlPos = eventPos.Value;
             monster.SetSpeed(SpeedLevel.Fast);
         }
