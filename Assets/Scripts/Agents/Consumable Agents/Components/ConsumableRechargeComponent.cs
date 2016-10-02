@@ -1,44 +1,48 @@
 ﻿using UnityEngine;
+using Oisio.Agent;
 
-public class ConsumableRechargeComponent : AgentComponent
+namespace Oisio.Agent.Component
 {
-    private float minCollectPercentage = Mathf.Epsilon;
-
-    private ConsumableAgent agent;
-
-    public ConsumableRechargeComponent(ConsumableAgent agent)
+    public class ConsumableRechargeComponent : AgentComponent
     {
-        this.agent = agent;
-    }
+        private float minCollectPercentage = Mathf.Epsilon;
 
-    #region AgentComponent implementation
-    public void FrameFeed()
-    {
-        UpdateState();  
-    }
-    #endregion
+        private ConsumableAgent agent;
 
-    private void UpdateState()
-    {
-        if (agent.percentage < minCollectPercentage && agent.ConsumableState.Equals(ConsumableAgent.ChargeState.Charged))
+        public ConsumableRechargeComponent(ConsumableAgent agent)
         {
-            agent.ConsumableState = ConsumableAgent.ChargeState.Charging;
-        }
-        else
-        {
-            agent.percentage += Time.deltaTime/agent.reloadTime;
-            if (agent.percentage > 1) agent.ConsumableState = ConsumableAgent.ChargeState.Charged;
+            this.agent = agent;
         }
 
-        agent.percentage = Mathf.Clamp01(agent.percentage);
-    }
+        #region AgentComponent implementation
+        public void FrameFeed()
+        {
+            UpdateState();  
+        }
+        #endregion
 
-    public void Consume(Consumer consumer)
-    {
-        if (agent.ConsumableState.Equals(ConsumableAgent.ChargeState.Charging)) return;
+        private void UpdateState()
+        {
+            if (agent.percentage < minCollectPercentage && agent.ConsumableState.Equals(ConsumableAgent.ChargeState.Charged))
+            {
+                agent.ConsumableState = ConsumableAgent.ChargeState.Charging;
+            }
+            else
+            {
+                agent.percentage += Time.deltaTime/agent.reloadTime;
+                if (agent.percentage > 1) agent.ConsumableState = ConsumableAgent.ChargeState.Charged;
+            }
 
-        agent.percentage -= Time.deltaTime/agent.collectionTime;
+            agent.percentage = Mathf.Clamp01(agent.percentage);
+        }
 
-        if (agent.percentage < minCollectPercentage) consumer.Collected(agent.Item);
+        public void Consume(Consumer consumer)
+        {
+            if (agent.ConsumableState.Equals(ConsumableAgent.ChargeState.Charging)) return;
+
+            agent.percentage -= Time.deltaTime/agent.collectionTime;
+
+            if (agent.percentage < minCollectPercentage) consumer.Collected(agent.Item);
+        }
     }
 }

@@ -1,44 +1,50 @@
-﻿using UnityEngine;
+﻿using Oisio.Game;
+using UnityEngine;
+using Oisio.Agent;
 
-public class CharacterResourceComponent : CharacterComponent, Consumer
+namespace Oisio.Agent.Component
 {
-    private CharacterInventoryComponent characterInventory;
-
-    public CharacterResourceComponent(CharacterAgent agent) : base(agent) { }
-
-    #region implemented abstract members of CharacterComponent
-    public override void FrameFeed()
+    // Collects nerby resources
+    public class CharacterResourceComponent : CharacterComponent, Consumer
     {
-        if (characterInventory == null)
-        {
-            characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
-            return;
-        }
+        private CharacterInventoryComponent characterInventory;
 
-        if (InputConfig.Collect())
-        {
-            ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
+        public CharacterResourceComponent(CharacterAgent agent) : base(agent) { }
 
-            foreach(ConsumableAgent ctb in resources)
+        #region implemented abstract members of CharacterComponent
+        public override void FrameFeed()
+        {
+            if (characterInventory == null)
             {
-                float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
-                if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
+                characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
+                return;
+            }
+
+            if (InputConfig.Collect())
+            {
+                ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
+
+                foreach(ConsumableAgent ctb in resources)
                 {
-                    ctb.Collect(this);
-                    return;
+                    float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
+                    if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
+                    {
+                        ctb.Collect(this);
+                        return;
+                    }
                 }
             }
         }
+        #endregion
+
+        #region Consumer implementation
+
+        public void Collected(ConsumableType collectable)
+        {
+            if (characterInventory == null) return;
+            characterInventory.AddItem(collectable);
+        }
+
+        #endregion
     }
-    #endregion
-
-    #region Consumer implementation
-
-    public void Collected(ConsumableType collectable)
-    {
-        if (characterInventory == null) return;
-        characterInventory.AddItem(collectable);
-    }
-
-    #endregion
 }

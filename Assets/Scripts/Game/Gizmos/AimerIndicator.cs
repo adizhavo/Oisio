@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 
-public class AimerIndicator : MonoBehaviour 
+namespace Oisio.Game
 {
-    public Transform indicator;
-    public Transform aimerTr;
-
-	private void Update ()
+    public class AimerIndicator : MonoBehaviour 
     {
-        Vector3 direction = (new Vector3(aimerTr.position.x, indicator.position.y, aimerTr.position.z) - indicator.position);
-        if (direction.sqrMagnitude > Mathf.Epsilon)
+        public Transform indicator;
+        public Transform aimerTr;
+
+    	private void Update ()
         {
-            indicator.rotation = Quaternion.LookRotation(direction);
-            indicator.gameObject.SetActive(aimerTr.gameObject.activeInHierarchy);
-        }
-        else 
-            indicator.gameObject.SetActive(false);
-	}
+            Vector3 direction = (new Vector3(aimerTr.position.x, indicator.position.y, aimerTr.position.z) - indicator.position);
+            if (direction.sqrMagnitude > Mathf.Epsilon)
+            {
+                indicator.rotation = Quaternion.LookRotation(direction);
+                indicator.gameObject.SetActive(aimerTr.gameObject.activeInHierarchy);
+            }
+            else 
+                indicator.gameObject.SetActive(false);
+    	}
+    }
 }

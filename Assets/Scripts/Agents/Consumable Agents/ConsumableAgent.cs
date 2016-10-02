@@ -1,50 +1,56 @@
 ﻿using UnityEngine;
+using Oisio.Agent.State;
+using Oisio.Agent.Component;
 using System.Collections.Generic;
 
-public abstract class ConsumableAgent : Agent
+namespace Oisio.Agent
 {
-    public abstract ConsumableType Item { get; }
-
-    public enum ChargeState
+    // mostly resources but are agents that can be consumed and recharge
+    public abstract class ConsumableAgent : Agent
     {
-        Charged,
-        Charging
-    }
+        public abstract ConsumableType Item { get; }
 
-    public ChargeState ConsumableState
-    {
-        set; get;
-    }
-
-    #region implemented abstract members of Agent
-
-    protected override List<AgentComponent> InitComponents()
-    {
-        return new List<AgentComponent>
+        public enum ChargeState
         {
-            new ConsumableRechargeComponent(this)  
-        };
-    }
+            Charged,
+            Charging
+        }
 
-    protected override AgentState[] InitStates()
-    {
-        return new AgentState[]
+        public ChargeState ConsumableState
         {
-            new NullAgentState()
-        };
-    }
+            set; get;
+        }
 
-    #endregion
+        #region implemented abstract members of Agent
 
-    [Header("Agent configuration")]
-    public float collectionTime;
-    public float reloadTime;
+        protected override List<AgentComponent> InitComponents()
+        {
+            return new List<AgentComponent>
+            {
+                new ConsumableRechargeComponent(this)  
+            };
+        }
 
-    [HideInInspector] public float percentage = 1f;
+        protected override AgentState[] InitStates()
+        {
+            return new AgentState[]
+            {
+                new NullAgentState()
+            };
+        }
 
-    public virtual void Collect(Consumer cons)
-    {
-        ConsumableRechargeComponent c = RequestComponent<ConsumableRechargeComponent>();
-        if (c != null) c.Consume(cons);
+        #endregion
+
+        [Header("Agent configuration")]
+        public float collectionTime;
+        public float reloadTime;
+
+        [HideInInspector] public float percentage = 1f;
+
+        public virtual void Collect(Consumer cons)
+        {
+            ConsumableRechargeComponent c = RequestComponent<ConsumableRechargeComponent>();
+            if (c != null) c.Consume(cons);
+        }
     }
 }

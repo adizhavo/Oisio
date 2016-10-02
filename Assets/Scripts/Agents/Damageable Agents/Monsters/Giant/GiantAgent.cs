@@ -1,69 +1,75 @@
-﻿using UnityEngine;
+﻿using Oisio.Game;
+using UnityEngine;
+using Oisio.Agent.State;
+using Oisio.Agent.Component;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Animator))]
-public class GiantAgent : MonsterAgent
+namespace Oisio.Agent
 {
-    [Header("Giant FX Configuration")]
-    public GameObjectPool AttackEffect;
-    public GameObject DamageZone;
-
-    #region MonsterAgent implementation
-
-    protected override void Init ()
-    {   
-        base.Init();
-        ChangeState<GiantIdleState>();
-	}
-
-    protected override List<AgentComponent> InitComponents()
+    [RequireComponent(typeof(Animator))]
+    public class GiantAgent : MonsterAgent
     {
-        return new List<AgentComponent>
+        [Header("Giant FX Configuration")]
+        public GameObjectPool AttackEffect;
+        public GameObject DamageZone;
+
+        #region MonsterAgent implementation
+
+        protected override void Init ()
+        {   
+            base.Init();
+            ChangeState<GiantIdleState>();
+    	}
+
+        protected override List<AgentComponent> InitComponents()
         {
-            new AttackAnimation(),
-            new MapBlockHolder(),
-            new AgentHealth(this),
-            new MonsterAttackComponent(this)
-        };
-    }
-
-    protected override AgentState[] InitStates()
-    {
-        // all available states will be inserted in this array
-        return new MonsterState[]
+            return new List<AgentComponent>
             {
-                new GiantIdleState(this),
-                new GiantAlertState(this),
-                new GiantAttackState(this),
-                new GiantHuntState(this),
-                new GiantRageState(this), 
-                new GiantBlindState(this)
-                // next state
-                // ...
+                new AttackAnimation(),
+                new MapBlockHolder(),
+                new AgentHealth(this),
+                new MonsterAttackComponent(this)
             };
-    }
+        }
 
-    public override void Attack()
-    {
-        RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
-        CameraShake.Instance.StartShake(ShakeType.GiantAttack);
-        DisplayAttackEffect();
-    }
+        protected override AgentState[] InitStates()
+        {
+            // all available states will be inserted in this array
+            return new MonsterState[]
+                {
+                    new GiantIdleState(this),
+                    new GiantAlertState(this),
+                    new GiantAttackState(this),
+                    new GiantHuntState(this),
+                    new GiantRageState(this), 
+                    new GiantBlindState(this)
+                    // next state
+                    // ...
+                };
+        }
 
-    public override void PrepareAttack(float preparationTime)
-    {
-        RequestComponent<AttackAnimation>().PrepareAttack(GetComponent<Animator>(), DamageZone, preparationTime);
-    }
+        public override void Attack()
+        {
+            RequestComponent<MonsterAttackComponent>().Attack<CharacterAgent>();
+            CameraShake.Instance.StartShake(ShakeType.GiantAttack);
+            DisplayAttackEffect();
+        }
 
-    public override void RecoverAttack(float recoverTime)
-    {
-        RequestComponent<AttackAnimation>().Recover(GetComponent<Animator>(), DamageZone, recoverTime);
-    }
+        public override void PrepareAttack(float preparationTime)
+        {
+            RequestComponent<AttackAnimation>().PrepareAttack(GetComponent<Animator>(), DamageZone, preparationTime);
+        }
 
-    #endregion
+        public override void RecoverAttack(float recoverTime)
+        {
+            RequestComponent<AttackAnimation>().Recover(GetComponent<Animator>(), DamageZone, recoverTime);
+        }
 
-    private void DisplayAttackEffect()
-    {
-        PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+        #endregion
+
+        private void DisplayAttackEffect()
+        {
+            PooledObjects.Instance.RequestGameObject(AttackEffect).transform.position = new Vector3(transform.position.x, 0f, transform.position.z);  
+        }
     }
 }

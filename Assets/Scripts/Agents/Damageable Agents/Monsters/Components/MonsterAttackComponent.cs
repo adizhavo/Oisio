@@ -1,36 +1,39 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Oisio.Agent;
 
-public class MonsterAttackComponent : AgentComponent
+namespace Oisio.Agent.Component
 {
-    private MonsterAgent attacker;
-
-    public MonsterAttackComponent(MonsterAgent attacker)
+    public class MonsterAttackComponent : AgentComponent
     {
-        this.attacker = attacker;
-    }
+        private MonsterAgent attacker;
 
-    public void Attack<T>() where T : Agent
-    {
-        T[] damageables = GameObject.FindObjectsOfType<T>();
-
-        foreach(T d in damageables)
+        public MonsterAttackComponent(MonsterAgent attacker)
         {
-            float distance = Vector3.Distance(attacker.WorlPos, d.WorlPos);
-            if (distance > attacker.attackRange) return;
+            this.attacker = attacker;
+        }
 
-            AgentHealth health = d.RequestComponent<AgentHealth>();
+        public void Attack<T>() where T : Agent
+        {
+            T[] damageables = GameObject.FindObjectsOfType<T>();
 
-            if (health != null)
+            foreach(T d in damageables)
             {
-                health.ApplyDamage(attacker.attackDamage);
+                float distance = Vector3.Distance(attacker.WorlPos, d.WorlPos);
+                if (distance > attacker.attackRange) return;
+
+                AgentHealth health = d.RequestComponent<AgentHealth>();
+
+                if (health != null)
+                {
+                    health.ApplyDamage(attacker.attackDamage);
+                }
             }
         }
+
+        #region AgentComponent implementation
+
+        public void FrameFeed() { }
+
+        #endregion
     }
-
-    #region AgentComponent implementation
-
-    public void FrameFeed() { }
-
-    #endregion
 }

@@ -1,39 +1,44 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Oisio.Game;
+using UnityEngine;
+using Oisio.Events;
+using Oisio.Agent;
 
-public class CharcterSmokebombComponent : CharacterComponent
+namespace Oisio.Agent.Component
 {
-    private CharacterInventoryComponent characterInventory;
-
-    public CharcterSmokebombComponent(CharacterAgent agent) : base(agent) { }
-
-    #region implemented abstract members of AgentComponent
-
-    public override void FrameFeed()
+    public class CharcterSmokebombComponent : CharacterComponent
     {
-        if (characterInventory == null)
+        private CharacterInventoryComponent characterInventory;
+
+        public CharcterSmokebombComponent(CharacterAgent agent) : base(agent) { }
+
+        #region implemented abstract members of AgentComponent
+
+        public override void FrameFeed()
         {
-            characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
-            return;
+            if (characterInventory == null)
+            {
+                characterInventory = agent.RequestComponent<CharacterInventoryComponent>();
+                return;
+            }
+
+            ConsumableType smokeItem = ConsumableType.Bomb;
+
+            if (InputConfig.SmokeBomb() && characterInventory.HasItem(smokeItem))
+            {
+                characterInventory.UseItem(smokeItem);
+                Fire();
+            }
         }
 
-        ConsumableType smokeItem = ConsumableType.Bomb;
+        #endregion
 
-        if (InputConfig.SmokeBomb() && characterInventory.HasItem(smokeItem))
+        public void Fire()
         {
-            characterInventory.UseItem(smokeItem);
-            Fire();
+            GameObject smokeInsr = PooledObjects.Instance.RequestGameObject(GameObjectPool.SmokeGrenade);
+            Vector3 deployPosition = agent.transform.position;
+            smokeInsr.transform.position = deployPosition;
+            EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, false);
+            EventObserver.Subscribe(smokeBomb);
         }
-    }
-
-    #endregion
-
-    public void Fire()
-    {
-        GameObject smokeInsr = PooledObjects.Instance.RequestGameObject(GameObjectPool.SmokeGrenade);
-        Vector3 deployPosition = agent.transform.position;
-        smokeInsr.transform.position = deployPosition;
-        EventTrigger smokeBomb = new CustomEvent(deployPosition, EventSubject.SmokeBomb, GameConfig.smokeBombPriotity, GameConfig.smokeBombEnableTime, false);
-        EventObserver.Subscribe(smokeBomb);
     }
 }

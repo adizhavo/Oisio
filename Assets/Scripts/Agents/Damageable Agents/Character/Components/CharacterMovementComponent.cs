@@ -1,64 +1,69 @@
-﻿using UnityEngine;
+﻿using Oisio.Game;
+using UnityEngine;
+using Oisio.Agent;
 
-public class CharacterMovementComponent : CharacterComponent
+namespace Oisio.Agent.Component
 {
-    private CharacterStaminaComponent staminaComponent;
-
-    private float staminaCost
+    public class CharacterMovementComponent : CharacterComponent
     {
-        get 
+        private CharacterStaminaComponent staminaComponent;
+
+        private float staminaCost
         {
-            return agent.staminaCost * Time.deltaTime;
+            get 
+            {
+                return agent.staminaCost * Time.deltaTime;
+            }
         }
-    }
 
-    public bool isRunning
-    {
-        get
+        public bool isRunning
         {
-            return InputConfig.Run() && HasEnoughStamina() && isMoving;
+            get
+            {
+                return InputConfig.Run() && HasEnoughStamina() && isMoving;
+            }
         }
-    }
 
-    public bool isMoving
-    {
-        get 
+        public bool isMoving
         {
-            return Mathf.Abs(InputConfig.XDriection()) > Mathf.Epsilon || Mathf.Abs(InputConfig.YDriection()) > Mathf.Epsilon;
+            get 
+            {
+                return Mathf.Abs(InputConfig.XDriection()) > Mathf.Epsilon || Mathf.Abs(InputConfig.YDriection()) > Mathf.Epsilon;
+            }
         }
-    }
 
-    public CharacterMovementComponent(CharacterAgent agent) : base (agent) { }
+        public CharacterMovementComponent(CharacterAgent agent) : base (agent) { }
 
-    #region implemented abstract members of AgentComponent
-    public override void FrameFeed()
-    {
-        if (staminaComponent == null) staminaComponent = agent.RequestComponent<CharacterStaminaComponent>();
-        agent.navMeshAgent.speed = AgentSpeed();
-        MoveAgent();
-    }
-    #endregion
-
-    private float AgentSpeed()
-    {
-        if (InputConfig.Run() && isMoving) staminaComponent.ConsumeStamina(staminaCost);
-        float speed = isRunning ? agent.runSpeed : agent.walkSpeed;
-        return speed;
-    }
-
-    private bool HasEnoughStamina()
-    {
-        return staminaComponent != null && staminaComponent.stamina > staminaCost;
-    }
-
-    private void MoveAgent()
-    {
-        if (isMoving)
+        #region implemented abstract members of AgentComponent
+        public override void FrameFeed()
         {
-            Vector3 moveDirection = agent.transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
-            agent.navMeshAgent.SetDestination(moveDirection);
+            if (staminaComponent == null) staminaComponent = agent.RequestComponent<CharacterStaminaComponent>();
+            agent.navMeshAgent.speed = AgentSpeed();
+            MoveAgent();
         }
-        else
-            agent.navMeshAgent.speed = 0f;
+        #endregion
+
+        private float AgentSpeed()
+        {
+            if (InputConfig.Run() && isMoving) staminaComponent.ConsumeStamina(staminaCost);
+            float speed = isRunning ? agent.runSpeed : agent.walkSpeed;
+            return speed;
+        }
+
+        private bool HasEnoughStamina()
+        {
+            return staminaComponent != null && staminaComponent.stamina > staminaCost;
+        }
+
+        private void MoveAgent()
+        {
+            if (isMoving)
+            {
+                Vector3 moveDirection = agent.transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
+                agent.navMeshAgent.SetDestination(moveDirection);
+            }
+            else
+                agent.navMeshAgent.speed = 0f;
+        }
     }
 }

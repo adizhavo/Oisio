@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using Oisio.Agent;
 
+// Character specific component
 public abstract class CharacterComponent : AgentComponent
 {
     protected CharacterAgent agent;

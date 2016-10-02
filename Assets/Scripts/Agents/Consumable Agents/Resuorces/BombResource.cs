@@ -1,12 +1,15 @@
-﻿public class BombResource : ConsumableAgent
+﻿namespace Oisio.Agent
 {
-    #region implemented abstract members of ConsumableAgent
-    public override ConsumableType Item
+    public class BombResource : ConsumableAgent
     {
-        get
+        #region implemented abstract members of ConsumableAgent
+        public override ConsumableType Item
         {
-            return ConsumableType.Bomb;
+            get
+            {
+                return ConsumableType.Bomb;
+            }
         }
+        #endregion
     }
-    #endregion
 }

@@ -1,8 +1,11 @@
-﻿public class NullComponent : AgentComponent
+﻿namespace Oisio.Agent.Component
 {
-    #region AgentComponent implementation
+    public class NullComponent : AgentComponent
+    {
+        #region AgentComponent implementation
 
-    public void FrameFeed() { }
+        public void FrameFeed() { }
 
-    #endregion
+        #endregion
+    }
 }

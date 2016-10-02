@@ -1,12 +1,15 @@
-﻿public class ArrowResource : ConsumableAgent
+﻿namespace Oisio.Agent
 {
-    #region implemented abstract members of ConsumableAgent
-    public override ConsumableType Item
+    public class ArrowResource : ConsumableAgent
     {
-        get
+        #region implemented abstract members of ConsumableAgent
+        public override ConsumableType Item
         {
-            return ConsumableType.Arrow;
+            get
+            {
+                return ConsumableType.Arrow;
+            }
         }
+        #endregion
     }
-    #endregion
 }
