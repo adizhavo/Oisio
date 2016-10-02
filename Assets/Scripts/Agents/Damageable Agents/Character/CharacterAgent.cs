@@ -30,6 +30,9 @@ namespace Oisio.Agent
         public Transform aimerPivot;
         public Transform arrowParent;
 
+        [Header("Character FX Configuration")]
+        public GameObjectPool DeathEffect;
+
         #region Agent implementation
 
         protected override void Init()
@@ -68,7 +71,8 @@ namespace Oisio.Agent
         {
             return new AgentState[]
             {
-                new NullAgentState()
+                new NullAgentState(),
+                new AgentDeathState(this, DeathEffect)
             };
         }
 

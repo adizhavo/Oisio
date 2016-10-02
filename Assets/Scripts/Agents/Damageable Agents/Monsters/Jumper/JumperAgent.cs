@@ -17,6 +17,7 @@ namespace Oisio.Agent
 
         [Header("Jumper FX Configuration")]
         public GameObjectPool AttackEffect;
+        public GameObjectPool DeathEffect;
         public GameObject DamageZone;
 
         #region MonsterAgent implementation
@@ -45,7 +46,8 @@ namespace Oisio.Agent
                 new JumperIdleState(this),
                 new JumperAlertState(this), 
                 new JumperAttackState(this), 
-                new GiantBlindState(this)
+                new GiantBlindState(this),
+                new AgentDeathState(this, DeathEffect)
             };
         }
 
