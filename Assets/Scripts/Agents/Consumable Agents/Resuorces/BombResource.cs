@@ -1,4 +1,6 @@
-﻿namespace Oisio.Agent
+﻿using Oisio.Game;
+
+namespace Oisio.Agent
 {
     public class BombResource : ConsumableAgent
     {
@@ -8,6 +10,14 @@
             get
             {
                 return ConsumableType.Bomb;
+            }
+        }
+
+        public override int CollectableAmount
+        {
+            get
+            {
+                return GameConfig.BombCollectionAmount;
             }
         }
         #endregion

@@ -42,7 +42,7 @@ namespace Oisio.Agent.Component
 
             agent.percentage -= Time.deltaTime/agent.collectionTime;
 
-            if (agent.percentage < minCollectPercentage) consumer.Collected(agent.Item);
+            if (agent.percentage < minCollectPercentage) consumer.Collected(agent.Item, agent.CollectableAmount);
         }
     }
 }
