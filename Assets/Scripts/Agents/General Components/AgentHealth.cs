@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
+using Oisio.Agent.State;
 
 namespace Oisio.Agent.Component
 {
@@ -48,6 +49,7 @@ namespace Oisio.Agent.Component
         public void ApplyDamage(float damage)
         {
             health -= damage;
+            if (health < 0f) agent.ChangeState<AgentDeathState>();
         }
     }
 }

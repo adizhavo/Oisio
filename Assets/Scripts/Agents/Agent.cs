@@ -79,6 +79,14 @@ namespace Oisio.Agent
             return null;
         }
 
+        public void RemoveAllComponents()
+        {
+            for(int i = 0; i < components.Count; i ++)
+                components[i] = null;
+
+            components.Clear();
+        }
+
         #endregion
 
         #region Agent states
