@@ -2,8 +2,8 @@
 
 ### still in development ...
 
-This is a gameplay prototype. The current control design and schema makes the game mostly oriented for Pc or consoles.
-You can control a character freely in a map and your goal is to __hunt__ the giants by hiding and attack careful.
+Oisio the hunt is a gameplay prototype. The current control design and schema makes the game mostly oriented for Pc or consoles.
+You can control a character freely in a map and your goal is to __hunt__ the giants by hiding and attack carefully.
 
 The camera is close to an isometric view. You can shoot with arrows and deliver damage or critics to targets.
 By farming different resources is possible to create arrows and smoke bombs.
@@ -17,11 +17,11 @@ This file will explain how the system works, how to extend or optimised it furth
 ##How it works
 
 This projects tries ignore the traditional way that Unity handles components by inheriting from ```MonoBehaviour```. 
-The super class ```Agent``` is composed of different components and states.
-Components contains data and operations, they can easly operate with other components and states as well.
+The super class ```Agent``` is the main entity which is composed by different components and states.
+Components contains data and operations, they can easly reach different agent components and interact with states.
 
-States can define relationship between components, add or remove them from the agent.
-State are really usefull in enemies to build their reaction pattern.
+States can define relationship between components, add or remove them from the agent and process external events. There is only one active state.
+They are really usefull in enemies to build their reaction pattern.
 
 
 Here is the diagram for the agents hierarchy :
@@ -60,7 +60,7 @@ protected override AgentState[] InitStates()
  }
 ```
 
-Here is how mostly the interaction with components is done on the agent:
+There are many ways to manipulate components or states of an agent, here are the most used one :
 
 __agent component operations__
 ```C#
