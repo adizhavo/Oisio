@@ -9,5 +9,6 @@
         CriticHit = 3,
         LightExplosion = 4,
         HeavyExplosion = 5,
+        ResourcesPickup = 6,
     }
 }

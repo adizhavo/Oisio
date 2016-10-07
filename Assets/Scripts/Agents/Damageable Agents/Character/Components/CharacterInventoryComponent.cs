@@ -26,13 +26,13 @@ namespace Oisio.Agent.Component
             return false;
         }
 
-        public void AddItem(ConsumableType requestedType)
+        public void AddItem(ConsumableType requestedType, int amount = 1)
         {
             foreach(Slot s in inventorySlots)
             {
                 if (s.slotType.Equals(requestedType))
                 {
-                    s.AddItem();
+                    s.AddItem(amount);
                     return;
                 }
             }
@@ -96,9 +96,9 @@ namespace Oisio.Agent.Component
             StockItem = 0;
         }
 
-        public void AddItem()
+        public void AddItem(int amount)
         {
-            StockItem ++;
+            StockItem += amount;
         }
 
         public void UseItem()

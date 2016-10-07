@@ -10,6 +10,10 @@ namespace Oisio.Game
         public const int initialArrows = 10;
         public const int initialBombs = 1;
 
+        //Resources
+        public const int ArrowCollectionAmount = 3;
+        public const int BombCollectionAmount = 1;
+
         // Monster
         public const float maxAlertLevel = 1;
         public const float minAlertLevel = 0;

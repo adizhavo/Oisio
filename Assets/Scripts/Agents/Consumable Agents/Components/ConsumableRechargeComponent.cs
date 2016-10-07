@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Oisio.Game;
 using Oisio.Agent;
 
 namespace Oisio.Agent.Component
@@ -42,7 +43,11 @@ namespace Oisio.Agent.Component
 
             agent.percentage -= Time.deltaTime/agent.collectionTime;
 
-            if (agent.percentage < minCollectPercentage) consumer.Collected(agent.Item);
+            if (agent.percentage < minCollectPercentage)
+            {
+                consumer.Collected(agent.Item, agent.CollectableAmount);
+                PooledObjects.Instance.RequestGameObject(GameObjectPool.ResourcesPickup).transform.position = agent.WorlPos + new Vector3(0f, 1f, 0f);
+            }
         }
     }
 }

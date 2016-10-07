@@ -39,10 +39,10 @@ namespace Oisio.Agent.Component
 
         #region Consumer implementation
 
-        public void Collected(ConsumableType collectable)
+        public void Collected(ConsumableType collectable, int amount)
         {
             if (characterInventory == null) return;
-            characterInventory.AddItem(collectable);
+            characterInventory.AddItem(collectable, amount);
         }
 
         #endregion

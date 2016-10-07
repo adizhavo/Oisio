@@ -9,6 +9,7 @@ namespace Oisio.Agent
     public abstract class ConsumableAgent : Agent
     {
         public abstract ConsumableType Item { get; }
+        public abstract int CollectableAmount { get ; }
 
         public enum ChargeState
         {
