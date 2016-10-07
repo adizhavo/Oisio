@@ -79,6 +79,24 @@ namespace Oisio.Agent
             return null;
         }
 
+        public void RemoveComponent<T>() where T : class, AgentComponent
+        {
+            for (int i = 0; i < components.Count; i ++)
+                if (components[i] is T)
+                {
+                    components.RemoveAt(i);
+                    break;
+                }
+        }
+
+        public void RemoveAllComponents()
+        {
+            for(int i = 0; i < components.Count; i ++)
+                components[i] = null;
+
+            components.Clear();
+        }
+
         #endregion
 
         #region Agent states

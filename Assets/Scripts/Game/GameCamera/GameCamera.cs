@@ -16,6 +16,7 @@ namespace Oisio.Game
 
         private void Update()
         {
+            if (Character == null) return;
             transform.position = Vector3.Lerp(transform.position, Character.position + offset, LerpSpeed * Time.deltaTime);
         }
     }

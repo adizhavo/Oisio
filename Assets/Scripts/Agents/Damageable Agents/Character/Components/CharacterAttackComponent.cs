@@ -135,6 +135,8 @@ namespace Oisio.Agent.Component
 
             foreach(GameObject go in enemies)
             {
+                if (go == null) continue;
+
                 float distance = Vector3.Distance(currentPos, go.transform.position);
                 if (!closestTarget.HasValue || distance < closestDistance)
                 {
@@ -143,10 +145,15 @@ namespace Oisio.Agent.Component
                 }
             }
 
-            Vector3 direction = (closestTarget.Value - currentPos).normalized;
-            direction.y = 0;
+            if (closestTarget.HasValue)
+            {
+                Vector3 direction = (closestTarget.Value - currentPos).normalized;
+                direction.y = 0;
 
-            return direction;
+                return direction;
+            }
+            else
+                return currentPos;
         }
 
         public Vector3 NearbyEnemyPos(Vector3 currentPos)

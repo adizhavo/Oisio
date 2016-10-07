@@ -10,5 +10,7 @@
         LightExplosion = 4,
         HeavyExplosion = 5,
         ResourcesPickup = 6,
+        CharacterDeath = 7,
+        MonsterDeath = 8
     }
 }

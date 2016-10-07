@@ -11,6 +11,7 @@ namespace Oisio.Agent
     {
         [Header("Giant FX Configuration")]
         public GameObjectPool AttackEffect;
+        public GameObjectPool DeathEffect;
         public GameObject DamageZone;
 
         #region MonsterAgent implementation
@@ -35,14 +36,15 @@ namespace Oisio.Agent
         protected override AgentState[] InitStates()
         {
             // all available states will be inserted in this array
-            return new MonsterState[]
+            return new AgentState[]
                 {
                     new GiantIdleState(this),
                     new GiantAlertState(this),
                     new GiantAttackState(this),
                     new GiantHuntState(this),
                     new GiantRageState(this), 
-                    new GiantBlindState(this)
+                    new GiantBlindState(this),
+                    new AgentDeathState(this, DeathEffect)
                     // next state
                     // ...
                 };
