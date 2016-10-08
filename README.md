@@ -24,8 +24,7 @@ States can define relationship between components, add or remove them from the a
 They are really usefull in enemies to build their reaction pattern.
 
 
-Here is the diagram for the agents hierarchy :
->empty
+![Alt text](https://github.com/adizhavo/Oisio/blob/master/Assets/Scripts/ClassDiagrams/Screen%20Shot%202016-10-07%20at%2019.09.54.png?raw=true "Agent class diagram")
 
 
 Each agent defines his own public components and states this way :
