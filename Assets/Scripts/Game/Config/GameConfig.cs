@@ -17,6 +17,8 @@ namespace Oisio.Game
         // Monster
         public const float maxAlertLevel = 1;
         public const float minAlertLevel = 0;
+        public const string MONSTER_TAG = "Enemy";
+        public const int MAX_TARGABLE_MONSTERS = 3;
                
         // Events   
         public const int projectilePriority = 1;

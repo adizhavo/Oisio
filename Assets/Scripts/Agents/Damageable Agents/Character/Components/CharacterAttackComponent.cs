@@ -2,6 +2,7 @@
 using UnityEngine;
 using Oisio.Events;
 using Oisio.Agent;
+using System.Collections.Generic;
 
 namespace Oisio.Agent.Component
 {
@@ -9,8 +10,9 @@ namespace Oisio.Agent.Component
     public class CharacterAttackComponent : CharacterComponent
     {
         private Projectile arrowInstance;
-        private EnemyDirectionAim enemy;
+        private EnemyTarger targetCollection;
 
+        private float cursorDeltaY;
         private float cursorDeltaX;
 
         private CharacterInventoryComponent characterInventory;
@@ -20,7 +22,7 @@ namespace Oisio.Agent.Component
 
         public CharacterAttackComponent(CharacterAgent agent) : base(agent)
         {
-            enemy = new EnemyDirectionAim();
+            targetCollection = new EnemyTarger();
         }
 
         #region implemented abstract members of AgentComponent
@@ -34,8 +36,12 @@ namespace Oisio.Agent.Component
                 return;
             }
 
-            if (characterInventory.HasItem(arrow))
+            targetCollection.CollectAvailables(agent.WorlPos);
+
+            if (characterInventory.HasItem(arrow) && targetCollection.hasTarget)
             {
+                if (InputConfig.ChangeTarget()) targetCollection.ChangeTarget();
+
                 if(InputConfig.Aim())
                 {
                     Aim();
@@ -76,12 +82,20 @@ namespace Oisio.Agent.Component
 
         private void RotateAimer()
         {
-            cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
-            Vector3 targetPos = enemy.NearbyEnemyDir(agent.transform.position);
-            agent.aimerPivot.rotation = Quaternion.LookRotation(targetPos);
-            agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaX, 
-                                                         agent.aimerPivot.localEulerAngles.y, 
+            cursorDeltaX += InputConfig.GetCursorMovement().x * AimingDirection() * agent.sensibility;
+            cursorDeltaY += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
+
+            agent.aimerPivot.rotation = Quaternion.LookRotation(GetTargetNormalizedDirection());
+            agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaY, 
+                                                         agent.aimerPivot.localEulerAngles.y + cursorDeltaX, 
                                                          agent.aimerPivot.localEulerAngles.z);
+        }
+
+        private Vector3 GetTargetNormalizedDirection()
+        {
+            Vector3 direction = (targetCollection.choosenTarget.transform.position - agent.WorlPos).normalized;
+            direction.y = 0;
+            return direction;
         }
 
         private void DisplayTrajectory()
@@ -95,7 +109,11 @@ namespace Oisio.Agent.Component
             if (arrowInstance) arrowInstance.gameObject.SetActive(false);
             agent.aimerPivot.localEulerAngles = Vector3.zero;
             agent.aimerPivot.gameObject.SetActive(false);
+
             cursorDeltaX = 0f;
+            cursorDeltaY = 0f;
+
+            targetCollection.Reset();
         }
 
         private int AimingDirection()
@@ -118,60 +136,90 @@ namespace Oisio.Agent.Component
         }
     }
 
-    public class EnemyDirectionAim
+    public class EnemyTarger
     {
-        private GameObject[] enemies;
-        private string enemyTag = "Enemy";
+        private GameObject[] activeEnemies;
+        private List<GameObject> targets = new List<GameObject>();
+        private List<GameObject> alreadyChoosenTargets = new List<GameObject>();
 
-        public EnemyDirectionAim()
+        public GameObject choosenTarget 
         {
-            enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+            private set;
+            get;
         }
 
-        public Vector3 NearbyEnemyDir(Vector3 currentPos)
+        public bool hasTarget
         {
-            Vector3? closestTarget = null;
-            float closestDistance = Mathf.Infinity;
+            get { return choosenTarget != null; }
+        }
 
-            foreach(GameObject go in enemies)
+        public EnemyTarger()
+        {
+            activeEnemies = GameObject.FindGameObjectsWithTag(GameConfig.MONSTER_TAG);
+        }
+
+        public void CollectAvailables(Vector3 pivot)
+        {
+            targets.Clear();
+
+            for (int i = 0; i < GameConfig.MAX_TARGABLE_MONSTERS; i ++) targets.Add( GetClosestEnemy(pivot) );
+
+            if(choosenTarget == null)
             {
-                if (go == null) continue;
-
-                float distance = Vector3.Distance(currentPos, go.transform.position);
-                if (!closestTarget.HasValue || distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestTarget = go.transform.position;
-                }
+                foreach(GameObject t in targets)
+                    if (t != null)
+                    {
+                        choosenTarget = t;
+                        return;
+                    }
             }
+        }
 
-            if (closestTarget.HasValue)
+        public void ChangeTarget()
+        {
+            if (alreadyChoosenTargets.Count < GameConfig.MAX_TARGABLE_MONSTERS)
             {
-                Vector3 direction = (closestTarget.Value - currentPos).normalized;
-                direction.y = 0;
-
-                return direction;
+                foreach(GameObject t in targets)
+                {
+                    if (!alreadyChoosenTargets.Contains(t) && choosenTarget != t)
+                    {
+                        choosenTarget = t;
+                        alreadyChoosenTargets.Add(t);
+                        return;
+                    }
+                }
             }
             else
-                return currentPos;
+            {
+                alreadyChoosenTargets.Clear();
+                ChangeTarget();
+            }
         }
 
-        public Vector3 NearbyEnemyPos(Vector3 currentPos)
+        public void Reset()
         {
-            Vector3? closestTarget = null;
-            float closestDistance = Mathf.Infinity;
+            choosenTarget = null;
+            alreadyChoosenTargets.Clear();
+        }
 
-            foreach(GameObject go in enemies)
+        private GameObject GetClosestEnemy(Vector3 pivot)
+        {
+            GameObject closestTarget = null;
+            float targetDistance = Mathf.Infinity;
+
+            foreach(GameObject enemy in activeEnemies)
             {
-                float distance = Vector3.Distance(currentPos, go.transform.position);
-                if (!closestTarget.HasValue || distance < closestDistance)
+                if (enemy == null || targets.Contains(enemy) || !enemy.activeInHierarchy) continue;
+
+                float distance = Vector3.Distance(pivot, enemy.transform.position);
+                if (closestTarget == null || distance < targetDistance)
                 {
-                    closestDistance = distance;
-                    closestTarget = go.transform.position;
+                    closestTarget = enemy;
+                    targetDistance = distance;
                 }
             }
 
-            return closestTarget.Value;
+            return closestTarget;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Oisio.Agent.Component
         {
             get 
             {
-                return Mathf.Abs(InputConfig.XDriection()) > Mathf.Epsilon || Mathf.Abs(InputConfig.YDriection()) > Mathf.Epsilon;
+                return Mathf.Abs(InputConfig.XDirection()) > Mathf.Epsilon || Mathf.Abs(InputConfig.YDirection()) > Mathf.Epsilon;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Oisio.Agent.Component
         {
             if (isMoving)
             {
-                Vector3 moveDirection = agent.transform.position + new Vector3(InputConfig.XDriection(), 0, InputConfig.YDriection());
+                Vector3 moveDirection = agent.transform.position + new Vector3(InputConfig.XDirection(), 0, InputConfig.YDirection());
                 agent.navMeshAgent.SetDestination(moveDirection);
             }
             else
