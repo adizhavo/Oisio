@@ -24,6 +24,11 @@ namespace Oisio.Game
             return Action();
         }
 
+        public static bool ChangeTarget()
+        {
+            return Input.GetKeyDown(KeyCode.Tab);
+        }
+
         public static bool Collect()
         {
             return Input.GetKey(KeyCode.Space);
