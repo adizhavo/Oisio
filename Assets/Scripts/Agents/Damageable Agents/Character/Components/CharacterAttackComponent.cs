@@ -11,7 +11,7 @@ namespace Oisio.Agent.Component
         private Projectile arrowInstance;
         private EnemyDirectionAim enemy;
 
-        private float cursorDeltaX;
+        private float cursorDeltaY;
 
         private CharacterInventoryComponent characterInventory;
         private TrajectoryGizmo throwTrajectory;
@@ -76,10 +76,10 @@ namespace Oisio.Agent.Component
 
         private void RotateAimer()
         {
-            cursorDeltaX += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
+            cursorDeltaY += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
             Vector3 targetPos = enemy.NearbyEnemyDir(agent.transform.position);
             agent.aimerPivot.rotation = Quaternion.LookRotation(targetPos);
-            agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaX, 
+            agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaY, 
                                                          agent.aimerPivot.localEulerAngles.y, 
                                                          agent.aimerPivot.localEulerAngles.z);
         }
@@ -95,7 +95,7 @@ namespace Oisio.Agent.Component
             if (arrowInstance) arrowInstance.gameObject.SetActive(false);
             agent.aimerPivot.localEulerAngles = Vector3.zero;
             agent.aimerPivot.gameObject.SetActive(false);
-            cursorDeltaX = 0f;
+            cursorDeltaY = 0f;
         }
 
         private int AimingDirection()

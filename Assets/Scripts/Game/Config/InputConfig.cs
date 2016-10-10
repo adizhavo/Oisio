@@ -4,12 +4,12 @@ namespace Oisio.Game
 {
     public static class InputConfig 
     {
-        public static float XDriection()
+        public static float XDirection()
         {
             return Input.GetAxis("Horizontal");
         }
 
-        public static float YDriection()
+        public static float YDirection()
         {
             return Input.GetAxis("Vertical");
         }
