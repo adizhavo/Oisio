@@ -20,18 +20,15 @@ namespace Oisio.Agent.Component
                 return;
             }
 
-            if (InputConfig.Collect())
-            {
-                ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
+            ConsumableAgent[] resources = Resources.FindObjectsOfTypeAll<ConsumableAgent>();
 
-                foreach(ConsumableAgent ctb in resources)
+            foreach(ConsumableAgent ctb in resources)
+            {
+                float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
+                if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
                 {
-                    float distance = Vector3.Distance(ctb.WorlPos, agent.WorlPos);
-                    if (ctb.gameObject.activeInHierarchy && distance < agent.collectorRange)
-                    {
-                        ctb.Collect(this);
-                        return;
-                    }
+                    if (characterInventory.HasSpace(ctb.Item)) ctb.Collect(this);
+                    return;
                 }
             }
         }

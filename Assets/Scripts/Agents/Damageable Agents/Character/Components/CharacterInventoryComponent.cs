@@ -63,6 +63,17 @@ namespace Oisio.Agent.Component
             return -1;
         }
 
+        public bool HasSpace(ConsumableType requestedType)
+        {
+            foreach(Slot s in inventorySlots)
+            {
+                if (s.slotType.Equals(requestedType) && s.HasSpace())
+                    return true;
+            }
+
+            return false;
+        }
+
         #region CharacterComponent implementation
 
         public override void FrameFeed() { }
@@ -109,6 +120,11 @@ namespace Oisio.Agent.Component
         public bool HasItems()
         {
             return stockItem > 0;
+        }
+
+        public bool HasSpace()
+        {
+            return StockItem < maxSize;
         }
     }
 }

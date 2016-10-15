@@ -18,8 +18,7 @@ namespace Oisio.Agent.State
             Debug.Log("Giant enters into Rage state..");
             #endif
 
-            monster.SetSpeed(SpeedLevel.Rage);
-            monster.AlertLevel = GameConfig.maxAlertLevel;
+            RageToEvent(null);
         }
 
         public override void FrameFeed()
@@ -70,8 +69,9 @@ namespace Oisio.Agent.State
 
         private void RageToEvent(EventTrigger nerbyEvent)
         {
-            Init();
-            eventPos = nerbyEvent.WorlPos;
+            monster.SetSpeed(SpeedLevel.Rage);
+            monster.AlertLevel = GameConfig.maxAlertLevel;
+            if (nerbyEvent != null) eventPos = nerbyEvent.WorlPos;
         }
     }
 }
