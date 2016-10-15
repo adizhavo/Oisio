@@ -24,19 +24,9 @@ namespace Oisio.Game
             return Action();
         }
 
-        public static bool ChangeTarget()
-        {
-            return Input.GetKeyDown(KeyCode.Tab);
-        }
-
-        public static bool Collect()
-        {
-            return Input.GetKey(KeyCode.Space);
-        }
-
         public static bool SmokeBomb()
         {
-            return Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.RightControl);
+            return Input.GetMouseButtonUp(1);
         }
 
         public static bool ActionDown()
