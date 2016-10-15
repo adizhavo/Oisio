@@ -15,6 +15,7 @@ namespace Oisio.Agent
 
         public bool invertAiming;
         public float sensibility;
+        public float shootRadius;
         public float shootForce;
         public float collectorRange;
         public float walkSpeed;

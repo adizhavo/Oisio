@@ -2,7 +2,6 @@
 using UnityEngine;
 using Oisio.Events;
 using Oisio.Agent;
-using System.Collections.Generic;
 
 namespace Oisio.Agent.Component
 {
@@ -10,7 +9,6 @@ namespace Oisio.Agent.Component
     public class CharacterAttackComponent : CharacterComponent
     {
         private Projectile arrowInstance;
-        private EnemyTarger targetCollection;
 
         private float cursorDeltaY;
         private float cursorDeltaX;
@@ -20,10 +18,7 @@ namespace Oisio.Agent.Component
 
         private ConsumableType arrow = ConsumableType.Arrow;
 
-        public CharacterAttackComponent(CharacterAgent agent) : base(agent)
-        {
-            targetCollection = new EnemyTarger();
-        }
+        public CharacterAttackComponent(CharacterAgent agent) : base (agent) { }
 
         #region implemented abstract members of AgentComponent
 
@@ -36,32 +31,24 @@ namespace Oisio.Agent.Component
                 return;
             }
 
-            targetCollection.CollectAvailables(agent.WorlPos);
-
-            if (characterInventory.HasItem(arrow) && targetCollection.hasTarget)
+            if (characterInventory.HasItem(arrow))
             {
-                if (InputConfig.ChangeTarget()) targetCollection.ChangeTarget();
-
-                if(InputConfig.Aim())
-                {
-                    Aim();
-                }
+                if(InputConfig.Aim())  Aim();
                 else if (InputConfig.ActionUp())
                 {
                     ThrowArrow();
                     characterInventory.UseItem(arrow);
                 }
-                else
-                    ResetAim();
+                else ResetAim();
             }
-            else
-                ResetAim();
+            else ResetAim();
         }
 
         #endregion
 
         public void Aim()
         {
+            UpdateCursorPosition();
             CheckArrow();
             RotateAimer();
             DisplayTrajectory();
@@ -80,22 +67,24 @@ namespace Oisio.Agent.Component
             arrowInstance.gameObject.SetActive(true);
         }
 
-        private void RotateAimer()
+        private void UpdateCursorPosition()
         {
-            cursorDeltaX += InputConfig.GetCursorMovement().x * AimingDirection() * agent.sensibility;
-            cursorDeltaY += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility;
+            cursorDeltaX += InputConfig.GetCursorMovement().x * AimingDirection() * agent.sensibility * Time.deltaTime;
+            cursorDeltaX = Mathf.Clamp(cursorDeltaX, -agent.shootRadius, agent.shootRadius - Mathf.Epsilon);
 
-            agent.aimerPivot.rotation = Quaternion.LookRotation(GetTargetNormalizedDirection());
-            agent.aimerPivot.rotation = Quaternion.Euler(agent.aimerPivot.localEulerAngles.x + cursorDeltaY, 
-                                                         agent.aimerPivot.localEulerAngles.y + cursorDeltaX, 
-                                                         agent.aimerPivot.localEulerAngles.z);
+            cursorDeltaY += InputConfig.GetCursorMovement().y * AimingDirection() * agent.sensibility * Time.deltaTime;
+            cursorDeltaY = Mathf.Clamp(cursorDeltaY, -agent.shootRadius, agent.shootRadius);
         }
 
-        private Vector3 GetTargetNormalizedDirection()
+        private void RotateAimer()
         {
-            Vector3 direction = (targetCollection.choosenTarget.transform.position - agent.WorlPos).normalized;
-            direction.y = 0;
-            return direction;
+            Vector3 aimPos = new Vector3(cursorDeltaX, 0f, cursorDeltaY);
+            float lookAngle = Mathf.Atan(cursorDeltaY/cursorDeltaX) * Mathf.Rad2Deg;
+            float sinus = Physics.gravity.y * aimPos.magnitude / Mathf.Pow(agent.shootForce, 2);
+            sinus = Mathf.Clamp(sinus, -1f, 1f);
+            float throwAngle = Mathf.Asin(sinus) * Mathf.Rad2Deg / 2f;
+            float angleOffset = Mathf.Sign(Vector3.Cross(aimPos, Vector3.back).y) == 1 ? 0f : 180f;
+            agent.aimerPivot.eulerAngles = new Vector3(0f, -(angleOffset + lookAngle), throwAngle);
         }
 
         private void DisplayTrajectory()
@@ -110,15 +99,13 @@ namespace Oisio.Agent.Component
             agent.aimerPivot.localEulerAngles = Vector3.zero;
             agent.aimerPivot.gameObject.SetActive(false);
 
-            cursorDeltaX = 0f;
-            cursorDeltaY = 0f;
-
-            targetCollection.Reset();
+            cursorDeltaX = Mathf.Epsilon;
+            cursorDeltaY = Mathf.Epsilon;
         }
 
         private int AimingDirection()
         {
-            return agent.invertAiming ? 1 : -1;
+            return agent.invertAiming ? -1 : 1;
         }
 
         public void ThrowArrow()
@@ -133,93 +120,6 @@ namespace Oisio.Agent.Component
 
             arrowInstance.transform.SetParent(null);
             arrowInstance = null;
-        }
-    }
-
-    public class EnemyTarger
-    {
-        private GameObject[] activeEnemies;
-        private List<GameObject> targets = new List<GameObject>();
-        private List<GameObject> alreadyChoosenTargets = new List<GameObject>();
-
-        public GameObject choosenTarget 
-        {
-            private set;
-            get;
-        }
-
-        public bool hasTarget
-        {
-            get { return choosenTarget != null; }
-        }
-
-        public EnemyTarger()
-        {
-            activeEnemies = GameObject.FindGameObjectsWithTag(GameConfig.MONSTER_TAG);
-        }
-
-        public void CollectAvailables(Vector3 pivot)
-        {
-            targets.Clear();
-
-            for (int i = 0; i < GameConfig.MAX_TARGABLE_MONSTERS; i ++) targets.Add( GetClosestEnemy(pivot) );
-
-            if(choosenTarget == null)
-            {
-                foreach(GameObject t in targets)
-                    if (t != null)
-                    {
-                        choosenTarget = t;
-                        return;
-                    }
-            }
-        }
-
-        public void ChangeTarget()
-        {
-            if (alreadyChoosenTargets.Count < GameConfig.MAX_TARGABLE_MONSTERS)
-            {
-                foreach(GameObject t in targets)
-                {
-                    if (!alreadyChoosenTargets.Contains(t) && choosenTarget != t)
-                    {
-                        choosenTarget = t;
-                        alreadyChoosenTargets.Add(t);
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                alreadyChoosenTargets.Clear();
-                ChangeTarget();
-            }
-        }
-
-        public void Reset()
-        {
-            choosenTarget = null;
-            alreadyChoosenTargets.Clear();
-        }
-
-        private GameObject GetClosestEnemy(Vector3 pivot)
-        {
-            GameObject closestTarget = null;
-            float targetDistance = Mathf.Infinity;
-
-            foreach(GameObject enemy in activeEnemies)
-            {
-                if (enemy == null || targets.Contains(enemy) || !enemy.activeInHierarchy) continue;
-
-                float distance = Vector3.Distance(pivot, enemy.transform.position);
-                if (closestTarget == null || distance < targetDistance)
-                {
-                    closestTarget = enemy;
-                    targetDistance = distance;
-                }
-            }
-
-            return closestTarget;
         }
     }
 }
