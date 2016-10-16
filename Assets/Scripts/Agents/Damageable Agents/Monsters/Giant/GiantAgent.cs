@@ -28,7 +28,7 @@ namespace Oisio.Agent
             {
                 new AttackAnimation(),
                 new MapBlockHolder(),
-                new AgentHealth(this),
+                new AgentHealth(this, null),
                 new MonsterAttackComponent(this)
             };
         }

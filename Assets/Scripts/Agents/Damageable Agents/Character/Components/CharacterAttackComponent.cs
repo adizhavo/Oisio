@@ -79,10 +79,12 @@ namespace Oisio.Agent.Component
         private void RotateAimer()
         {
             Vector3 aimPos = new Vector3(cursorDeltaX, 0f, cursorDeltaY);
-            float lookAngle = Mathf.Atan(cursorDeltaY/cursorDeltaX) * Mathf.Rad2Deg;
-            float sinus = Physics.gravity.y * aimPos.magnitude / Mathf.Pow(agent.shootForce, 2);
+            aimPos = Vector3.ClampMagnitude(aimPos, agent.shootRadius);
+            float sinus = (Physics.gravity.y * aimPos.magnitude / Mathf.Pow(agent.shootForce, 2)) / 2;
             sinus = Mathf.Clamp(sinus, -1f, 1f);
-            float throwAngle = Mathf.Asin(sinus) * Mathf.Rad2Deg / 2f;
+            float throwAngle = Mathf.Asin(sinus) * Mathf.Rad2Deg;
+
+            float lookAngle = Mathf.Atan(cursorDeltaY/cursorDeltaX) * Mathf.Rad2Deg;
             float angleOffset = Mathf.Sign(Vector3.Cross(aimPos, Vector3.back).y) == 1 ? 0f : 180f;
             agent.aimerPivot.eulerAngles = new Vector3(0f, -(angleOffset + lookAngle), throwAngle);
         }

@@ -29,10 +29,12 @@ namespace Oisio.Agent.Component
         }
 
         private DamageableAgent agent;
+        private System.Action damageCallback;
 
-        public AgentHealth(DamageableAgent agent)
+        public AgentHealth(DamageableAgent agent, System.Action damageCallback)
         {
             this.agent = agent;
+            this.damageCallback = damageCallback;
             health = agent.maxHealth;
         }
 
@@ -49,6 +51,7 @@ namespace Oisio.Agent.Component
         public void ApplyDamage(float damage)
         {
             health -= damage;
+            if (damageCallback != null) damageCallback();
             if (health < 0f) agent.ChangeState<AgentDeathState>();
         }
     }

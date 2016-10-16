@@ -44,6 +44,12 @@ public interface Damageable
     void ApplyDamage(float damage, Vector3 hitPos);
 }
 
+public interface IEffect
+{
+    void Display();
+    void FrameFeed();
+}
+
 #endregion
 
 #region Game enums

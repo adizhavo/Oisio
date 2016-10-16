@@ -1,30 +1,24 @@
 ﻿using UnityEngine;
 using Oisio.Agent;
 using Oisio.Agent.Component;
-using UnityEngine.UI;
 
 namespace Oisio.Game
 {
-    public class UIHealthBar : MonoBehaviour 
+    public class HealthBar : MonoBehaviour 
     {
         [SerializeField] private DamageableAgent observedAgent;
-
-        [Header("UI Dependecies")]
-        [SerializeField] private Image fillBar;
-
         private AgentHealth healthComponent;
+        protected float percentage = 0f;
 
-    	private void Start () 
+        private void Start () 
         {
             healthComponent = observedAgent.RequestComponent<AgentHealth>();
-    	}
+        }
 
-    	private void Update () 
+        protected virtual void Update () 
         {
             if (healthComponent == null) return;
-
-            float percentage = healthComponent.health / healthComponent.maxhealth;
-            fillBar.fillAmount = percentage;
-    	}
+            percentage = healthComponent.health / healthComponent.maxhealth;
+        }
     }
 }
