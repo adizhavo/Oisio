@@ -26,7 +26,7 @@ namespace Oisio.Agent.State
             if (waitTime < 0f)
             {
                 GotoNearestResource();
-                waitTime = Random.Range(3f, 7f);
+                waitTime = Random.Range(15f, 20f);
 
                 if (ShouldChangeResource())
                 {
