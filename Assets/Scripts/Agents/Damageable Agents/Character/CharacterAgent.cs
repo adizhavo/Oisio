@@ -57,7 +57,7 @@ namespace Oisio.Agent
                 {
                     // list all the agent component
                     new TrajectoryGizmo(30, 3),
-                    new AgentHealth(this),
+                    new AgentHealth(this, DamageCallback),
                     new CharacterInventoryComponent(this),
                     new CharacterAttackComponent(this), 
                     new CharcterSmokebombComponent(this),
@@ -78,6 +78,11 @@ namespace Oisio.Agent
         }
 
         #endregion
+
+        public void DamageCallback()
+        {
+            EffectProvider.instance.DisplayEffect<HitEffect>();
+        }
 
         protected virtual void InitInventory()
         {
