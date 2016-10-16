@@ -63,9 +63,11 @@ namespace Oisio.Agent
 
         protected abstract List<AgentComponent> InitComponents();
 
-        public virtual void AddComponents(AgentComponent newComponent)
+        public virtual void AddComponents(params AgentComponent[] newComponents)
         {
-            if (!components.Contains(newComponent)) components.Add(newComponent);
+            foreach(AgentComponent comp in newComponents)
+                if (!components.Contains(comp)) 
+                    components.Add(comp);
         }
 
         public virtual T RequestComponent<T>() where T : class, AgentComponent
