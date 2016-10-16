@@ -1,14 +1,14 @@
 # oisio - the hunt
 
-### still in development ...
-
 Oisio the hunt is a gameplay prototype. The current control design and schema makes the game mostly oriented for Pc or consoles.
-You can control a character freely in a map and your goal is to __hunt__ the giants by hiding and attack carefully.
+You can control a character freely in a map and your goal is to __hunt__ giant monsters by hiding and attacking carefully.
 
 The camera is close to an isometric view. You can shoot with arrows and deliver damage or critics to targets.
 By farming different resources is possible to create arrows and smoke bombs.
 
-This file will explain how the system works, how to extend or optimised it further.
+            Aim            |          Collect          |         Play
+:-------------------------:|:-------------------------:|:-------------------------:
+![Aim](Assets/GIFs/Aim.gif)|![Collect](Assets/GIFs/Collect.gif)|![Collect](Assets/GIFs/Gameplay.gif)
 
 ##Requirements
 
@@ -63,7 +63,7 @@ There are many ways to manipulate components or states of an agent, here are the
 
 __agent component operations__
 ```C#
-agent.AddComponents( new NullComponent() );
+agent.AddComponent( new NullComponent() );
 agent.RequestComponent<AgentComponent>();
 agent.RemoveComponent<AgentComponent>();
 ```
@@ -75,9 +75,18 @@ agent.ChangeState<AgentState>();
 CustomEvent targetEvent = new CustomEvent(Vector3.zero, EventSubject.Attack, 0, 0f);
 agent.ChangeState<AgentState>(targetEvent);
 ```
+# Controls
 
-here is the diagrams of the relation between entities and components in game :
->empty
+![Controls](Assets/Sprites/Controls/controls.png)
+
+# Improvements
+ 
+1. Currently some monsters states holds and perform some very little
+logic that can be moved to a component.
+2. All game configurations (game data, values, controls ecc ..) should live in a .config file and loaded when the game boots.
+3. Introduce additional gizmo and indicators for the player.
+
+All 
 
 
 
