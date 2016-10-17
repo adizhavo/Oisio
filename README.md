@@ -6,7 +6,7 @@ You can control a character freely in a map and your goal is to __hunt__ giant m
 The camera is close to an isometric view. You can shoot with arrows and deliver damage or critics to targets.
 By farming different resources is possible to create arrows and smoke bombs.
 
-            Aim            |          Collect          |         Play
+            Aim            |          Collect          |         Hunt
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Aim](Assets/GIFs/Aim.gif)|![Collect](Assets/GIFs/Collect.gif)|![Collect](Assets/GIFs/Gameplay.gif)
 
