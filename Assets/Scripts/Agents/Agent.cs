@@ -49,8 +49,8 @@ namespace Oisio.Agent
         {
             if (components == null) return;
 
-            foreach (AgentComponent cmp in components)
-                cmp.FrameFeed();
+            for(int i = 0; i < components.Count; i ++)
+                components[i].FrameFeed();
         }
 
         protected virtual void Init()
@@ -87,6 +87,7 @@ namespace Oisio.Agent
                 if (components[i] is T)
                 {
                     components.RemoveAt(i);
+                    i --;
                     break;
                 }
         }
