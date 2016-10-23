@@ -85,6 +85,8 @@ agent.ChangeState<AgentState>(targetEvent);
 logic that can be moved to a component.
 2. All game configurations (game data, values, controls ecc ..) should live in a .config file and loaded when the game boots.
 3. Introduce additional gizmo and indicators for the player.
+4. Agents components should't perform operations and not check for user inputs, the state should do it.
+5. Add initialisation for components for required ones.
 
 
 
