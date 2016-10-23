@@ -12,7 +12,7 @@ namespace Oisio.Agent.Component
         {
             get 
             {
-                return agent.staminaCost * Time.deltaTime;
+                return agent.runStaminaCost * Time.deltaTime;
             }
         }
 

@@ -20,11 +20,14 @@ namespace Oisio.Agent
         public float collectorRange;
         public float walkSpeed;
         public float runSpeed;
+        public float dashDistance;
+        public float dashSpeed;
 
         [Header("Stamina Configuration")]
         public float maxStamina;
         public float staminaRegen;
-        public float staminaCost;
+        public float runStaminaCost;
+        public float dashStaminaCost;
 
         [Header("Standart dependencies")]
         public Animator characterAnimator;
@@ -38,6 +41,9 @@ namespace Oisio.Agent
 
         protected override void Init()
         {
+//            Screen.lockCursor = true;
+//            Cursor.visible = false;
+//
             base.Init();
 
             InitInventory();
@@ -64,7 +70,8 @@ namespace Oisio.Agent
                     new CharacterStaminaComponent(this),
                     new CharacterMovementComponent(this),
                     new CharacterAnimationComponent(this),
-                    new CharacterResourceComponent(this)
+                    new CharacterResourceComponent(this),
+                    new CharacterDashComponent(this)
                 };
         }
 
@@ -73,6 +80,7 @@ namespace Oisio.Agent
             return new AgentState[]
             {
                 new NullAgentState(),
+                new CharacterDashState(this),
                 new AgentDeathState(this, DeathEffect)
             };
         }
