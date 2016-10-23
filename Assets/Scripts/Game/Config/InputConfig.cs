@@ -24,6 +24,11 @@ namespace Oisio.Game
             return Action();
         }
 
+        public static bool Dash()
+        {
+            return Input.GetKeyDown(KeyCode.Space);
+        }
+
         public static bool SmokeBomb()
         {
             return Input.GetMouseButtonUp(1);
@@ -42,11 +47,6 @@ namespace Oisio.Game
         public static bool ActionUp()
         {
             return Input.GetMouseButtonUp(0);
-        }
-
-        public static Vector3 CursorPosition()
-        {
-            return Input.mousePosition;
         }
 
         public static Vector2 GetCursorMovement()
